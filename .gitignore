@@ -1,0 +1,22 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+# Data files
+*.csv
+*.xlsx
+*.xls
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary
+temp/
+tmp/
