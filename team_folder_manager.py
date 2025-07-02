@@ -1,508 +1,529 @@
-"""
-Team Folder Manager and Automated Folder Organization
-Access shared team folders and create organized structure for invoice processing
-"""
-
 import streamlit as st
 import dropbox
+from dropbox.exceptions import ApiError, AuthError
 import os
-from dotenv import load_dotenv
-import pandas as pd
 from datetime import datetime
-import tempfile
 
-load_dotenv()
-
-class TeamFolderManager:
-    """
-    Enhanced manager for team folders and organized file structure
-    """
-    
+class DropboxTeamManager:
     def __init__(self):
-        self.token = os.getenv('DROPBOX_ACCESS_TOKEN')
-        self.member_id = os.getenv('DROPBOX_TEAM_MEMBER_ID')
+        """Initialize Dropbox Team Manager with proper team folder support"""
+        self.dbx = None
+        self.team_dbx = None
+        self.current_user_id = None
         
-        if not self.token or not self.member_id:
-            st.error("❌ Missing configuration")
-            self.connected = False
-            return
-        
+    def connect(self):
+        """Connect to Dropbox with team member context"""
         try:
-            self.team_client = dropbox.DropboxTeam(self.token)
-            self.user_client = self.team_client.as_user(self.member_id)
-            self.connected = True
+            # Get credentials
+            if hasattr(st, 'secrets'):
+                token = st.secrets["dropbox"]["access_token"]
+                member_id = st.secrets["dropbox"]["team_member_id"]
+            else:
+                token = os.getenv('DROPBOX_ACCESS_TOKEN')
+                member_id = os.getenv('DROPBOX_TEAM_MEMBER_ID')
+            
+            if not token or not member_id:
+                st.error("Missing Dropbox credentials")
+                return False
+            
+            # Create team client
+            self.team_dbx = dropbox.DropboxTeam(token)
+            
+            # Create user client with member context
+            self.dbx = self.team_dbx.as_user(member_id)
+            self.current_user_id = member_id
+            
+            # Test connection
+            account = self.dbx.users_get_current_account()
+            st.success(f"✅ Connected as: {account.name.display_name}")
+            
+            return True
+            
         except Exception as e:
-            st.error(f"❌ Connection failed: {e}")
-            self.connected = False
+            st.error(f"❌ Connection failed: {str(e)}")
+            return False
     
     def find_team_folders(self):
-        """Find and list team folders including Finance Ops Team Folder"""
-        if not self.connected:
-            return []
-        
+        """Find all team folders"""
         try:
-            # Get shared folders
-            shared_folders = self.user_client.sharing_list_folders()
-            
-            team_folders = []
-            for folder in shared_folders.entries:
-                folder_info = {
-                    'name': folder.name,
-                    'path': folder.path_lower,
-                    'shared_folder_id': folder.shared_folder_id,
-                    'access_type': str(folder.access_type) if hasattr(folder, 'access_type') else 'unknown'
-                }
-                team_folders.append(folder_info)
-            
-            return team_folders
-            
-        except Exception as e:
-            st.error(f"Error finding team folders: {e}")
-            return []
-    
-    def browse_team_folder(self, folder_path):
-        """Browse contents of a team folder"""
-        try:
-            result = self.user_client.files_list_folder(folder_path)
+            # List team folders using the team client
+            team_folders_response = self.team_dbx.team_team_folder_list()
             
             folders = []
-            files = []
+            for folder in team_folders_response.team_folders:
+                folders.append({
+                    'team_folder_id': folder.team_folder_id,
+                    'name': folder.name,
+                    'status': folder.status._tag,
+                    'access_type': getattr(folder, 'access_type', {}).get('_tag', 'unknown') if hasattr(folder, 'access_type') else 'team_folder'
+                })
             
-            for entry in result.entries:
-                if hasattr(entry, 'size'):  # File
-                    files.append({
-                        'name': entry.name,
-                        'path': entry.path_display,
-                        'size': entry.size,
-                        'modified': entry.server_modified,
-                        'size_mb': round(entry.size / (1024*1024), 2)
-                    })
-                else:  # Folder
-                    folders.append({
-                        'name': entry.name,
-                        'path': entry.path_display
-                    })
-            
-            return folders, files
+            return folders
             
         except Exception as e:
-            st.error(f"Error browsing folder {folder_path}: {e}")
-            return [], []
+            st.error(f"Error finding team folders: {str(e)}")
+            return []
     
-    def create_invoice_folder_structure(self, base_path="/Finance Ops Team Folder"):
-        """Create organized folder structure for invoice processing"""
-        
-        # Define the ideal folder structure for your invoice operations
-        folder_structure = {
-            "01_Source_Files": {
-                "description": "Raw files from email and systems",
-                "subfolders": [
-                    "Weekly_Release_Files",
-                    "Weekly_AddOn_Files", 
-                    "Weekly_EDI_Files",
-                    "SCR_Files",
-                    "Archive"
-                ]
-            },
-            "02_Processed_Files": {
-                "description": "Cleaned and standardized files",
-                "subfolders": [
-                    "Standardized_Release",
-                    "Standardized_AddOn",
-                    "Standardized_EDI",
-                    "Archive"
-                ]
-            },
-            "03_Master_Database": {
-                "description": "Master invoice database and backups",
-                "subfolders": [
-                    "Current",
-                    "Daily_Backups",
-                    "Weekly_Backups",
-                    "Monthly_Backups"
-                ]
-            },
-            "04_Reports_Analytics": {
-                "description": "Generated reports and analysis",
-                "subfolders": [
-                    "Weekly_Reports",
-                    "Monthly_Reports",
-                    "Quarterly_Reports",
-                    "Ad_Hoc_Analysis",
-                    "Quality_Reports"
-                ]
-            },
-            "05_Reference_Data": {
-                "description": "Lookup tables and reference files",
-                "subfolders": [
-                    "EMID_Mappings",
-                    "Building_References",
-                    "Master_Lookups",
-                    "Dimension_Tables"
-                ]
-            },
-            "06_Reconciliation": {
-                "description": "Reconciliation files and variance reports",
-                "subfolders": [
-                    "SCR_vs_Actual",
-                    "Invoice_Validations",
-                    "Discrepancy_Reports"
-                ]
-            },
-            "07_Shared_Stakeholder": {
-                "description": "Files shared with stakeholders",
-                "subfolders": [
-                    "Customer_Validation_Files",
-                    "Executive_Reports",
-                    "Audit_Files"
-                ]
-            },
-            "08_Templates_Config": {
-                "description": "Templates and configuration files",
-                "subfolders": [
-                    "Report_Templates",
-                    "Config_Files",
-                    "Documentation"
-                ]
-            }
-        }
-        
-        return folder_structure
-    
-    def create_folders(self, base_path, folder_structure):
-        """Actually create the folder structure in Dropbox"""
-        created_folders = []
-        errors = []
-        
+    def browse_team_folder(self, team_folder_id, path=""):
+        """Browse contents of a team folder using multiple strategies"""
         try:
-            for main_folder, config in folder_structure.items():
-                # Create main folder
-                main_path = f"{base_path}/{main_folder}"
-                
+            st.write(f"🔍 **Debug Info:** Attempting to browse team folder ID: `{team_folder_id}`")
+            
+            # Strategy 1: Try to get team folder info first
+            team_folder_info_response = self.team_dbx.team_team_folder_get_info([team_folder_id])
+            if not team_folder_info_response.team_folders:
+                raise Exception("Team folder not found in team folder list")
+            
+            team_folder = team_folder_info_response.team_folders[0]
+            st.write(f"📁 **Team Folder Name:** {team_folder.name}")
+            
+            # Strategy 2: Try different path formats
+            paths_to_try = [
+                # Direct team folder access
+                path if path else "",
+                # With leading slash
+                f"/{path}" if path and not path.startswith('/') else path,
+                # Team folder namespace (common in business accounts)
+                f"/team/{team_folder.name}{path}",
+                f"/team_folders/{team_folder.name}{path}",
+                # Mounted folder path
+                f"/{team_folder.name}{path}",
+                # Alternative formats
+                f"/ns:{team_folder_id}{path}",
+            ]
+            
+            st.write(f"🔄 **Trying {len(paths_to_try)} different path strategies...**")
+            
+            for i, try_path in enumerate(paths_to_try, 1):
                 try:
-                    self.user_client.files_create_folder_v2(main_path)
-                    created_folders.append(main_path)
-                except dropbox.exceptions.ApiError as e:
-                    if "path/conflict/folder" in str(e):
-                        # Folder already exists
-                        pass
-                    else:
-                        errors.append(f"Main folder {main_folder}: {e}")
-                
-                # Create subfolders
-                for subfolder in config.get("subfolders", []):
-                    subfolder_path = f"{main_path}/{subfolder}"
+                    st.write(f"Strategy {i}: `{try_path if try_path else '(root)'}`")
                     
-                    try:
-                        self.user_client.files_create_folder_v2(subfolder_path)
-                        created_folders.append(subfolder_path)
-                    except dropbox.exceptions.ApiError as e:
-                        if "path/conflict/folder" in str(e):
-                            # Folder already exists
-                            pass
-                        else:
-                            errors.append(f"Subfolder {subfolder}: {e}")
-        
-        except Exception as e:
-            errors.append(f"General error: {e}")
-        
-        return created_folders, errors
-
-
-def main_team_folder_app():
-    st.title("🏢 Team Folder Manager & Organization")
-    st.markdown("Access your Finance Ops Team Folder and organize your invoice processing structure")
-    
-    # Initialize manager
-    if 'team_folder_manager' not in st.session_state:
-        st.session_state.team_folder_manager = TeamFolderManager()
-    
-    manager = st.session_state.team_folder_manager
-    
-    if not manager.connected:
-        st.error("❌ Not connected to Dropbox")
-        return
-    
-    # Main tabs
-    tab1, tab2, tab3, tab4 = st.tabs(["🔍 Find Team Folders", "📁 Browse Team Folder", "🏗️ Create Structure", "📊 Integration Guide"])
-    
-    with tab1:
-        st.subheader("🔍 Find Your Team Folders")
-        
-        if st.button("🔍 Search for Team Folders", type="primary"):
-            with st.spinner("Searching for shared team folders..."):
-                team_folders = manager.find_team_folders()
-            
-            if team_folders:
-                st.success(f"✅ Found {len(team_folders)} shared folders!")
-                
-                # Display team folders
-                for folder in team_folders:
-                    with st.container():
-                        col1, col2, col3 = st.columns([3, 2, 1])
-                        
-                        with col1:
-                            st.write(f"**📁 {folder['name']}**")
-                            st.caption(f"Path: {folder['path']}")
-                        
-                        with col2:
-                            st.write(f"Access: {folder['access_type']}")
-                        
-                        with col3:
-                            if st.button("📂 Browse", key=f"browse_{folder['name']}"):
-                                st.session_state.selected_team_folder = folder['path']
-                                st.success(f"Selected: {folder['name']}")
-                        
-                        # Highlight Finance Ops Team Folder
-                        if "finance ops" in folder['name'].lower():
-                            st.info("👆 This is your Finance Ops Team Folder!")
-                        
-                        st.divider()
-            else:
-                st.warning("⚠️ No shared team folders found")
-                st.info("Make sure you have access to shared folders or check with your team admin")
-    
-    with tab2:
-        st.subheader("📁 Browse Team Folder Contents")
-        
-        # Show selected folder or allow manual input
-        if st.session_state.get('selected_team_folder'):
-            current_folder = st.session_state.selected_team_folder
-            st.success(f"📁 Selected folder: **{current_folder}**")
-        else:
-            current_folder = "/Finance Ops Team Folder"  # Default assumption
-        
-        # Folder path input
-        browse_path = st.text_input(
-            "Folder path to browse:",
-            value=current_folder,
-            placeholder="/Finance Ops Team Folder",
-            help="Enter the full path to your team folder"
-        )
-        
-        if st.button("📂 Browse Folder Contents", type="primary"):
-            with st.spinner(f"Browsing {browse_path}..."):
-                folders, files = manager.browse_team_folder(browse_path)
-            
-            # Display results
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                if folders:
-                    st.write(f"**📁 Folders ({len(folders)}):**")
-                    for folder in folders:
-                        st.write(f"📁 `{folder['name']}`")
-                        if st.button(f"Enter {folder['name']}", key=f"enter_{folder['name']}"):
-                            st.session_state.browse_path = folder['path']
-                            st.rerun()
-            
-            with col2:
-                if files:
-                    st.write(f"**📄 Files ({len(files)}):**")
-                    files_df = pd.DataFrame(files)
-                    st.dataframe(
-                        files_df[['name', 'size_mb', 'modified']],
-                        use_container_width=True
+                    # Use the team-aware client with proper namespace
+                    result = self.dbx.files_list_folder(
+                        try_path, 
+                        include_mounted_folders=True,
+                        include_non_downloadable_files=True
                     )
+                    
+                    # Success! Parse the results
+                    items = []
+                    for entry in result.entries:
+                        if hasattr(entry, 'name'):
+                            item_type = 'folder' if isinstance(entry, dropbox.files.FolderMetadata) else 'file'
+                            
+                            item = {
+                                'name': entry.name,
+                                'type': item_type,
+                                'path': entry.path_display,
+                                'id': getattr(entry, 'id', None)
+                            }
+                            
+                            if item_type == 'file':
+                                item['size'] = getattr(entry, 'size', 0)
+                                item['modified'] = getattr(entry, 'client_modified', None)
+                            
+                            items.append(item)
+                    
+                    st.success(f"✅ **Success with Strategy {i}!** Found {len(items)} items")
+                    return items
+                    
+                except Exception as strategy_error:
+                    st.write(f"   ❌ Failed: {str(strategy_error)}")
+                    continue
             
-            if not folders and not files:
-                st.info("📭 Folder appears to be empty")
-    
-    with tab3:
-        st.subheader("🏗️ Create Organized Folder Structure")
-        
-        st.markdown("""
-        **Create a professional folder structure for your invoice processing operations:**
-        
-        This will organize your 140,000+ weekly hours of data processing into logical, 
-        efficient folders that align with your invoice workflow.
-        """)
-        
-        # Base path selection
-        base_path = st.text_input(
-            "Base path for folder structure:",
-            value="/Finance Ops Team Folder",
-            help="Where to create the organized folder structure"
-        )
-        
-        # Show proposed structure
-        st.subheader("📋 Proposed Folder Structure")
-        
-        structure = manager.create_invoice_folder_structure(base_path)
-        
-        for main_folder, config in structure.items():
-            with st.expander(f"📁 {main_folder} - {config['description']}"):
-                st.write(f"**Purpose:** {config['description']}")
-                st.write("**Subfolders:**")
-                for subfolder in config.get('subfolders', []):
-                    st.write(f"  📂 {subfolder}")
-        
-        # Create structure button
-        if st.button("🚀 Create Folder Structure", type="primary"):
-            with st.spinner("Creating organized folder structure..."):
-                created, errors = manager.create_folders(base_path, structure)
+            # If all strategies failed, try the alternative team folder approach
+            st.write("🔄 **Trying alternative team folder access...**")
             
-            if created:
-                st.success(f"✅ Created {len(created)} folders successfully!")
+            # Strategy 3: Use team folder mounting
+            try:
+                # Get the user's root folder to see mounted team folders
+                root_contents = self.dbx.files_list_folder("", include_mounted_folders=True)
                 
-                # Show created folders
-                with st.expander("📁 Created Folders"):
-                    for folder in created:
-                        st.write(f"✅ {folder}")
+                st.write("📂 **Available folders in root:**")
+                team_folder_found = False
+                team_folder_path = None
+                
+                for entry in root_contents.entries:
+                    if isinstance(entry, dropbox.files.FolderMetadata):
+                        st.write(f"   📁 {entry.name} (path: `{entry.path_display}`)")
+                        
+                        # Check if this is our team folder
+                        if team_folder.name.lower() in entry.name.lower() or entry.name.lower() in team_folder.name.lower():
+                            team_folder_found = True
+                            team_folder_path = entry.path_display
+                            st.write(f"   🎯 **This might be our team folder!**")
+                
+                if team_folder_found and team_folder_path:
+                    # Try to browse the discovered team folder path
+                    full_path = f"{team_folder_path}{path}" if path else team_folder_path
+                    st.write(f"🔄 **Trying discovered path:** `{full_path}`")
+                    
+                    result = self.dbx.files_list_folder(full_path, include_mounted_folders=True)
+                    
+                    items = []
+                    for entry in result.entries:
+                        if hasattr(entry, 'name'):
+                            item_type = 'folder' if isinstance(entry, dropbox.files.FolderMetadata) else 'file'
+                            
+                            item = {
+                                'name': entry.name,
+                                'type': item_type,
+                                'path': entry.path_display,
+                                'id': getattr(entry, 'id', None)
+                            }
+                            
+                            if item_type == 'file':
+                                item['size'] = getattr(entry, 'size', 0)
+                                item['modified'] = getattr(entry, 'client_modified', None)
+                            
+                            items.append(item)
+                    
+                    st.success(f"✅ **Success with discovered path!** Found {len(items)} items")
+                    return items
+                
+                else:
+                    st.warning("Team folder not found in mounted folders")
+                    
+            except Exception as mount_error:
+                st.write(f"❌ **Mount discovery failed:** {str(mount_error)}")
             
-            if errors:
-                st.warning(f"⚠️ {len(errors)} issues encountered:")
-                for error in errors:
-                    st.write(f"⚠️ {error}")
+            # If we get here, nothing worked
+            st.error("❌ **All strategies failed.** The team folder might require special permissions or a different access method.")
+            return []
             
-            st.balloons()
+        except Exception as e:
+            st.error(f"❌ **Critical error browsing team folder:** {str(e)}")
+            return []
     
-    with tab4:
-        st.subheader("📊 Integration with Invoice Processing")
-        
-        st.markdown("""
-        ## 🔗 How to Integrate with Your Invoice App
-        
-        Now that your team folder is accessible, here's how to integrate it with your 
-        existing invoice processing workflows:
-        """)
-        
-        # Integration examples
-        st.subheader("💻 Code Integration Examples")
-        
-        st.write("**1. Download Source Files from Team Folder:**")
-        st.code("""
-# Enhanced weekly processing with team folder
-def automated_weekly_processing():
-    # Initialize team folder manager
-    manager = TeamFolderManager()
+    def diagnose_team_folder_access(self, team_folder_id):
+        """Diagnose team folder access issues"""
+        try:
+            st.write("🔍 **Diagnostic Information:**")
+            
+            # Check team folder info
+            team_folder_info = self.team_dbx.team_team_folder_get_info([team_folder_id])
+            if team_folder_info.team_folders:
+                folder = team_folder_info.team_folders[0]
+                st.write(f"- Team Folder Name: {folder.name}")
+                st.write(f"- Status: {folder.status._tag}")
+                st.write(f"- Access Type: {folder.access_type._tag if folder.access_type else 'unknown'}")
+                
+                # Check if user has access
+                try:
+                    # Try to get the team folder's mounted path
+                    st.write("- Attempting to find mounted path...")
+                    
+                    # List all folders in root to see how team folder appears
+                    root_folders = self.dbx.files_list_folder("", include_mounted_folders=True)
+                    st.write("- Root folder contents:")
+                    for entry in root_folders.entries:
+                        if isinstance(entry, dropbox.files.FolderMetadata):
+                            st.write(f"  📁 {entry.name} (path: {entry.path_display})")
+                            
+                except Exception as diag_e:
+                    st.write(f"- Root folder listing failed: {str(diag_e)}")
+            
+        except Exception as e:
+            st.write(f"Diagnostic failed: {str(e)}")
     
-    # Download source files from team folder
-    source_path = "/Finance Ops Team Folder/01_Source_Files"
-    
-    # Download weekly files
-    manager.user_client.files_download_to_file(
-        "weekly_release.xlsx",
-        f"{source_path}/Weekly_Release_Files/latest_release.xlsx"
-    )
-    
-    manager.user_client.files_download_to_file(
-        "weekly_addons.xlsx", 
-        f"{source_path}/Weekly_AddOn_Files/latest_addons.xlsx"
-    )
-    
-    # Process with your existing system
-    invoice_manager = InvoiceMasterManager()
-    invoice_manager.process_release_file("weekly_release.xlsx")
-    invoice_manager.process_addon_file("weekly_addons.xlsx")
-    
-    # Upload results to team folder
-    results_path = "/Finance Ops Team Folder/03_Master_Database/Current"
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    
-    manager.user_client.files_upload_to(
-        f"{results_path}/invoice_master_{timestamp}.xlsx",
-        "invoice_master.xlsx"
-    )
-        """, language="python")
-        
-        st.write("**2. Automated Backup Strategy:**")
-        st.code("""
-def create_automated_backups():
-    manager = TeamFolderManager()
-    today = datetime.now()
-    
-    # Daily backup
-    daily_path = f"/Finance Ops Team Folder/03_Master_Database/Daily_Backups"
-    daily_file = f"invoice_master_{today.strftime('%Y%m%d')}.xlsx"
-    
-    # Weekly backup (Fridays)
-    if today.weekday() == 4:  # Friday
-        weekly_path = f"/Finance Ops Team Folder/03_Master_Database/Weekly_Backups"
-        weekly_file = f"invoice_master_week_{today.strftime('%Y_W%U')}.xlsx"
-        
-        # Copy to weekly backup
-        manager.user_client.files_copy_v2(
-            f"{daily_path}/{daily_file}",
-            f"{weekly_path}/{weekly_file}"
-        )
-        """, language="python")
-        
-        st.write("**3. Stakeholder Report Distribution:**")
-        st.code("""
-def distribute_stakeholder_reports():
-    manager = TeamFolderManager()
-    
-    # Generate report
-    report_data = generate_weekly_summary()
-    
-    # Save to stakeholder folder
-    stakeholder_path = "/Finance Ops Team Folder/07_Shared_Stakeholder"
-    
-    # Upload report
-    report_file = f"weekly_summary_{datetime.now().strftime('%Y%m%d')}.xlsx"
-    manager.user_client.files_upload(
-        report_data,
-        f"{stakeholder_path}/Executive_Reports/{report_file}"
-    )
-    
-    # Create shared link
-    shared_link = manager.user_client.sharing_create_shared_link_with_settings(
-        f"{stakeholder_path}/Executive_Reports/{report_file}"
-    )
-    
-    return shared_link.url
-        """, language="python")
-        
-        st.subheader("🔄 Workflow Integration")
-        
-        workflow_steps = {
-            "1. Morning Setup": "Download overnight files from 01_Source_Files",
-            "2. File Processing": "Convert to standardized format → 02_Processed_Files", 
-            "3. Database Update": "Update master database → 03_Master_Database/Current",
-            "4. Backup Creation": "Automatic daily backup → 03_Master_Database/Daily_Backups",
-            "5. Report Generation": "Create analytics → 04_Reports_Analytics/Weekly_Reports",
-            "6. Stakeholder Share": "Upload to 07_Shared_Stakeholder with shared links",
-            "7. Quality Checks": "Reconciliation reports → 06_Reconciliation"
-        }
-        
-        for step, description in workflow_steps.items():
-            st.write(f"**{step}:** {description}")
-        
-        st.subheader("📱 Quick Actions")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            if st.button("📥 Set Up Source File Sync"):
-                st.info("This would set up automatic syncing of source files from email to your organized folders")
-        
-        with col2:
-            if st.button("📊 Configure Report Automation"):
-                st.info("This would set up automatic report generation and distribution to stakeholders")
-        
-        # Benefits summary
-        st.subheader("🎯 Benefits of This Organization")
-        
-        benefits = [
-            "**Audit Trail**: Complete history of all file processing",
-            "**Team Collaboration**: Shared access for all Finance Ops team members", 
-            "**Automated Workflows**: Reduce manual file management by 80%",
-            "**Stakeholder Access**: Easy sharing with customers and executives",
-            "**Disaster Recovery**: Organized backups with easy restore",
-            "**Scalability**: Structure grows with your 140,000+ weekly hours",
-            "**Compliance**: Clear documentation and version control"
+    def create_folder_structure(self, base_path="/Finance_Ops_Invoice_Processing"):
+        """Create organized folder structure for invoice processing"""
+        folders_to_create = [
+            f"{base_path}/01_Source_Files/Weekly_Release",
+            f"{base_path}/01_Source_Files/Weekly_AddOns", 
+            f"{base_path}/01_Source_Files/Weekly_EDI",
+            f"{base_path}/01_Source_Files/Archive",
+            f"{base_path}/02_Processed_Files/Standardized_Release",
+            f"{base_path}/02_Processed_Files/Standardized_AddOns",
+            f"{base_path}/02_Processed_Files/Standardized_EDI",
+            f"{base_path}/03_Master_Database/Current",
+            f"{base_path}/03_Master_Database/Backups",
+            f"{base_path}/04_Reports/Weekly_Reports",
+            f"{base_path}/04_Reports/Monthly_Reports",
+            f"{base_path}/04_Reports/Quality_Reports",
+            f"{base_path}/05_Reference_Data/Mapping_Tables",
+            f"{base_path}/05_Reference_Data/Lookups",
+            f"{base_path}/06_Logs/Processing_Logs",
+            f"{base_path}/06_Logs/Error_Logs"
         ]
         
-        for benefit in benefits:
-            st.write(f"✅ {benefit}")
+        created_folders = []
+        failed_folders = []
+        
+        for folder_path in folders_to_create:
+            try:
+                self.dbx.files_create_folder_v2(folder_path)
+                created_folders.append(folder_path)
+                st.success(f"✅ Created: {folder_path}")
+            except Exception as e:
+                if "conflict" in str(e).lower():
+                    st.info(f"📁 Already exists: {folder_path}")
+                else:
+                    failed_folders.append((folder_path, str(e)))
+                    st.error(f"❌ Failed to create {folder_path}: {str(e)}")
+        
+        return created_folders, failed_folders
 
+def main():
+    st.title("🗂️ Team Folder Manager & Organization")
+    st.markdown("Access your Finance Ops Team Folder and organize your invoice processing structure")
+    
+    # Navigation tabs
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "🔍 Find Team Folders",
+        "📂 Browse Team Folder", 
+        "🏗️ Create Structure",
+        "📖 Integration Guide"
+    ])
+    
+    # Initialize manager
+    if 'manager' not in st.session_state:
+        st.session_state.manager = DropboxTeamManager()
+        st.session_state.connected = False
+    
+    # Connect if not already connected
+    if not st.session_state.connected:
+        with st.spinner("Connecting to Dropbox Business..."):
+            st.session_state.connected = st.session_state.manager.connect()
+    
+    if not st.session_state.connected:
+        st.stop()
+    
+    with tab1:
+        st.header("🔍 Find Your Team Folders")
+        
+        if st.button("Search for Team Folders", type="primary"):
+            with st.spinner("Searching for team folders..."):
+                team_folders = st.session_state.manager.find_team_folders()
+                
+                if team_folders:
+                    st.success(f"Found {len(team_folders)} shared folders!")
+                    
+                    for folder in team_folders:
+                        with st.container():
+                            col1, col2 = st.columns([3, 1])
+                            
+                            with col1:
+                                st.write(f"📁 **{folder['name']}**")
+                                st.caption(f"Access: {folder['access_type']}, Status: {folder['status']}")
+                            
+                            with col2:
+                                # Store folder info and switch to browse tab manually
+                                browse_key = f"browse_{folder['team_folder_id']}"
+                                if st.button("Browse", key=browse_key):
+                                    # Store the folder selection
+                                    st.session_state.selected_team_folder = folder
+                                    st.session_state.browse_tab_selected = True
+                                    # Force a rerun to update the page
+                                    st.rerun()
+                            
+                            st.divider()
+                    
+                    # Store folders in session state
+                    st.session_state.team_folders = team_folders
+                else:
+                    st.warning("No team folders found or access denied")
+    
+    with tab2:
+        st.header("📂 Browse Team Folder Contents")
+        
+        # Check if Browse was clicked from tab 1
+        if st.session_state.get('browse_tab_selected', False):
+            st.info("🎯 **Folder selected from Find Team Folders tab**")
+            # Clear the flag
+            st.session_state.browse_tab_selected = False
+        
+        # Check if a team folder was selected from tab 1
+        if 'selected_team_folder' in st.session_state:
+            selected_folder = st.session_state.selected_team_folder
+            st.success(f"🎯 **Currently selected:** {selected_folder['name']}")
+        elif 'team_folders' in st.session_state and st.session_state.team_folders:
+            # Manual selection
+            folder_names = [f"{folder['name']}" for folder in st.session_state.team_folders]
+            selected_folder_name = st.selectbox("Select team folder:", folder_names)
+            
+            # Find the selected folder
+            selected_folder = None
+            for folder in st.session_state.team_folders:
+                if folder['name'] == selected_folder_name:
+                    selected_folder = folder
+                    break
+        else:
+            st.info("Please find team folders first using the 'Find Team Folders' tab")
+            selected_folder = None
+        
+        if selected_folder:
+            with st.container():
+                col1, col2 = st.columns([3, 1])
+                with col1:
+                    st.write(f"**📁 Browsing:** {selected_folder['name']}")
+                    st.write(f"**🆔 Team Folder ID:** `{selected_folder['team_folder_id']}`")
+                with col2:
+                    # Clear selection button
+                    if st.button("🔄 Clear Selection"):
+                        if 'selected_team_folder' in st.session_state:
+                            del st.session_state.selected_team_folder
+                        if 'browse_tab_selected' in st.session_state:
+                            del st.session_state.browse_tab_selected
+                        st.rerun()
+            
+            # Path input
+            folder_path = st.text_input(
+                "Folder path to browse:",
+                value="",
+                help="Leave empty for root, or enter path like '/subfolder'",
+                key="team_folder_path_input"
+            )
+            
+            if st.button("Browse Folder Contents", type="primary"):
+                with st.spinner(f"Loading contents from {selected_folder['name']}..."):
+                    items = st.session_state.manager.browse_team_folder(
+                        selected_folder['team_folder_id'], 
+                        folder_path
+                    )
+                    
+                    if items:
+                        st.success(f"🎉 **Successfully found {len(items)} items!**")
+                        
+                        # Display items in a nice table format
+                        st.markdown("### 📋 Folder Contents")
+                        
+                        for item in items:
+                            with st.container():
+                                col1, col2, col3 = st.columns([3, 1, 1])
+                                
+                                with col1:
+                                    icon = "📁" if item['type'] == 'folder' else "📄"
+                                    st.write(f"{icon} **{item['name']}**")
+                                    if item.get('path'):
+                                        st.caption(f"Path: {item['path']}")
+                                
+                                with col2:
+                                    if item['type'] == 'file':
+                                        size_kb = item.get('size', 0) / 1024
+                                        if size_kb > 1024:
+                                            st.write(f"{size_kb/1024:.1f} MB")
+                                        else:
+                                            st.write(f"{size_kb:.1f} KB")
+                                    else:
+                                        st.write("📁 Folder")
+                                
+                                with col3:
+                                    if item.get('modified'):
+                                        st.write(item['modified'].strftime("%Y-%m-%d"))
+                                    else:
+                                        st.write("-")
+                                
+                                st.divider()
+                    else:
+                        st.warning("📭 No items found or access denied")
+    
+    with tab3:
+        st.header("🏗️ Create Invoice Processing Structure")
+        st.markdown("Create an organized folder structure for your invoice processing workflow")
+        
+        # Base path selection
+        if 'team_folders' in st.session_state and st.session_state.team_folders:
+            folder_options = ["Personal Folder"] + [folder['name'] for folder in st.session_state.team_folders]
+            target_folder = st.selectbox("Where to create structure:", folder_options)
+            
+            if target_folder == "Personal Folder":
+                base_path = "/Finance_Ops_Invoice_Processing"
+            else:
+                # For team folders, we need to use the proper path
+                selected_team_folder = None
+                for folder in st.session_state.team_folders:
+                    if folder['name'] == target_folder:
+                        selected_team_folder = folder
+                        break
+                
+                if selected_team_folder:
+                    base_path = f"/{target_folder}/Finance_Ops_Invoice_Processing"
+                else:
+                    base_path = "/Finance_Ops_Invoice_Processing"
+        else:
+            base_path = "/Finance_Ops_Invoice_Processing"
+        
+        st.info(f"📍 **Structure will be created at:** `{base_path}`")
+        
+        # Show proposed structure
+        with st.expander("📋 View Proposed Folder Structure"):
+            structure = [
+                "📁 01_Source_Files/",
+                "   📁 Weekly_Release/",
+                "   📁 Weekly_AddOns/",
+                "   📁 Weekly_EDI/",
+                "   📁 Archive/",
+                "📁 02_Processed_Files/",
+                "   📁 Standardized_Release/",
+                "   📁 Standardized_AddOns/",
+                "   📁 Standardized_EDI/",
+                "📁 03_Master_Database/",
+                "   📁 Current/",
+                "   📁 Backups/",
+                "📁 04_Reports/",
+                "   📁 Weekly_Reports/",
+                "   📁 Monthly_Reports/",
+                "   📁 Quality_Reports/",
+                "📁 05_Reference_Data/",
+                "   📁 Mapping_Tables/",
+                "   📁 Lookups/",
+                "📁 06_Logs/",
+                "   📁 Processing_Logs/",
+                "   📁 Error_Logs/"
+            ]
+            
+            for folder in structure:
+                st.text(folder)
+        
+        if st.button("🚀 Create Folder Structure", type="primary"):
+            with st.spinner("Creating folder structure..."):
+                created, failed = st.session_state.manager.create_folder_structure(base_path)
+                
+                if created:
+                    st.success(f"✅ Successfully created {len(created)} folders!")
+                
+                if failed:
+                    st.warning(f"⚠️ {len(failed)} folders had issues")
+                    for folder_path, error in failed:
+                        st.write(f"- {folder_path}: {error}")
+    
+    with tab4:
+        st.header("📖 Integration Guide")
+        st.markdown("""
+        ### Using Your Team Folder in Invoice Processing
+        
+        Once you've identified your team folder path, you can integrate it into your invoice processing apps:
+        
+        #### 1. Update Your Configuration
+        Add the team folder path to your `.streamlit/secrets.toml`:
+        ```toml
+        [dropbox]
+        access_token = "your_token"
+        team_member_id = "your_member_id"
+        team_folder_path = "/Finance Ops Team Folder"
+        ```
+        
+        #### 2. Integration with Invoice App
+        Your invoice processing app can now:
+        - 📥 Download source files from team folder
+        - 📤 Upload processed files to organized structure
+        - 🔄 Sync weekly processing workflow
+        - 👥 Share results with team members
+        
+        #### 3. Workflow Benefits
+        - **Centralized Storage**: All invoice files in one team location
+        - **Organized Structure**: Clear folder hierarchy for different file types
+        - **Team Collaboration**: Shared access for Finance Ops team
+        - **Automated Processing**: Direct integration with your Python scripts
+        - **Backup & Archive**: Systematic file organization and retention
+        
+        #### 4. Security Features
+        - Team admin controls access
+        - Audit logs track all file operations
+        - Version history for all processed files
+        - Secure API access with team member permissions
+        """)
 
 if __name__ == "__main__":
-    st.set_page_config(
-        page_title="Team Folder Manager",
-        page_icon="🏢",
-        layout="wide"
-    )
-    
-    main_team_folder_app()
+    main()
