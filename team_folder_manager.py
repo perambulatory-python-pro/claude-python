@@ -7,28 +7,50 @@ from datetime import datetime
 
 class DropboxTeamManager:
     def __init__(self):
-        """Initialize Dropbox Team Manager with proper team folder support"""
+        """Initialize Dropbox Team Manager with refresh token support"""
         self.dbx = None
         self.team_dbx = None
         self.current_user_id = None
         
     def connect(self):
-        """Connect to Dropbox with team member context"""
+        """Connect to Dropbox using refresh token"""
         try:
-            # Get credentials
-            if hasattr(st, 'secrets'):
-                token = st.secrets["dropbox"]["access_token"]
-                member_id = st.secrets["dropbox"]["team_member_id"]
+            # Get credentials from secrets
+            if hasattr(st, 'secrets') and "dropbox" in st.secrets:
+                config = st.secrets["dropbox"]
+                
+                # Check if we have refresh token setup
+                if "refresh_token" in config:
+                    st.info("🔐 Using refresh token authentication...")
+                    
+                    app_key = config["app_key"]
+                    app_secret = config["app_secret"]
+                    refresh_token = config["refresh_token"]
+                    member_id = config["team_member_id"]
+                    
+                    # Create team client with refresh token
+                    # This will automatically refresh access tokens as needed
+                    self.team_dbx = dropbox.DropboxTeam(
+                        app_key=app_key,
+                        app_secret=app_secret,
+                        oauth2_refresh_token=refresh_token
+                    )
+                    
+                    st.success("✅ Refresh token authenticated")
+                    
+                elif "access_token" in config:
+                    # Fallback to access token (will expire)
+                    st.warning("⚠️ Using access token (will expire in 4 hours)")
+                    token = config["access_token"]
+                    member_id = config["team_member_id"]
+                    self.team_dbx = dropbox.DropboxTeam(token)
+                else:
+                    st.error("❌ No authentication credentials found")
+                    return False
             else:
-                token = os.getenv('DROPBOX_ACCESS_TOKEN')
-                member_id = os.getenv('DROPBOX_TEAM_MEMBER_ID')
-            
-            if not token or not member_id:
-                st.error("Missing Dropbox credentials")
+                # Try environment variables
+                st.error("❌ No Streamlit secrets found")
                 return False
-            
-            # Create team client
-            self.team_dbx = dropbox.DropboxTeam(token)
             
             # Create user client with member context
             self.dbx = self.team_dbx.as_user(member_id)
@@ -38,10 +60,33 @@ class DropboxTeamManager:
             account = self.dbx.users_get_current_account()
             st.success(f"✅ Connected as: {account.name.display_name}")
             
+            # Show token status
+            if hasattr(self.team_dbx, '_oauth2_refresh_token'):
+                st.info("🔄 Using refresh token - will auto-renew")
+            else:
+                st.warning("⏰ Using access token - will expire")
+            
             return True
+            
+        except dropbox.exceptions.AuthError as e:
+            error_msg = str(e)
+            if 'expired_access_token' in error_msg:
+                st.error("❌ Access token expired!")
+                st.info("💡 Solution: Set up refresh token authentication")
+                with st.expander("📖 How to set up refresh token"):
+                    st.markdown("""
+                    1. Run `python dropbox_oauth_setup.py`
+                    2. Follow the authorization steps
+                    3. Update your secrets.toml with the refresh token
+                    4. Restart your app
+                    """)
+            else:
+                st.error(f"❌ Authentication error: {error_msg}")
+            return False
             
         except Exception as e:
             st.error(f"❌ Connection failed: {str(e)}")
+            st.exception(e)
             return False
     
     def find_team_folders(self):
