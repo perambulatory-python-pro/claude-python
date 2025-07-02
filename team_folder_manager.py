@@ -71,12 +71,29 @@ class DropboxTeamManager:
             
             # Strategy 1: Try to get team folder info first
             team_folder_info_response = self.team_dbx.team_team_folder_get_info([team_folder_id])
-            if not team_folder_info_response.team_folders:
+            if not team_folder_info_response:
                 raise Exception("Team folder not found in team folder list")
             
-            team_folder = team_folder_info_response.team_folders[0]
-            st.write(f"📁 **Team Folder Name:** {team_folder.name}")
-            
+            team_folder_item = team_folder_info_response[0]
+            # The actual metadata may be in .team_folder, .team_folder_metadata, or via tag methods
+            team_folder = None
+            # Check for .team_folder (old SDKs)
+            if hasattr(team_folder_item, 'team_folder') and team_folder_item.team_folder:
+                team_folder = team_folder_item.team_folder
+            elif hasattr(team_folder_item, 'team_folder_metadata'):
+                # Always get the property value, not the method
+                team_folder = object.__getattribute__(team_folder_item, 'team_folder_metadata')
+            elif hasattr(team_folder_item, 'error') and team_folder_item.error:
+                st.error(f"❌ Dropbox API error for this team folder: {team_folder_item.error}")
+                return []
+            if team_folder:
+                st.write(f"📁 **Team Folder Name:** {team_folder.name}")
+            else:
+                st.error("❌ Team folder metadata not found and no error provided by Dropbox API.")
+                st.write(f"Raw Dropbox API response: {repr(team_folder_item)}")
+                st.write(f"Attributes: {dir(team_folder_item)}")
+                return []
+
             # Strategy 2: Try different path formats
             paths_to_try = [
                 # Direct team folder access
@@ -89,7 +106,7 @@ class DropboxTeamManager:
                 # Mounted folder path
                 f"/{team_folder.name}{path}",
                 # Alternative formats
-                f"/ns:{team_folder_id}{path}",
+                f"/ns:{team_folder.team_folder_id}{path}",
             ]
             
             st.write(f"🔄 **Trying {len(paths_to_try)} different path strategies...**")
@@ -138,52 +155,52 @@ class DropboxTeamManager:
             try:
                 # Get the user's root folder to see mounted team folders
                 root_contents = self.dbx.files_list_folder("", include_mounted_folders=True)
-                
+
                 st.write("📂 **Available folders in root:**")
                 team_folder_found = False
                 team_folder_path = None
-                
+
                 for entry in root_contents.entries:
                     if isinstance(entry, dropbox.files.FolderMetadata):
                         st.write(f"   📁 {entry.name} (path: `{entry.path_display}`)")
-                        
+
                         # Check if this is our team folder
                         if team_folder.name.lower() in entry.name.lower() or entry.name.lower() in team_folder.name.lower():
                             team_folder_found = True
                             team_folder_path = entry.path_display
                             st.write(f"   🎯 **This might be our team folder!**")
-                
+
                 if team_folder_found and team_folder_path:
                     # Try to browse the discovered team folder path
                     full_path = f"{team_folder_path}{path}" if path else team_folder_path
                     st.write(f"🔄 **Trying discovered path:** `{full_path}`")
-                    
+
                     result = self.dbx.files_list_folder(full_path, include_mounted_folders=True)
-                    
+
                     items = []
                     for entry in result.entries:
                         if hasattr(entry, 'name'):
                             item_type = 'folder' if isinstance(entry, dropbox.files.FolderMetadata) else 'file'
-                            
+
                             item = {
                                 'name': entry.name,
                                 'type': item_type,
                                 'path': entry.path_display,
                                 'id': getattr(entry, 'id', None)
                             }
-                            
+
                             if item_type == 'file':
                                 item['size'] = getattr(entry, 'size', 0)
                                 item['modified'] = getattr(entry, 'client_modified', None)
-                            
+
                             items.append(item)
-                    
+
                     st.success(f"✅ **Success with discovered path!** Found {len(items)} items")
                     return items
-                
+
                 else:
                     st.warning("Team folder not found in mounted folders")
-                    
+
             except Exception as mount_error:
                 st.write(f"❌ **Mount discovery failed:** {str(mount_error)}")
             
@@ -199,30 +216,34 @@ class DropboxTeamManager:
         """Diagnose team folder access issues"""
         try:
             st.write("🔍 **Diagnostic Information:**")
-            
+
             # Check team folder info
             team_folder_info = self.team_dbx.team_team_folder_get_info([team_folder_id])
-            if team_folder_info.team_folders:
-                folder = team_folder_info.team_folders[0]
-                st.write(f"- Team Folder Name: {folder.name}")
-                st.write(f"- Status: {folder.status._tag}")
-                st.write(f"- Access Type: {folder.access_type._tag if folder.access_type else 'unknown'}")
-                
+            if team_folder_info:
+                folder_item = team_folder_info[0]
+                if hasattr(folder_item, 'team_folder') and folder_item.team_folder:
+                    folder = folder_item.team_folder
+                    st.write(f"- Team Folder Name: {folder.name}")
+                    st.write(f"- Status: {folder.status._tag}")
+                    st.write(f"- Access Type: {folder.access_type._tag if folder.access_type else 'unknown'}")
+                else:
+                    st.write("- Team folder metadata not found in response item")
+
                 # Check if user has access
                 try:
                     # Try to get the team folder's mounted path
                     st.write("- Attempting to find mounted path...")
-                    
+
                     # List all folders in root to see how team folder appears
                     root_folders = self.dbx.files_list_folder("", include_mounted_folders=True)
                     st.write("- Root folder contents:")
                     for entry in root_folders.entries:
                         if isinstance(entry, dropbox.files.FolderMetadata):
                             st.write(f"  📁 {entry.name} (path: {entry.path_display})")
-                            
+
                 except Exception as diag_e:
                     st.write(f"- Root folder listing failed: {str(diag_e)}")
-            
+
         except Exception as e:
             st.write(f"Diagnostic failed: {str(e)}")
     
