@@ -1,0 +1,160 @@
+Here are the search results for FolderMetadata, FileMetadata, and files_list_folder
+
+Search Results for FolderMetadata
+
+dropbox.files.FolderMetadata (Python class, in dropbox.files – Files)
+
+dropbox.sharing.SharedFolderMetadata (Python class, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadataBase (Python class, in dropbox.sharing – Sharing)
+
+dropbox.team.TeamFolderMetadata (Python class, in dropbox.team – Team)
+
+dropbox.dropbox – Dropbox
+
+...’s a conflict, have the Dropbox server try to autorename the folder to avoid the conflict. Return type: dropbox.files.FolderMetadata Raises: exceptions.ApiError If this raises, ApiError will contain:dropbox.files.CreateFolderError...
+
+dropbox.files – Files
+
+...) Check if the union tag is other. Return type: bool other = FileStatus('other', None) class dropbox.files.FolderMetadata(name=None, id=None, path_lower=None, path_display=None, parent_shared_folder_id=None, preview_url=None, s...
+
+dropbox.files.FolderMetadata.__init__ (Python method, in dropbox.files – Files)
+
+dropbox.files.FolderMetadata.id (Python attribute, in dropbox.files – Files)
+
+dropbox.files.FolderMetadata.property_groups (Python attribute, in dropbox.files – Files)
+
+dropbox.files.FolderMetadata.shared_folder_id (Python attribute, in dropbox.files – Files)
+
+dropbox.files.FolderMetadata.sharing_info (Python attribute, in dropbox.files – Files)
+
+dropbox.sharing.SharedFolderMetadata.__init__ (Python method, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadata.access_inheritance (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadata.link_metadata (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadata.name (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadata.permissions (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadata.policy (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadata.preview_url (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadata.shared_folder_id (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadata.time_invited (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadataBase.__init__ (Python method, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadataBase.access_type (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadataBase.is_inside_team_folder (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadataBase.is_team_folder (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadataBase.owner_display_names (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadataBase.owner_team (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadataBase.parent_folder_name (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadataBase.parent_shared_folder_id (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadataBase.path_display (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.sharing.SharedFolderMetadataBase.path_lower (Python attribute, in dropbox.sharing – Sharing)
+
+dropbox.team.TeamFolderMetadata.__init__ (Python method, in dropbox.team – Team)
+
+dropbox.team.TeamFolderMetadata.content_sync_settings (Python attribute, in dropbox.team – Team)
+
+dropbox.team.TeamFolderMetadata.is_team_shared_dropbox (Python attribute, in dropbox.team – Team)
+
+dropbox.team.TeamFolderMetadata.name (Python attribute, in dropbox.team – Team)
+
+dropbox.team.TeamFolderMetadata.status (Python attribute, in dropbox.team – Team)
+
+dropbox.team.TeamFolderMetadata.sync_setting (Python attribute, in dropbox.team – Team)
+
+dropbox.team.TeamFolderMetadata.team_folder_id (Python attribute, in dropbox.team – Team)
+
+Search Results for FileMetadata
+
+dropbox.files.FileMetadata (Python class, in dropbox.files – Files)
+dropbox.sharing.GetFileMetadataArg (Python class, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataBatchArg (Python class, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataBatchResult (Python class, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataError (Python class, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataIndividualResult (Python class, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata (Python class, in dropbox.sharing – Sharing)
+dropbox.dropbox – Dropbox
+...metadata.read Parameters: include_property_templates (Nullable[List[str]]) – If set to a valid list of template IDs, FileMetadata.property_groups is set for files with custom properties. Return type: dropbox.files.Metadata Raises: exce...
+
+dropbox.files – Files
+...tMetadataArg Variables: files.AlphaGetMetadataArg.include_property_templates – If set to a valid list of template IDs, FileMetadata.property_groups is set for files with custom properties. __init__(path=None, include_media_info=None, i...
+
+dropbox.files.FileMetadata.__init__ (Python method, in dropbox.files – Files)
+dropbox.files.FileMetadata.client_modified (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.content_hash (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.export_info (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.file_lock_info (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.has_explicit_shared_members (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.id (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.is_downloadable (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.media_info (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.property_groups (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.rev (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.server_modified (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.sharing_info (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.size (Python attribute, in dropbox.files – Files)
+dropbox.files.FileMetadata.symlink_info (Python attribute, in dropbox.files – Files)
+dropbox.sharing.GetFileMetadataArg.__init__ (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataArg.actions (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataArg.file (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataBatchArg.__init__ (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataBatchArg.actions (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataBatchArg.files (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataBatchResult.__init__ (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataBatchResult.file (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataBatchResult.result (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataError.access_error (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataError.get_access_error (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataError.get_user_error (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataError.is_access_error (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataError.is_other (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataError.is_user_error (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataError.other (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataError.user_error (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataIndividualResult.access_error (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataIndividualResult.get_access_error (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataIndividualResult.get_metadata (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataIndividualResult.is_access_error (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataIndividualResult.is_metadata (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataIndividualResult.is_other (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataIndividualResult.metadata (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.GetFileMetadataIndividualResult.other (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.__init__ (Python method, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.access_type (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.expected_link_metadata (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.id (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.link_metadata (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.name (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.owner_display_names (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.owner_team (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.parent_shared_folder_id (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.path_display (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.path_lower (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.permissions (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.policy (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.preview_url (Python attribute, in dropbox.sharing – Sharing)
+dropbox.sharing.SharedFileMetadata.time_invited (Python attribute, in dropbox.sharing – Sharing)
+
+files_list_folder return type:
+In the Dropbox API Python SDK, the files_list_folder method returns a ListFolderResult object. 
+This ListFolderResult object contains a list of entries, including file and folder metadata, in its entries attribute. Each entry within entries is of type Metadata, and for files specifically, they are of type FileMetadata. 
+Important Notes:
+The files_list_folder method is paginated, meaning it may not return all entries in a single call.
+You must check the has_more attribute of the returned ListFolderResult. If has_more is True, you need to call files_list_folder_continue with the cursor from the previous result to retrieve the remaining entries. 
+
