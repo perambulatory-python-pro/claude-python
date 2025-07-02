@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 venv/
 .env
+.streamlit/secrets.toml
 
 # Data files
 *.csv
