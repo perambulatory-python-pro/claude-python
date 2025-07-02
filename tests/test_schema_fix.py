@@ -4,7 +4,7 @@ Ensures mapping only uses columns that exist in your database
 """
 
 import pandas as pd
-from data_mapper_enhanced import EnhancedDataMapper
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
 
 def test_schema_compatible_mapping():
     """Test the schema-compatible BCI mapping"""

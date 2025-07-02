@@ -3,7 +3,7 @@ Quick test to validate the content detection fixes
 """
 
 import pandas as pd
-from data_mapper_enhanced import EnhancedDataMapper
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
 
 def test_specific_failures():
     """Test the specific cases that failed"""

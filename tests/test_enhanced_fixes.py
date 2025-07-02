@@ -16,8 +16,8 @@ from datetime import datetime, date
 from dotenv import load_dotenv
 
 # Import our enhanced components
-from database_manager_enhanced import EnhancedDatabaseManager
-from data_mapper_enhanced import EnhancedDataMapper
+from database.database_manager_enhanced import EnhancedDatabaseManager
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
 
 # Load environment variables
 load_dotenv()

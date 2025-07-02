@@ -663,7 +663,7 @@ def run_enhanced_migration():
     """
     Main function to run the enhanced migration
     """
-    from data_mapper_enhanced import EnhancedDataMapper
+    from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
     
     # Configuration
     SOURCE_FOLDER = r"C:\Users\Brendon Jewell\Finance Ops Dropbox\Finance Ops Team Folder\DOMO Source Files\[DOMO] Accounts Receivable (AR)\Payment Notifications"

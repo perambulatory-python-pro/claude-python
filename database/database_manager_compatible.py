@@ -14,13 +14,20 @@ from datetime import datetime, date, timedelta
 from typing import Dict, List, Optional, Union, Any
 import logging
 from dotenv import load_dotenv
-from sqlalchemy import text 
+from sqlalchemy import text
+from typing import Tuple
+
+from database.database_models import Invoice 
 
 # Load environment variables
 load_dotenv()
 
 # Set up logging
 logger = logging.getLogger(__name__)
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from contextlib import contextmanager
 
 class CompatibleEnhancedDatabaseManager:
     """
@@ -33,12 +40,25 @@ class CompatibleEnhancedDatabaseManager:
         self.database_url = os.getenv('DATABASE_URL')
         if not self.database_url:
             raise ValueError("DATABASE_URL not found in .env file")
-        
+
+        # SQLAlchemy engine and sessionmaker for ORM operations
+        self.engine = create_engine(self.database_url)
+        self.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
+
         logger.info("Transaction-Safe Database Manager initialized")
-        
+
         # Test connection on initialization
         if not self.test_connection():
             raise ConnectionError("Failed to connect to database")
+
+    @contextmanager
+    def get_session(self):
+        """Provide a transactional scope around a series of operations using SQLAlchemy ORM."""
+        session = self.SessionLocal()
+        try:
+            yield session
+        finally:
+            session.close()
     
     def test_connection(self) -> bool:
         """Test database connectivity"""
@@ -49,6 +69,44 @@ class CompatibleEnhancedDatabaseManager:
         except Exception as e:
             logger.error(f"Database connection test failed: {e}")
             return False
+    
+    def preserve_date_logic(self, existing_record: Dict, new_date: date, 
+                           current_field: str, original_field: str) -> Tuple[date, Optional[date]]:
+        """
+        Implement your sophisticated date preservation logic
+        
+        Business Rule: When updating a date field:
+        - If no current date exists, set new date as current
+        - If current date exists and new date is different, move current to original
+        - Preserve original date if it already exists
+        
+        Args:
+            existing_record: Current database record as dict
+            new_date: New date to be set
+            current_field: Field name for current date (e.g., 'edi_date')
+            original_field: Field name for original date (e.g., 'original_edi_date')
+            
+        Returns:
+            Tuple of (current_date, original_date)
+        """
+        current_date = existing_record.get(current_field)
+        original_date = existing_record.get(original_field)
+        
+        # If no current date exists, new date becomes current
+        if not current_date:
+            return new_date, original_date
+        
+        # If current date exists and new date is different
+        if current_date != new_date:
+            # Move current to original only if original doesn't exist
+            if not original_date:
+                return new_date, current_date
+            else:
+                # Keep existing original, update current
+                return new_date, original_date
+        
+        # If dates are the same, no change needed
+        return current_date, original_date
     
     def get_table_stats(self) -> Dict[str, int]:
         """Get record counts for all major tables"""
@@ -871,6 +929,249 @@ class CompatibleEnhancedDatabaseManager:
             validation_results['error'] = str(e)
             return validation_results
     
+    def get_payment_details_for_export(self, payment_id: str) -> List[Dict]:
+        """
+        Get payment detail records for export
+        """
+        try:
+                conn = psycopg2.connect(self.database_url) 
+                cursor = conn.cursor()
+                
+                # Get ALL detail records
+                cursor.execute("""
+                    SELECT 
+                        payment_id,
+                        payment_date,
+                        invoice_no,
+                        gross_amount,
+                        discount,
+                        net_amount,
+                        payment_message,
+                        created_at
+                    FROM kp_payment_details 
+                    WHERE payment_id = %s
+                """, (payment_id,))
+                
+                detail_rows = cursor.fetchall()
+                
+                cursor.close()
+                conn.close()
+                
+                # Convert to list of dictionaries
+                detail_records = []
+
+                for row in detail_rows:
+                    
+                    record = {
+                        'payment_id': row[0],
+                        'payment_date': row[1],
+                        'invoice_no': row[2] if row[2] else 0,
+                        'gross_amount': row[3] if row[3] else 0,
+                        'discount': row[4] if row[4] else 0,
+                        'net_amount': row[5] if row[5] else 0,
+                        'payment_message': row[6] if row[6] else '',
+                        'created_at': row[7] if row[7] else None
+                    }
+                    # Add this record to list
+                    detail_records.append(record)
+                
+                return detail_records
+            
+        except Exception as e:
+            logger.error(f"Error getting payment details: {e}")
+            return [] 
+    
+    def apply_not_transmitted_logic(self, existing_record: Dict, new_data: Dict, 
+                                   processing_type: str) -> bool:
+        """
+        Apply sophisticated "Not Transmitted" logic
+        
+        Business Rules:
+        1. For EDI processing with new records: not_transmitted = True (held for validation)
+        2. For EDI processing with updates: 
+           - If new EDI date and not_transmitted in new_data is False/None: set False
+           - Otherwise preserve existing logic
+        3. For Release/Add-On processing: don't change not_transmitted status
+        
+        Args:
+            existing_record: Current database record as dict
+            new_data: New data being processed
+            processing_type: 'EDI', 'Release', or 'Add-On'
+            
+        Returns:
+            Boolean value for not_transmitted field
+        """
+        # For non-EDI processing, don't change not_transmitted status
+        if processing_type != 'EDI':
+            return existing_record.get('not_transmitted', False)
+        
+        # For EDI processing
+        current_edi_date = existing_record.get('edi_date')
+        new_edi_date = new_data.get('edi_date')
+        new_not_transmitted = new_data.get('not_transmitted')
+        
+        # New record with EDI date: held for validation (not transmitted)
+        if not current_edi_date and new_edi_date:
+            return True
+        
+        # Existing record being updated with new EDI date
+        if current_edi_date and new_edi_date and current_edi_date != new_edi_date:
+            # If new data explicitly sets not_transmitted to False/None, use that
+            if new_not_transmitted is False or new_not_transmitted is None:
+                return False
+            # Otherwise, subsequent submissions are transmitted (False)
+            return False
+        
+        # Default: preserve existing status
+        return existing_record.get('not_transmitted', False)
+
+    def upsert_invoices_with_business_logic(self, invoice_data: List[Dict], 
+                                           processing_type: str, 
+                                           processing_date: date) -> Dict[str, int]:
+        """
+        Insert or update invoices with sophisticated business logic
+        
+        Args:
+            invoice_data: List of dictionaries containing invoice data
+            processing_type: 'EDI', 'Release', or 'Add-On'
+            processing_date: Date to use for the processing type
+            
+        Returns:
+            Dictionary with counts of inserted/updated records
+        """
+        inserted_count = 0
+        updated_count = 0
+        
+        try:
+            with self.get_session() as session:
+                for invoice_dict in invoice_data:
+                    invoice_no = invoice_dict.get('invoice_no')
+                    if not invoice_no:
+                        logger.warning("Skipping record without invoice_no")
+                        continue
+                    
+                    # Check if invoice already exists
+                    existing_invoice = session.query(Invoice).filter(
+                        Invoice.invoice_no == invoice_no
+                    ).first()
+                    
+                    if existing_invoice:
+                        # Update existing invoice with business logic
+                        existing_dict = {}
+                        for column in Invoice.__table__.columns:
+                            existing_dict[column.name] = getattr(existing_invoice, column.name)
+                        
+                        # Apply date preservation logic based on processing type
+                        if processing_type == 'EDI':
+                            current_edi, original_edi = self.preserve_date_logic(
+                                existing_dict, processing_date, 'edi_date', 'original_edi_date'
+                            )
+                            invoice_dict['edi_date'] = current_edi
+                            invoice_dict['original_edi_date'] = original_edi
+                            
+                        elif processing_type == 'Release':
+                            current_release, original_release = self.preserve_date_logic(
+                                existing_dict, processing_date, 'release_date', 'original_release_date'
+                            )
+                            invoice_dict['release_date'] = current_release
+                            invoice_dict['original_release_date'] = original_release
+                            
+                        elif processing_type == 'Add-On':
+                            current_addon, original_addon = self.preserve_date_logic(
+                                existing_dict, processing_date, 'add_on_date', 'original_add_on_date'
+                            )
+                            invoice_dict['add_on_date'] = current_addon
+                            invoice_dict['original_add_on_date'] = original_addon
+                        
+                        # Apply not_transmitted logic
+                        invoice_dict['not_transmitted'] = self.apply_not_transmitted_logic(
+                            existing_dict, invoice_dict, processing_type
+                        )
+                        
+                        # Update existing invoice
+                        for key, value in invoice_dict.items():
+                            if hasattr(existing_invoice, key):
+                                setattr(existing_invoice, key, value)
+                        
+                        updated_count += 1
+                        logger.info(f"Updated existing invoice: {invoice_no} ({processing_type})")
+                        
+                    else:
+                        # Create new invoice
+                        # Set the appropriate date field based on processing type
+                        if processing_type == 'EDI':
+                            invoice_dict['edi_date'] = processing_date
+                            # New EDI records are held for validation
+                            invoice_dict['not_transmitted'] = True
+                        elif processing_type == 'Release':
+                            invoice_dict['release_date'] = processing_date
+                        elif processing_type == 'Add-On':
+                            invoice_dict['add_on_date'] = processing_date
+                        
+                        # Ensure not_transmitted has a default value
+                        if 'not_transmitted' not in invoice_dict:
+                            invoice_dict['not_transmitted'] = processing_type == 'EDI'
+                        
+                        new_invoice = Invoice(**invoice_dict)
+                        session.add(new_invoice)
+                        inserted_count += 1
+                        logger.info(f"Created new invoice: {invoice_no} ({processing_type})")
+                
+                session.commit()
+                logger.info(f"Processed invoices: {inserted_count} inserted, {updated_count} updated")
+                
+        except Exception as e:
+            logger.error(f"Error processing invoices: {e}")
+            raise
+        
+        return {'inserted': inserted_count, 'updated': updated_count}
+    
+    def process_invoice_history_linking(self, invoice_data: List[Dict]) -> int:
+        """
+        Handle bidirectional invoice history linking
+        
+        Args:
+            invoice_data: List of invoice dictionaries that may contain history references
+            
+        Returns:
+            Number of history links created
+        """
+        links_created = 0
+        
+        try:
+            with self.get_session() as session:
+                for invoice_dict in invoice_data:
+                    current_invoice_no = invoice_dict.get('invoice_no')
+                    original_invoice_no = invoice_dict.get('original_invoice_no')  # From "Original invoice #" field
+                    
+                    if current_invoice_no and original_invoice_no:
+                        # Find the original invoice
+                        original_invoice = session.query(Invoice).filter(
+                            Invoice.invoice_no == original_invoice_no
+                        ).first()
+                        
+                        if original_invoice:
+                            # Set bidirectional links
+                            # Current invoice points to original
+                            current_invoice = session.query(Invoice).filter(
+                                Invoice.invoice_no == current_invoice_no
+                            ).first()
+                            
+                            if current_invoice:
+                                current_invoice.invoice_no_history = original_invoice_no
+                                # Original invoice points to current (revision)
+                                original_invoice.invoice_no_history = current_invoice_no
+                                links_created += 1
+                                logger.info(f"Linked invoices: {original_invoice_no} <-> {current_invoice_no}")
+                
+                session.commit()
+                
+        except Exception as e:
+            logger.error(f"Error processing invoice history links: {e}")
+            raise
+        
+        return links_created
+    
     def validate_specific_invoice_totals(self, invoice_numbers: List[str]) -> Dict:
         """
         Validate only specific invoice numbers that were just uploaded
@@ -1676,15 +1977,14 @@ class CompatibleEnhancedDatabaseManager:
             
             # Column mapping for Kaiser email format
             column_mapping = {
-                'Date': 'payment_date',
-                'Invoice ID': 'invoice_id',
-                'Gross Amount': 'gross_amount',
-                'Net Amount': 'net_amount',
-                'Discount Amount': 'discount_amount',
+                'Payment ID': 'payment_id',
                 'Payment Date': 'payment_date',
-                'Invoice Number': 'invoice_id',
-                'Amount': 'net_amount',
-                'Total': 'net_amount'
+                'Payment Amount': 'payment_amount',
+                'Invoice ID': 'invoice_no',
+                'Gross Amount': 'gross_amount',
+                'Discount': 'discount',
+                'Net Amount': 'net_amount',
+                'Payment Message': 'payment_message'
             }
             
             # Apply column mapping
@@ -1695,7 +1995,7 @@ class CompatibleEnhancedDatabaseManager:
                     logger.info(f"Mapped column: '{old_name}' → '{new_name}'")
             
             # Clean up amount columns
-            amount_columns = ['gross_amount', 'net_amount', 'discount_amount']
+            amount_columns = ['gross_amount', 'net_amount', 'discount', 'payment_amount']
             for col in amount_columns:
                 if col in standardized_df.columns:
                     standardized_df[col] = standardized_df[col].apply(self.clean_amount_value)
@@ -1736,11 +2036,12 @@ class CompatibleEnhancedDatabaseManager:
                 record = {
                     'payment_id': master_data['payment_id'],
                     'payment_date': master_data['payment_date'],
-                    'vendor_name': master_data['vendor_name'],
-                    'invoice_id': row.get('invoice_id', ''),
+                    'payment_amount': master_data['payment_amount'],
+                    'invoice_no': row.get('invoice_no', ''),
                     'gross_amount': float(row.get('gross_amount', 0)),
+                    'discount': float(row.get('discount', 0)),
                     'net_amount': float(row.get('net_amount', 0)),
-                    'discount_amount': float(row.get('discount_amount', 0))
+                    'payment_message': row.get('payment_message', '')                    
                 }
                 detail_records.append(record)
             
@@ -1753,7 +2054,6 @@ class CompatibleEnhancedDatabaseManager:
 
     # =============================================================================
     # STREAMLIT EMAIL PROCESSING FUNCTION
-    # Add this function to your invoice_app_auto_detect.py file
     # =============================================================================
 
     def process_kp_payment_html(html_content: str, filename: str = "email_content") -> bool:
@@ -1810,7 +2110,6 @@ class CompatibleEnhancedDatabaseManager:
                         payment_id=master_data['payment_id'],
                         payment_date=master_data['payment_date'],
                         payment_amount=master_data['payment_amount'],
-                        vendor_name=master_data['vendor_name'],
                         source_file=filename
                     )
                     
@@ -2156,50 +2455,111 @@ class CompatibleEnhancedDatabaseManager:
                              detail_records: List[Dict[str, Any]],
                              progress_callback=None) -> Dict[str, Any]:
         """
-        Process complete payment remittance (master + details) in transaction
+        Process complete payment remittance (master + details) in a single transaction/connection
+        Enhanced with explicit logging for each step.
         """
         payment_id = master_data['payment_id']
-        
+        logger.info(f"[process_payment_remittance] Starting payment remittance for Payment ID: {payment_id}")
         try:
             # Check if payment already exists
             if self.check_payment_exists(payment_id):
                 existing_summary = self.get_payment_summary(payment_id)
+                logger.warning(f"[process_payment_remittance] Payment already exists: {payment_id}")
                 return {
                     'success': False,
                     'error': 'Payment already exists',
                     'payment_id': payment_id,
                     'existing_payment': existing_summary
                 }
-            
-            # FIXED: Use the insert_payment_master method instead of manual transaction
-            master_inserted = self.insert_payment_master(master_data)
-            
-            if not master_inserted:
+
+            # Use a single connection/transaction for both master and details
+            conn = psycopg2.connect(self.database_url)
+            cursor = conn.cursor()
+            try:
+                # Insert payment master
+                logger.info(f"[process_payment_remittance] Inserting payment master for {payment_id}")
+                cursor.execute("""
+                    INSERT INTO kp_payment_master (payment_id, payment_date, payment_amount)
+                    VALUES (%s, %s, %s)
+                    ON CONFLICT (payment_id) DO NOTHING
+                """, (
+                    master_data['payment_id'],
+                    master_data['payment_date'],
+                    master_data['payment_amount']
+                ))
+                rows_affected = cursor.rowcount
+                if rows_affected > 0:
+                    logger.info(f"[process_payment_remittance] Inserted payment master: {payment_id}")
+                else:
+                    logger.warning(f"[process_payment_remittance] Payment master already exists (ON CONFLICT): {payment_id}")
+                    conn.rollback()
+                    return {
+                        'success': False,
+                        'error': 'Failed to insert payment master (may already exist)',
+                        'payment_id': payment_id
+                    }
+
+                # Insert detail records in bulk
+                logger.info(f"[process_payment_remittance] Inserting {len(detail_records)} payment detail records for {payment_id}")
+                if detail_records:
+                    # Prepare columns and values
+                    columns = [
+                        'payment_id', 'payment_date', 'invoice_no', 'gross_amount', 'discount', 'net_amount', 'payment_message'
+                    ]
+                    values = [
+                        (
+                            payment_id,
+                            rec.get('payment_date'),
+                            rec.get('invoice_no'),
+                            rec.get('gross_amount'),
+                            rec.get('discount'),
+                            rec.get('net_amount'),
+                            rec.get('payment_message')
+                        ) for rec in detail_records
+                    ]
+                    execute_values(
+                        cursor,
+                        f"""
+                        INSERT INTO kp_payment_details
+                        (payment_id, payment_date, invoice_no, gross_amount, discount, net_amount, payment_message)
+                        VALUES %s
+                        ON CONFLICT DO NOTHING
+                        """,
+                        values
+                    )
+                    logger.info(f"[process_payment_remittance] Inserted {cursor.rowcount} payment detail records for {payment_id}")
+                else:
+                    logger.warning(f"[process_payment_remittance] No detail records to insert for {payment_id}")
+
+                # Commit transaction
+                conn.commit()
+                logger.info(f"[process_payment_remittance] Transaction committed for {payment_id}")
+
+            except Exception as e:
+                conn.rollback()
+                logger.error(f"[process_payment_remittance] Error during transaction for {payment_id}: {e}")
                 return {
                     'success': False,
-                    'error': 'Failed to insert payment master (may already exist)',
+                    'error': str(e),
                     'payment_id': payment_id
                 }
-            
-            # Insert detail records using bulk method
-            detail_results = self.bulk_insert_payment_details(
-                detail_records, 
-                progress_callback
-            )
-            
+            finally:
+                cursor.close()
+                conn.close()
+
             # Get final summary
             final_summary = self.get_payment_summary(payment_id)
-            
+            logger.info(f"[process_payment_remittance] Final summary for {payment_id}: {final_summary}")
             return {
                 'success': True,
                 'payment_id': payment_id,
                 'master_inserted': True,
-                'detail_results': detail_results,
+                'detail_results': {'inserted': len(detail_records), 'success': True},
                 'final_summary': final_summary
             }
-                
+
         except Exception as e:
-            logger.error(f"Error processing payment remittance: {e}")
+            logger.error(f"[process_payment_remittance] Outer error: {e}")
             return {
                 'success': False,
                 'error': str(e),

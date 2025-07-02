@@ -4,8 +4,8 @@ Find out exactly what's happening with the invoice mapping and validation
 """
 
 import pandas as pd
-from data_mapper_enhanced import EnhancedDataMapper
-from database_manager_compatible import CompatibleEnhancedDatabaseManager
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
+from database.database_manager_compatible import CompatibleEnhancedDatabaseManager
 
 def analyze_bci_processing_issue():
     """

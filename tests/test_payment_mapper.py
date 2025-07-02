@@ -1,6 +1,6 @@
 # Test script - save as test_payment_mapper.py
 import pandas as pd
-from data_mapper_enhanced import EnhancedDataMapper  
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper  
 
 # Create test data
 test_data = {

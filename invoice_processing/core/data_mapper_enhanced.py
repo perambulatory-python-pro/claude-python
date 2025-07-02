@@ -11,6 +11,7 @@ Key Python Concepts:
 - Intelligent parsing: Smart detection of company names vs individual names
 """
 
+from turtle import st
 import pandas as pd
 from datetime import datetime, date
 from typing import Dict, List, Optional, Union, Any, Tuple
@@ -21,6 +22,8 @@ import numpy as np
 import re
 from bs4 import BeautifulSoup
 import io
+
+# Ensure pandas does not silently downcast types in future versions
 
 pd.set_option('future.no_silent_downcasting', True)
 
@@ -1613,76 +1616,7 @@ class EnhancedDataMapper:
         
         return content_detection
     
-    def process_kp_payment_html(html_content: str, filename: str = "email_content") -> bool:
-        """
-        Process Kaiser Permanente payment HTML email content
-        """
-        st.subheader("📧 Processing Kaiser Permanente Payment Email")
-        
-        try:
-            # Step 1: Process HTML content
-            with st.spinner("Parsing HTML email content..."):
-                mapper = st.session_state.data_mapper
-                master_data, detail_records = mapper.process_payment_email_html(html_content)
-            
-            st.success(f"✅ Parsed email content: {len(detail_records)} invoice records found")
-            
-            # Step 2: Display parsed data preview
-            with st.expander("📋 Parsed Email Data Preview"):
-                if detail_records:
-                    preview_df = pd.DataFrame(detail_records[:5])  # Show first 5
-                    display_df = safe_dataframe_display(preview_df, 5)
-                    st.dataframe(display_df)
-                    
-                    if len(detail_records) > 5:
-                        st.info(f"Showing first 5 of {len(detail_records)} records")
-            
-            # Step 3: Continue with standard payment processing
-            # Display payment summary
-            st.markdown("### 📋 Payment Summary")
-            col1, col2, col3 = st.columns(3)
-            
-            with col1:
-                st.metric("Payment ID", master_data['payment_id'])
-            with col2:
-                st.metric("Payment Date", master_data['payment_date'])
-            with col3:
-                st.metric("Payment Amount", f"${master_data['payment_amount']:,.2f}")
-            
-            # Check if payment already exists
-            db = st.session_state.enhanced_db_manager
-            payment_exists = db.check_payment_exists(master_data['payment_id'])
-            
-            if payment_exists:
-                st.error("⚠️ **Payment Already Processed**")
-                existing_summary = db.get_payment_summary(master_data['payment_id'])
-                if existing_summary:
-                    st.info(f"This payment was already processed on {existing_summary['created_at']}")
-                return False
-            
-            # Validate data
-            with st.spinner("Validating payment data..."):
-                validation_results = mapper.validate_payment_data(master_data, detail_records)
-            
-            # Display validation results
-            if validation_results['is_valid']:
-                st.success("✅ **Email Data Validation Passed**")
-            else:
-                st.error("❌ **Email Data Validation Failed**") 
-                for error in validation_results.get('errors', []):
-                    st.error(f"• {error}")
-                return False
-            
-            # Process button
-            if st.button(f"💾 Process Email Payment ({len(detail_records)} invoices)", type="primary"):
-                return execute_payment_processing(master_data, detail_records, filename, db)
-            
-            return False
-            
-        except Exception as e:
-            st.error(f"Error processing payment email: {e}")
-            add_log(f"Payment email processing error: {e}")
-            return False
+    # Removed process_kp_payment_html to break circular import. This function should be implemented in the Streamlit app, not in the data mapper.
 
     def validate_mapped_data(self, records: List[Dict]) -> Dict[str, List[str]]:
         """Validate mapped records and return any issues found"""

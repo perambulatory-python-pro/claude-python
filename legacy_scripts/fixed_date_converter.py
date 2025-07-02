@@ -116,7 +116,7 @@ def patch_enhanced_data_mapper():
     patch_enhanced_data_mapper()
     """
     try:
-        from data_mapper_enhanced import EnhancedDataMapper
+        from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
         
         # Replace the convert_excel_date method
         EnhancedDataMapper.convert_excel_date = staticmethod(FixedDateConverter.convert_excel_date_robust)

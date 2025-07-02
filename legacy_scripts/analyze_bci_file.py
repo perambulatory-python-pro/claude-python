@@ -5,7 +5,7 @@ Diagnose issues with TLM_BCI.xlsx file processing
 
 import pandas as pd
 import numpy as np
-from data_mapper_enhanced import EnhancedDataMapper
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
 
 def analyze_bci_file(filename: str = "TLM_BCI.xlsx"):
     """Analyze the BCI file to understand its structure"""

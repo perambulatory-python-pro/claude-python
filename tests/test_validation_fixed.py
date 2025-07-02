@@ -26,8 +26,8 @@ else:
     exit(1)
 
 # NOW import database components (after .env is loaded)
-from database_manager_compatible import CompatibleEnhancedDatabaseManager
-from data_mapper_enhanced import EnhancedDataMapper
+from database.database_manager_compatible import CompatibleEnhancedDatabaseManager
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
 
 def test_enhanced_validation_fixed():
     """Test the enhanced validation and partial upload logic"""

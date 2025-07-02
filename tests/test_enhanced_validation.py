@@ -3,8 +3,8 @@ Test Enhanced Validation Logic
 Verify that partial uploads work correctly
 """
 
-from database_manager_compatible import CompatibleEnhancedDatabaseManager
-from data_mapper_enhanced import EnhancedDataMapper
+from database.database_manager_compatible import CompatibleEnhancedDatabaseManager
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
 import pandas as pd
 
 def test_enhanced_validation():

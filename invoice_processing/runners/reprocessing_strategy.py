@@ -5,7 +5,7 @@ Identify and safely reprocess files that were processed with aggressive duplicat
 
 import pandas as pd
 from datetime import datetime, timedelta
-from database_manager_compatible import CompatibleEnhancedDatabaseManager
+from database.database_manager_compatible import CompatibleEnhancedDatabaseManager
 
 def analyze_recent_processing():
     """

@@ -8,25 +8,100 @@ Key Features:
 - Handles your specific file naming conventions
 """
 
+import sys
+import os
+
+# Add parent directories to path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(os.path.dirname(current_dir))
+sys.path.insert(0, parent_dir)
+
 import streamlit as st
 import pandas as pd
-import os
 from datetime import datetime, date, timedelta
 from sqlalchemy import text
 from typing import Dict, List
 from dotenv import load_dotenv
 import logging
 
-# Import our enhanced database components
-from database_manager_compatible import CompatibleEnhancedDatabaseManager
-from data_mapper_enhanced import EnhancedDataMapper
+from database.database_manager_compatible import CompatibleEnhancedDatabaseManager
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
+
 
 # NEW: Import smart processing components
-from fixed_date_converter import patch_enhanced_data_mapper
-from smart_duplicate_handler import process_file_with_smart_duplicates
+from legacy_scripts.fixed_date_converter import patch_enhanced_data_mapper
+from invoice_processing.runners.smart_duplicate_handler import process_file_with_smart_duplicates
+# --- Moved from data_mapper_enhanced.py to break circular import ---
+def process_kp_payment_html(html_content: str, filename: str = "email_content") -> bool:
+    """
+    Process Kaiser Permanente payment HTML email content
+    """
+    st.subheader("📧 Processing Kaiser Permanente Payment Email")
+    try:
+        # Step 1: Process HTML content
+        with st.spinner("Parsing HTML email content..."):
+            mapper = st.session_state.data_mapper
+            master_data, detail_records = mapper.process_payment_email_html(html_content)
+
+        st.success(f"✅ Parsed email content: {len(detail_records)} invoice records found")
+
+        # Step 2: Display parsed data preview
+        with st.expander("📋 Parsed Email Data Preview"):
+            if detail_records:
+                import pandas as pd
+                preview_df = pd.DataFrame(detail_records[:5])  # Show first 5
+                display_df = safe_dataframe_display(preview_df, 5)
+                st.dataframe(display_df)
+                if len(detail_records) > 5:
+                    st.info(f"Showing first 5 of {len(detail_records)} records")
+
+        # Step 3: Continue with standard payment processing
+        # Display payment summary
+        st.markdown("### 📋 Payment Summary")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Payment ID", master_data['payment_id'])
+        with col2:
+            st.metric("Payment Date", master_data['payment_date'])
+        with col3:
+            st.metric("Payment Amount", f"${master_data['payment_amount']:,.2f}")
+
+        # Check if payment already exists
+        db = st.session_state.enhanced_db_manager
+        payment_exists = db.check_payment_exists(master_data['payment_id'])
+        if payment_exists:
+            st.error("⚠️ **Payment Already Processed**")
+            existing_summary = db.get_payment_summary(master_data['payment_id'])
+            if existing_summary:
+                st.info(f"This payment was already processed on {existing_summary['created_at']}")
+            return False
+
+        # Validate data
+        with st.spinner("Validating payment data..."):
+            validation_results = mapper.validate_payment_data(master_data, detail_records)
+
+        # Display validation results
+        if validation_results['is_valid']:
+            st.success("✅ **Email Data Validation Passed**")
+        else:
+            st.error("❌ **Email Data Validation Failed**")
+            for error in validation_results.get('errors', []):
+                st.error(f"• {error}")
+            return False
+
+        # Process button
+        if st.button(f"💾 Process Email Payment ({len(detail_records)} invoices)", type="primary"):
+            return execute_payment_processing(master_data, detail_records, filename, db)
+
+        return False
+
+    except Exception as e:
+        st.error(f"Error processing payment email: {e}")
+        add_log(f"Payment email processing error: {e}")
+        return False
 
 # Import the capital project functions
-from capital_project_streamlit_integration import (
+from database.capital_project_streamlit_integration import (
     add_capital_project_pages,
     render_capital_project_dashboard,
     render_process_trimble_file,
@@ -105,6 +180,169 @@ def safe_dataframe_display(df, num_rows=10):
                 pass
     
     return display_df
+
+def render_upload_payment_tab():
+    """
+    Renders the upload payment tab with fixed state management
+    Replaces the inline logic in your payment processing page
+    """
+    st.subheader("💰 Payment Remittance Processing")
+    
+    # Check if we have pending payment processing
+    if st.session_state.get('show_payment_processing', False) and 'pending_payment_html' in st.session_state:
+        # Show the payment processing interface
+        html_content = st.session_state.pending_payment_html
+        filename = st.session_state.get('pending_payment_filename', 'email_content.html')
+        
+        st.info("📧 **Processing Pending Payment Email**")
+        
+        # Process the payment HTML (now outside any form)
+        process_kp_payment_html(html_content, filename)  # This will be your fixed function
+        
+    else:
+        # Show the normal upload interface
+        input_tab1, input_tab2, input_tab3 = st.tabs(["📁 File Upload", "📧 Email Files", "✂️ Copy/Paste HTML"])
+        
+        with input_tab1:
+            st.markdown("""
+            **📁 Upload Payment Files:**
+            - Kaiser Permanente payment Excel files (Payment*.xlsx)
+            - CSV files with payment remittance details
+            - Supports auto-detection and standardization
+            """)
+            
+            uploaded_file = st.file_uploader(
+                "Upload payment file",
+                type=['xlsx', 'xls', 'csv'],
+                help="Upload Kaiser Permanente payment remittance files",
+                key="payment_file_upload"
+            )
+            
+            if uploaded_file is not None:
+                st.write(f"**File:** {uploaded_file.name}")
+                st.write(f"**Size:** {uploaded_file.size:,} bytes")
+                
+                if st.button("🚀 Process File", type="primary", key="process_payment_file_btn"):
+                    process_file_with_auto_detection(uploaded_file)
+        
+        with input_tab2:
+            st.markdown("""
+            **📧 Upload Email Files:**
+            - Outlook .msg files containing Kaiser payment notifications
+            - Standard .eml email files
+            - Automatically extracts HTML content and processes payment data
+            """)
+            
+            # REMOVED THE st.form() - this was causing your error!
+            email_file = st.file_uploader(
+                "Upload email file",
+                type=['msg', 'eml'],
+                help="Upload Outlook .msg or standard .eml email files",
+                key="email_file_upload"
+            )
+            
+            if email_file is not None:
+                st.write(f"**File:** {email_file.name}")
+                st.write(f"**Size:** {email_file.size:,} bytes")
+                st.write(f"**Type:** {email_file.type}")
+                
+                # Process button OUTSIDE any form - this fixes your error!
+                if st.button("📧 Process Email", type="primary", key="process_email_btn"):
+                    import io
+                    file_like = io.BytesIO(email_file.getvalue())
+                    file_like.name = email_file.name
+                    
+                    if email_file.name.endswith('.msg'):
+                        process_msg_file(file_like)  # This will be your fixed function
+                    elif email_file.name.endswith('.eml'):
+                        process_eml_file(file_like)
+                    else:
+                        st.error("Unsupported email file type")
+            
+            # Keep your existing instructions
+            with st.expander("📖 How to Save Emails for Upload"):
+                st.markdown("""
+                ### 🖥️ **For Outlook Desktop:**
+                1. Open the payment notification email
+                2. Go to **File** → **Save As**
+                3. Choose **Outlook Message Format (*.msg)** 
+                4. Save the file to your computer
+                5. Upload the .msg file above
+                
+                ### 🌐 **For Outlook Web (Office 365):**
+                1. Open the payment email
+                2. Click the **three dots (⋯)** → **View** → **View message source**
+                3. Copy the entire content and use the "Copy/Paste HTML" tab
+                
+                ### ✅ **What to Look For:**
+                - Email should contain **HTML tables** with payment data
+                - Look for tables with columns like "Invoice ID", "Payment Amount", "Net Amount"
+                - The system will automatically detect and parse the payment information
+                """)
+        
+        with input_tab3:
+            st.markdown("""
+            **✂️ Copy/Paste HTML Content:**
+            - Copy HTML content directly from Kaiser Permanente payment emails
+            - Paste the complete email HTML content below
+            - System will automatically extract payment data from tables
+            """)
+            
+            html_content = st.text_area(
+                "Paste HTML email content here:",
+                height=300,
+                help="Copy the full HTML content from your email client and paste it here",
+                key="html_paste_area"
+            )
+            
+            if html_content and len(html_content.strip()) > 100:
+                # Show content analysis
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.metric("Content Length", f"{len(html_content):,} characters")
+                with col2:
+                    from bs4 import BeautifulSoup
+                    try:
+                        soup = BeautifulSoup(html_content, 'html.parser')
+                        table_count = len(soup.find_all('table'))
+                        st.metric("Tables Found", table_count)
+                    except:
+                        st.metric("Tables Found", "Error parsing")
+                
+                # Check for payment data
+                mapper = st.session_state.data_mapper
+                if mapper.detect_payment_email_html(html_content):
+                    st.success("✅ Kaiser Permanente payment data detected!")
+                    
+                    # Process button (NO FORM HERE)
+                    if st.button("🚀 Process HTML Email", type="primary", key="process_html_btn"):
+                        # Store in session state and process
+                        st.session_state.pending_payment_html = html_content
+                        st.session_state.pending_payment_filename = "pasted_email_content.html"
+                        st.session_state.show_payment_processing = True
+                        st.rerun()
+                else:
+                    st.warning("⚠️ No payment data detected in HTML content")
+                    
+                    # Show detection details for debugging
+                    with st.expander("🔍 Detection Details"):
+                        try:
+                            soup = BeautifulSoup(html_content, 'html.parser')
+                            tables = soup.find_all('table')
+                            st.write(f"**Total Tables:** {len(tables)}")
+                            
+                            # Check for key indicators
+                            content_lower = html_content.lower()
+                            indicators = ['payment id', 'invoice id', 'gross amount', 'net amount', 'blackstone consulting']
+                            found_indicators = [ind for ind in indicators if ind in content_lower]
+                            st.write(f"**Payment Indicators Found:** {', '.join(found_indicators)}")
+                        except Exception as e:
+                            st.write(f"Error analyzing content: {e}")
+            
+            elif html_content:
+                st.info("👆 Please paste more content (minimum 100 characters)")
+            else:
+                st.info("👆 Paste your Kaiser Permanente payment email HTML content above")
 
 def process_aus_file_smart_streamlit(uploaded_file):
     """Smart AUS file processing with validation"""
@@ -1062,36 +1300,34 @@ def process_kp_payment_excel(df: pd.DataFrame, filename: str):
 def execute_payment_processing(master_data: dict, detail_records: list, 
                              filename: str, db_manager) -> bool:
     """
-    Execute the actual payment processing with progress tracking
-    Following your existing progress tracking patterns
+    Execute payment processing with proper progress tracking and state cleanup
+    (Fixed version that replaces your original function)
     """
-    
-    # Create progress indicators (following your existing pattern)
-    progress_bar = st.progress(0)
-    status_text = st.empty()
-    
-    def progress_callback(progress: float, message: str):
-        progress_bar.progress(progress)
-        status_text.text(message)
-    
     try:
+        # Create progress indicators
+        progress_bar = st.progress(0)
+        status_text = st.empty()
+        
+        def progress_callback(progress: float, message: str):
+            progress_bar.progress(progress)
+            status_text.text(message)
+        
         with st.spinner("Processing payment remittance..."):
-            # Process the payment (using your existing database manager)
+            # Process the payment
             results = db_manager.process_payment_remittance(
                 master_data, 
                 detail_records,
                 progress_callback
             )
         
-        # Clear progress indicators (following your existing pattern)
+        # Clear progress indicators
         progress_bar.empty()
         status_text.empty()
         
         if results['success']:
-            # Success display (following your existing success patterns)
             st.success("🎉 **Payment Processing Completed Successfully!**")
             
-            # Display results (following your existing metrics pattern)
+            # Display results
             final_summary = results.get('final_summary', {})
             detail_results = results.get('detail_results', {})
             
@@ -1103,61 +1339,80 @@ def execute_payment_processing(master_data: dict, detail_records: list,
             with col3:
                 st.metric("Success Rate", "100%" if detail_results.get('success', False) else "Partial")
             
-            # Export options (following your existing download patterns)
+            # Export options
             st.markdown("### 📥 Export Options")
+            
             col1, col2 = st.columns(2)
             
             with col1:
-                if st.button("📄 Download Payment Summary"):
-                    summary_data = {
-                        'Payment ID': [results['payment_id']],
-                        'Payment Date': [final_summary.get('payment_date', '')],
-                        'Payment Amount': [final_summary.get('payment_amount', 0)],
-                        'Detail Count': [final_summary.get('detail_count', 0)],
-                        'Total Net': [final_summary.get('total_net', 0)]
-                    }
-                    summary_df = pd.DataFrame(summary_data)
-                    csv = summary_df.to_csv(index=False)
-                    st.download_button(
-                        "Download Summary CSV",
-                        csv,
-                        file_name=f"payment_summary_{results['payment_id']}.csv",
-                        mime="text/csv"
-                    )
+                # Generate summary data for download
+                summary_data = {
+                    'Payment ID': [results['payment_id']],
+                    'Payment Date': [final_summary.get('payment_date', '')],
+                    'Payment Amount': [final_summary.get('payment_amount', 0)],
+                    'Detail Count': [final_summary.get('detail_count', 0)],
+                    'Total Net': [final_summary.get('total_net', 0)]
+                }
+                summary_df = pd.DataFrame(summary_data)
+                csv = summary_df.to_csv(index=False)
+                
+                st.download_button(
+                    "📄 Download Payment Summary",
+                    csv,
+                    file_name=f"payment_summary_{results['payment_id']}.csv",
+                    mime="text/csv",
+                    key="download_summary"
+                )
             
             with col2:
-                if st.button("📋 Download All Details"):
-                    details = db_manager.get_payment_details_for_export(results['payment_id'])
-                    if details:
-                        details_df = pd.DataFrame(details)
-                        csv = details_df.to_csv(index=False)
-                        st.download_button(
-                            "Download Details CSV",
-                            csv,
-                            file_name=f"payment_details_{results['payment_id']}.csv",
-                            mime="text/csv"
-                        )
+                # Generate details for download
+                details = db_manager.get_payment_details_for_export(results['payment_id'])
+                if details:
+                    details_df = pd.DataFrame(details)
+                    csv = details_df.to_csv(index=False)
+                    
+                    st.download_button(
+                        "📋 Download All Details",
+                        csv,
+                        file_name=f"payment_details_{results['payment_id']}.csv",
+                        mime="text/csv",
+                        key="download_details"
+                    )
             
-            # Log successful processing (using your existing logging)
+            # Clear the processing state after successful processing
+            if 'pending_payment_html' in st.session_state:
+                del st.session_state.pending_payment_html
+            if 'show_payment_processing' in st.session_state:
+                del st.session_state.show_payment_processing
+            
             add_log(f"Payment processing success: {results['payment_id']} from {filename}")
             return True
             
         else:
-            # Error handling (following your existing error patterns)
             st.error(f"❌ **Payment Processing Failed**")
             st.error(f"Error: {results.get('error', 'Unknown error')}")
             
             if 'existing_payment' in results:
-                st.info("This payment was previously processed. See details above.")
+                st.info("This payment was previously processed.")
+            
+            # Clear state on failure too
+            if 'pending_payment_html' in st.session_state:
+                del st.session_state.pending_payment_html
+            if 'show_payment_processing' in st.session_state:
+                del st.session_state.show_payment_processing
             
             add_log(f"Payment processing failed: {results.get('error')} for {filename}")
             return False
             
     except Exception as e:
-        # Cleanup and error handling (following your existing error patterns)
-        progress_bar.empty()
-        status_text.empty()
         st.error(f"💥 **Processing Error:** {e}")
+        
+        # Clear state on exception
+        if 'pending_payment_html' in st.session_state:
+            del st.session_state.pending_payment_html
+        if 'show_payment_processing' in st.session_state:
+            del st.session_state.show_payment_processing
+        
         add_log(f"Payment processing exception: {e}")
         return False
 
@@ -1260,8 +1515,7 @@ def process_eml_file(uploaded_file) -> bool:
 
 def process_msg_file(uploaded_file) -> bool:
     """
-    Process .msg Outlook email files containing payment remittance data
-    Fixed to properly handle HTML content extraction and encoding
+    Fixed .msg file processing that avoids form/button conflicts
     """
     try:
         import tempfile
@@ -1269,19 +1523,18 @@ def process_msg_file(uploaded_file) -> bool:
         
         st.info("📧 Processing Outlook .msg file...")
         
-        # Save uploaded file to temporary location (required for extract-msg)
+        # Save uploaded file to temporary location
         with tempfile.NamedTemporaryFile(delete=False, suffix='.msg') as tmp_file:
             tmp_file.write(uploaded_file.read())
             tmp_file_path = tmp_file.name
         
         try:
-            # Import here to provide better error message if not installed
+            # Import and check dependencies
             try:
                 import extract_msg
             except ImportError:
                 st.error("❌ **Missing Dependency**")
                 st.error("To process Outlook .msg files, please install: `pip install extract-msg`")
-                st.info("💡 **Alternative:** Save the email as .eml format instead")
                 return False
             
             # Extract the message
@@ -1292,96 +1545,46 @@ def process_msg_file(uploaded_file) -> bool:
                 st.write(f"**From:** {msg.sender or 'Unknown'}")
                 st.write(f"**Subject:** {msg.subject or 'No Subject'}")
                 st.write(f"**Date:** {msg.date or 'Unknown'}")
-                if hasattr(msg, 'attachments') and msg.attachments:
-                    st.write(f"**Attachments:** {len(msg.attachments)} files")
             
-            # Get HTML body - FIX: Handle bytes properly
+            # Get and decode HTML content
             html_content = msg.htmlBody
-            text_content = msg.body
             
-            # FIX: Check if HTML content is bytes and decode it
             if html_content:
+                # Handle bytes decoding
                 if isinstance(html_content, bytes):
                     try:
-                        # Try different encodings
                         for encoding in ['utf-8', 'utf-16', 'latin-1', 'cp1252']:
                             try:
                                 html_content = html_content.decode(encoding)
-                                st.success(f"✅ Successfully decoded HTML content using {encoding}")
                                 break
                             except UnicodeDecodeError:
                                 continue
                         else:
-                            # If all encodings fail, use utf-8 with error handling
                             html_content = html_content.decode('utf-8', errors='replace')
-                            st.warning("⚠️ Used UTF-8 with error replacement for HTML content")
                     except Exception as e:
                         st.error(f"Failed to decode HTML content: {e}")
-                        html_content = None
-                
-                if html_content:
-                    st.success("✅ Found and decoded HTML content in Outlook message")
-                    
-                    # Debug: Show first part of decoded HTML
-                    with st.expander("🔍 Decoded HTML Preview"):
-                        st.text(html_content[:500] + "..." if len(html_content) > 500 else html_content)
-                    
-                    # Check if it contains payment data
-                    mapper = st.session_state.data_mapper
-                    if mapper.detect_payment_email_html(html_content):
-                        st.success("💰 Payment data detected in Outlook email HTML")
-                        return process_kp_payment_html(html_content, uploaded_file.name)
-                    else:
-                        st.warning("⚠️ No payment data detected in decoded HTML content")
-                        
-                        # Debug: Show what the detector is seeing
-                        content_lower = html_content.lower()
-                        kp_indicators = [
-                            'payment id', 'vendor id', 'blackstone consulting', 
-                            'electronic funds', 'invoice id', 'gross amount', 'net amount'
-                        ]
-                        found_indicators = [ind for ind in kp_indicators if ind in content_lower]
-                        
-                        st.info(f"**Debug:** Found indicators: {found_indicators}")
-                        
-                        # Show table count
-                        from bs4 import BeautifulSoup
-                        soup = BeautifulSoup(html_content, 'html.parser')
-                        tables = soup.find_all('table')
-                        st.info(f"**Debug:** Found {len(tables)} tables in HTML")
-                        
                         return False
-            
-            elif text_content:
-                # Handle text content similarly
-                if isinstance(text_content, bytes):
-                    try:
-                        for encoding in ['utf-8', 'utf-16', 'latin-1', 'cp1252']:
-                            try:
-                                text_content = text_content.decode(encoding)
-                                break
-                            except UnicodeDecodeError:
-                                continue
-                        else:
-                            text_content = text_content.decode('utf-8', errors='replace')
-                    except Exception as e:
-                        st.error(f"Failed to decode text content: {e}")
-                        text_content = None
                 
-                if text_content:
-                    st.warning("📄 Only plain text content found - payment processing requires HTML tables")
+                st.success("✅ Found and decoded HTML content")
+                
+                # Check if it contains payment data
+                mapper = st.session_state.data_mapper
+                if mapper.detect_payment_email_html(html_content):
+                    st.success("💰 Payment data detected in email HTML")
                     
-                    with st.expander("📄 Text Content Preview"):
-                        preview = text_content[:500]
-                        st.text(preview)
-                        if len(text_content) > 500:
-                            st.write("... (truncated)")
+                    # KEY FIX: Store HTML content in session state and redirect to processing
+                    st.session_state.pending_payment_html = html_content
+                    st.session_state.pending_payment_filename = uploaded_file.name
+                    st.session_state.show_payment_processing = True
                     
-                    st.info("💡 **Tip:** Ensure the original email was sent in HTML format with tables.")
+                    # Force rerun to show the processing interface
+                    st.rerun()
+                    
+                else:
+                    st.warning("⚠️ No payment data detected in HTML content")
                     return False
-            
             else:
-                st.error("❌ No content found in Outlook message")
+                st.error("❌ No HTML content found in message")
                 return False
                 
         finally:
@@ -1389,11 +1592,10 @@ def process_msg_file(uploaded_file) -> bool:
             try:
                 os.unlink(tmp_file_path)
             except:
-                pass  # Ignore cleanup errors
+                pass
             
     except Exception as e:
         st.error(f"Error processing .msg file: {e}")
-        add_log(f"MSG processing error: {e}")
         return False
 
 
@@ -1412,7 +1614,7 @@ def detect_email_file_type(uploaded_file) -> str:
 
 def process_kp_payment_html(html_content: str, filename: str = "email_content") -> bool:
     """
-    Process Kaiser Permanente payment HTML email content
+    Fixed payment HTML processing that works outside of forms
     """
     st.subheader("📧 Processing Kaiser Permanente Payment Email")
     
@@ -1427,15 +1629,14 @@ def process_kp_payment_html(html_content: str, filename: str = "email_content") 
         # Step 2: Display parsed data preview
         with st.expander("📋 Parsed Email Data Preview"):
             if detail_records:
-                preview_df = pd.DataFrame(detail_records[:5])  # Show first 5
+                preview_df = pd.DataFrame(detail_records[:5])
+                # Use your existing safe_dataframe_display function
                 display_df = safe_dataframe_display(preview_df, 5)
                 st.dataframe(display_df)
-                
                 if len(detail_records) > 5:
                     st.info(f"Showing first 5 of {len(detail_records)} records")
         
-        # Step 3: Continue with standard payment processing
-        # Display payment summary
+        # Step 3: Display payment summary
         st.markdown("### 📋 Payment Summary")
         col1, col2, col3 = st.columns(3)
         
@@ -1446,7 +1647,7 @@ def process_kp_payment_html(html_content: str, filename: str = "email_content") 
         with col3:
             st.metric("Payment Amount", f"${master_data['payment_amount']:,.2f}")
         
-        # Check if payment already exists
+        # Step 4: Check if payment already exists
         db = st.session_state.enhanced_db_manager
         payment_exists = db.check_payment_exists(master_data['payment_id'])
         
@@ -1455,9 +1656,16 @@ def process_kp_payment_html(html_content: str, filename: str = "email_content") 
             existing_summary = db.get_payment_summary(master_data['payment_id'])
             if existing_summary:
                 st.info(f"This payment was already processed on {existing_summary['created_at']}")
+            
+            # Clear the processing state
+            if 'pending_payment_html' in st.session_state:
+                del st.session_state.pending_payment_html
+            if 'show_payment_processing' in st.session_state:
+                del st.session_state.show_payment_processing
+            
             return False
         
-        # Validate data
+        # Step 5: Validate data
         with st.spinner("Validating payment data..."):
             validation_results = mapper.validate_payment_data(master_data, detail_records)
         
@@ -1480,22 +1688,49 @@ def process_kp_payment_html(html_content: str, filename: str = "email_content") 
                     variance = summary.get('amount_variance', 0)
                     st.metric("Variance", f"${variance:,.2f}")
         else:
-            st.error("❌ **Email Data Validation Failed**") 
+            st.error("❌ **Email Data Validation Failed**")
             for error in validation_results.get('errors', []):
                 st.error(f"• {error}")
             for warning in validation_results.get('warnings', []):
                 st.warning(f"• {warning}")
+            
+            # Clear the processing state
+            if 'pending_payment_html' in st.session_state:
+                del st.session_state.pending_payment_html
+            if 'show_payment_processing' in st.session_state:
+                del st.session_state.show_payment_processing
+            
             return False
         
-        # Process button
-        if st.button(f"💾 Process Email Payment ({len(detail_records)} invoices)", type="primary"):
-            return execute_payment_processing(master_data, detail_records, filename, db)
+        # Step 6: Process button (NOW OUTSIDE ANY FORM)
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button(f"💾 Process Payment ({len(detail_records)} invoices)", type="primary", key="process_payment_btn"):
+                return execute_payment_processing(master_data, detail_records, filename, db)
+        
+        with col2:
+            if st.button("❌ Cancel Processing", key="cancel_payment_btn"):
+                # Clear the processing state
+                if 'pending_payment_html' in st.session_state:
+                    del st.session_state.pending_payment_html
+                if 'show_payment_processing' in st.session_state:
+                    del st.session_state.show_payment_processing
+                st.success("✅ Payment processing cancelled")
+                st.rerun()
         
         return False
         
     except Exception as e:
         st.error(f"Error processing payment email: {e}")
         add_log(f"Payment email processing error: {e}")
+        
+        # Clear the processing state on error
+        if 'pending_payment_html' in st.session_state:
+            del st.session_state.pending_payment_html
+        if 'show_payment_processing' in st.session_state:
+            del st.session_state.show_payment_processing
+        
         return False
 
 def test_html_payment_processing():
@@ -1604,10 +1839,10 @@ if page == "🏠 Dashboard":
         - Files with keywords auto-detected
         """)
 
+# Restored Payment Processing page and its file/email upload widgets to the top-level position
 # Smart File Upload Page
 elif page == "📤 Smart File Upload":
     st.header("📤 Smart File Upload with Auto-Detection")
-    
     st.markdown("""
     **🤖 Auto-Detection Features:**
     - Automatically recognizes `TLM_BCI.xlsx` and `AUS_Invoice.xlsx`
@@ -1615,185 +1850,29 @@ elif page == "📤 Smart File Upload":
     - Applies appropriate processing logic
     - Prompts for dates only when needed
     """)
-    
     # File upload
     uploaded_file = st.file_uploader(
         "Upload any invoice file - type will be auto-detected",
         type=['xlsx', 'xls', 'csv'],
         help="Supports: TLM_BCI.xlsx, AUS_Invoice.xlsx, weekly files, and more"
     )
-    
     if uploaded_file is not None:
         st.write(f"**File:** {uploaded_file.name}")
         st.write(f"**Size:** {uploaded_file.size:,} bytes")
-        
         # Process with auto-detection
         process_file_with_auto_detection(uploaded_file)
 
-    # Payment Processing Page
-    elif page == "💰 Payment Processing":
-        st.header("💰 Payment Remittance Processing")
-        
-        # Payment dashboard tabs (following your existing tab pattern)
-        tab1, tab2, tab3 = st.tabs(["📤 Upload Payment", "📊 Payment History", "🔍 Payment Search"])
-        
-        with tab1:
-            st.subheader("💰 Payment Remittance Processing")
-        
-        # Create sub-tabs for different input methods
-        input_tab1, input_tab2, input_tab3 = st.tabs(["📁 File Upload", "📧 Email Files", "✂️ Copy/Paste HTML"])
-        
-        with input_tab1:
-            st.markdown("""
-            **📁 Upload Payment Files:**
-            - Kaiser Permanente payment Excel files (Payment*.xlsx)
-            - CSV files with payment remittance details
-            - Supports auto-detection and standardization
-            """)
-            
-            uploaded_file = st.file_uploader(
-                "Upload payment file",
-                type=['xlsx', 'xls', 'csv'],
-                help="Upload Kaiser Permanente payment remittance files"
-            )
-            
-            if uploaded_file is not None:
-                st.write(f"**File:** {uploaded_file.name}")
-                st.write(f"**Size:** {uploaded_file.size:,} bytes")
-                
-                # Process with existing auto-detection
-                if st.button("🚀 Process File", type="primary"):
-                    process_file_with_auto_detection(uploaded_file)
-        
-        with input_tab2:
-            st.markdown("""
-            **📧 Upload Email Files:**
-            - Outlook .msg files containing Kaiser payment notifications
-            - Standard .eml email files
-            - Automatically extracts HTML content and processes payment data
-            """)
-            
-            email_file = st.file_uploader(
-                "Upload email file",
-                type=['msg', 'eml'],
-                help="Upload Outlook .msg or standard .eml email files"
-            )
-            
-            if email_file is not None:
-                st.write(f"**File:** {email_file.name}")
-                st.write(f"**Size:** {email_file.size:,} bytes")
-                st.write(f"**Type:** {email_file.type}")
-                
-                # Process based on file type
-                if st.button("📧 Process Email", type="primary"):
-                    if email_file.name.endswith('.msg'):
-                        process_msg_file(email_file)
-                    elif email_file.name.endswith('.eml'):
-                        process_eml_file(email_file)
-                    else:
-                        st.error("Unsupported email file type")
-            
-            # Instructions for saving emails
-            with st.expander("📖 How to Save Emails for Upload"):
-                st.markdown("""
-                ### 🖥️ **For Outlook Desktop:**
-                1. Open the payment notification email
-                2. Go to **File** → **Save As**
-                3. Choose **Outlook Message Format (*.msg)** 
-                4. Save the file to your computer
-                5. Upload the .msg file above
-                
-                ### 🌐 **For Outlook Web (Office 365):**
-                1. Open the payment email
-                2. Click the **three dots (⋯)** → **View** → **View message source**
-                3. Copy the entire content and use the "Copy/Paste HTML" tab
-                
-                ### ✅ **What to Look For:**
-                - Email should contain **HTML tables** with payment data
-                - Look for tables with columns like "Invoice ID", "Payment Amount", "Net Amount"
-                - The system will automatically detect and parse the payment information
-                """)
-        
-        with input_tab3:
-            st.markdown("""
-            **✂️ Copy/Paste HTML Content:**
-            - Copy HTML content directly from Kaiser Permanente payment emails
-            - Paste the complete email HTML content below
-            - System will automatically extract payment data from tables
-            """)
-            
-            html_content = st.text_area(
-                "Paste HTML email content here:",
-                height=300,
-                help="Copy the full HTML content from your email client and paste it here"
-            )
-            
-            if html_content and len(html_content.strip()) > 100:
-                # Show preview of detected content
-                mapper = st.session_state.data_mapper
-                
-                # Show content stats
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.metric("Content Length", f"{len(html_content):,} characters")
-                with col2:
-                    # Count tables
-                    from bs4 import BeautifulSoup
-                    try:
-                        soup = BeautifulSoup(html_content, 'html.parser')
-                        table_count = len(soup.find_all('table'))
-                        st.metric("Tables Found", table_count)
-                    except:
-                        st.metric("Tables Found", "Error parsing")
-                
-                # Check for payment data
-                if mapper.detect_payment_email_html(html_content):
-                    st.success("✅ Kaiser Permanente payment data detected!")
-                    
-                    # Show detection details
-                    with st.expander("🔍 Detection Details"):
-                        try:
-                            soup = BeautifulSoup(html_content, 'html.parser')
-                            tables = soup.find_all('table')
-                            
-                            st.write(f"**Total Tables:** {len(tables)}")
-                            
-                            # Show table summaries
-                            for i, table in enumerate(tables):
-                                rows = table.find_all('tr')
-                                st.write(f"- Table {i+1}: {len(rows)} rows")
-                            
-                            # Check for key indicators
-                            content_lower = html_content.lower()
-                            indicators = ['payment id', 'invoice id', 'gross amount', 'net amount', 'blackstone consulting']
-                            found_indicators = [ind for ind in indicators if ind in content_lower]
-                            
-                            st.write(f"**Payment Indicators Found:** {', '.join(found_indicators)}")
-                            
-                        except Exception as e:
-                            st.write(f"Error analyzing content: {e}")
-                    
-                    if st.button("🚀 Process HTML Email", type="primary"):
-                        process_kp_payment_html(html_content, "pasted_email_content.html")
-                else:
-                    st.warning("⚠️ No Kaiser Permanente payment data detected")
-                    st.info("Please ensure you've copied the complete email content including all HTML tables.")
-                    
-                    # Show preview for debugging
-                    with st.expander("👀 Content Preview"):
-                        preview = html_content[:1000]
-                        st.text(preview)
-                        if len(html_content) > 1000:
-                            st.write("... (truncated)")
-            
-            elif html_content:
-                st.info("👆 Please paste more content (minimum 100 characters)")
-            else:
-                st.info("👆 Paste your Kaiser Permanente payment email HTML content above")
-        
+# Payment Processing Page
+elif page == "💰 Payment Processing":
+    st.header("💰 Payment Remittance Processing")
+    # Payment dashboard tabs (following your existing tab pattern)
+    tab1, tab2, tab3 = st.tabs(["📤 Upload Payment", "📊 Payment History", "🔍 Payment Search"])
+    
+    with tab1:
+        render_upload_payment_tab()
+
     with tab2:
         st.subheader("Payment Processing History")
-        
         try:
             # Get recent payments from database (following your existing query patterns)
             db = st.session_state.enhanced_db_manager
@@ -1811,9 +1890,7 @@ elif page == "📤 Smart File Upload":
             ORDER BY pm.created_at DESC
             LIMIT 50
             """
-            
             df = db.execute_custom_query(query, [])
-            
             if not df.empty:
                 # Format for display (following your existing formatting patterns)
                 display_df = df.copy()
@@ -1824,7 +1901,6 @@ elif page == "📤 Smart File Upload":
                     lambda x: f"${float(x):,.2f}"
                 )
                 display_df['created_at'] = pd.to_datetime(display_df['created_at']).dt.strftime('%Y-%m-%d %H:%M')
-                
                 st.dataframe(
                     display_df,
                     use_container_width=True,
@@ -1834,7 +1910,6 @@ elif page == "📤 Smart File Upload":
                         "detail_count": st.column_config.NumberColumn("Detail Records")
                     }
                 )
-                
                 # Export option (following your existing export patterns)
                 if st.button("📥 Export Payment History"):
                     csv = df.to_csv(index=False)
@@ -1846,33 +1921,25 @@ elif page == "📤 Smart File Upload":
                     )
             else:
                 st.info("No payment history found")
-                
         except Exception as e:
             st.error(f"Error loading payment history: {e}")
-    
     with tab3:
         st.subheader("Search Payments")
-        
         col1, col2 = st.columns(2)
-        
         with col1:
             search_payment_id = st.text_input("Payment ID")
-            
         with col2:
             search_date_range = st.date_input(
                 "Payment Date Range",
                 value=None,
                 help="Select date range to filter payments"
             )
-        
         if st.button("🔍 Search Payments") and search_payment_id:
             try:
                 db = st.session_state.enhanced_db_manager
                 summary = db.get_payment_summary(search_payment_id)
-                
                 if summary:
                     st.success(f"Payment {search_payment_id} found!")
-                    
                     # Display payment details (following your existing metrics pattern)
                     col1, col2, col3 = st.columns(3)
                     with col1:
@@ -1881,7 +1948,6 @@ elif page == "📤 Smart File Upload":
                         st.metric("Detail Records", summary['detail_count'])
                     with col3:
                         st.metric("Net Total", f"${summary['total_net']:,.2f}")
-                    
                     # Option to download details (following your existing download pattern)
                     if st.button("📋 Download Payment Details"):
                         details = db.get_payment_details_for_export(search_payment_id)
@@ -1896,7 +1962,6 @@ elif page == "📤 Smart File Upload":
                             )
                 else:
                     st.warning(f"Payment {search_payment_id} not found")
-                    
             except Exception as e:
                 st.error(f"Error searching payments: {e}")
 

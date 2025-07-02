@@ -3,7 +3,7 @@ Test the updated BCI mapping with your actual file structure
 """
 
 import pandas as pd
-from data_mapper_enhanced import EnhancedDataMapper
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
 
 def test_updated_bci_mapping():
     """Test the updated BCI mapping with actual TLM_BCI.xlsx structure"""

@@ -4,7 +4,7 @@ No .env file required
 """
 
 import os
-from database_manager_compatible import CompatibleEnhancedDatabaseManager
+from database.database_manager_compatible import CompatibleEnhancedDatabaseManager
 
 def test_with_manual_url():
     """Test by manually providing database URL"""

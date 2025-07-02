@@ -1,7 +1,7 @@
 import pandas as pd
 import os
-from data_mapper_enhanced import EnhancedDataMapper
-from database_manager_compatible import CompatibleEnhancedDatabaseManager  # Adjust import path
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
+from database.database_manager_compatible import CompatibleEnhancedDatabaseManager  # Adjust import path
 from dotenv import load_dotenv
 
 def test_payment_database():

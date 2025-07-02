@@ -1,5 +1,5 @@
 # test_date_parsing.py
-from data_mapper_enhanced import EnhancedDataMapper
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
 
 mapper = EnhancedDataMapper()
 

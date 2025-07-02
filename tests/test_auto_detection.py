@@ -4,7 +4,7 @@ Validates that AUS_Invoice.xlsx and TLM_BCI.xlsx are detected correctly
 """
 
 import pandas as pd
-from data_mapper_enhanced import EnhancedDataMapper
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
 
 def test_filename_detection():
     """Test that specific filenames are detected correctly"""

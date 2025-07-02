@@ -16,7 +16,7 @@ import plotly.graph_objects as go
 from datetime import datetime, date, timedelta
 from sqlalchemy import text
 import io
-from capital_project_db_manager import CapitalProjectDBManager
+from database.capital_project_db_manager import CapitalProjectDBManager
 
 def add_capital_project_pages():
     """

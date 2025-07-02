@@ -18,8 +18,8 @@ def test_compatible_enhanced_manager():
     
     try:
         # Import compatible manager
-        from database_manager_compatible import CompatibleEnhancedDatabaseManager
-        from data_mapper_enhanced import EnhancedDataMapper
+        from database.database_manager_compatible import CompatibleEnhancedDatabaseManager
+        from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
         
         print("✅ Imports successful")
         

@@ -21,8 +21,8 @@ import traceback
 from typing import Dict, List, Tuple
 
 # Import your existing modules
-from data_mapper_enhanced import EnhancedDataMapper
-from database_manager_compatible import EnhancedDatabaseManager
+from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
+from database.database_manager_compatible import EnhancedDatabaseManager
 
 # Set up logging
 logging.basicConfig(
