@@ -97,34 +97,67 @@ class GraphInvoiceProcessor:
             raise
     
     def search_invoice_emails(self, 
-                            mailbox: str = 'brendon@blackstone-consulting.com',
-                            sender_domains: List[str] = ['blackstone-consulting.com'],
-                            sender_names: List[str] = ['inessa', 'azalea.khan'],
-                            subject_pattern: str = 'Non-Recurring BCI Invoices',
-                            days_back: int = 90) -> List[InvoiceEmail]:
+                        mailbox: str = 'brendon@blackstone-consulting.com',
+                        sender_domains: List[str] = ['blackstone-consulting.com'],
+                        sender_names: List[str] = ['inessa', 'azalea.khan'],
+                        subject_pattern: str = 'Non-Recurring BCI Invoices',
+                        start_date: Optional[str] = None,
+                        end_date: Optional[str] = None,
+                        days_back: int = 30,
+                        specific_folder: Optional[str] = None,
+                        search_all_folders: bool = True) -> List[InvoiceEmail]:
+        
         """
         Search for invoice emails using Microsoft Graph API
-        
+
         Args:
             mailbox: Email address of the mailbox to search
             sender_domains: List of sender domain filters
             sender_names: List of sender name filters  
             subject_pattern: Subject line pattern to match
-            days_back: How many days back to search
+            start_date: Start date in YYYY-MM-DD format (optional)
+            end_date: End date in YYYY-MM-DD format (optional) 
+            days_back: How many days back to search (used if start_date not provided)
+            specific_folder: Specific folder name to search (e.g., "Inbox/1-Reference")
+            search_all_folders: If True, search all folders including subfolders
             
         Returns:
             List of InvoiceEmail objects
         """
-        self.logger.info(f"Searching for invoice emails in {mailbox} from last {days_back} days...")
+
+        if specific_folder:
+            self.logger.info(f"Searching for invoice emails in {mailbox} - Specific folder: {specific_folder}")
+        elif start_date or end_date:
+            self.logger.info(f"Searching for invoice emails in {mailbox} - Date range specified")
+        else:
+            self.logger.info(f"Searching for invoice emails in {mailbox} from last {days_back} days...")
         
         # Build search query using OData syntax
         search_filters = []
         
-        # Date filter (last N days)
+        # Date filter - use provided dates or calculate from days_back
         from datetime import timedelta
-        start_date = (datetime.now() - timedelta(days=days_back)).strftime('%Y-%m-%dT%H:%M:%SZ')
-        search_filters.append(f"receivedDateTime ge {start_date}")
-        
+
+        if start_date or end_date:
+            # Use provided date range
+            if start_date:
+                start_date_iso = f"{start_date}T00:00:00Z"
+                search_filters.append(f"receivedDateTime ge {start_date_iso}")
+                self.logger.info(f"Using start date: {start_date}")
+            
+            if end_date:
+                end_date_iso = f"{end_date}T23:59:59Z"
+                search_filters.append(f"receivedDateTime le {end_date_iso}")
+                self.logger.info(f"Using end date: {end_date}")
+                
+            if start_date and end_date:
+                self.logger.info(f"Searching date range: {start_date} to {end_date}")
+        else:
+            # Only use days_back if no specific dates provided
+            start_date_calc = (datetime.now() - timedelta(days=days_back)).strftime('%Y-%m-%dT%H:%M:%SZ')
+            search_filters.append(f"receivedDateTime ge {start_date_calc}")
+            self.logger.info(f"Using days_back: {days_back} days")
+
         # Subject filter
         search_filters.append(f"contains(subject,'{subject_pattern}')")
         
@@ -134,8 +167,155 @@ class GraphInvoiceProcessor:
         # Combine filters with AND
         filter_query = " and ".join(search_filters)
         
-        # Search in specified mailbox (not /me since we're using client credential flow)
-        search_url = f"{self.base_url}/users/{mailbox}/messages"
+        # Collect all invoice emails
+        all_invoice_emails = []
+        
+        try:
+            if specific_folder:
+                # Search only the specified folder
+                self.logger.info(f"Searching specific folder: {specific_folder}")
+                folder_id = self._find_folder_by_name(mailbox, specific_folder)
+                if folder_id:
+                    search_url = f"{self.base_url}/users/{mailbox}/mailFolders/{folder_id}/messages"
+                    all_invoice_emails = self._search_folder(search_url, filter_query, sender_domains, sender_names)
+                else:
+                    self.logger.error(f"Folder '{specific_folder}' not found")
+                    return []
+            elif search_all_folders:
+                # Search all mail folders
+                folders_to_search = self._get_all_mail_folders(mailbox)
+                
+                for folder_id, folder_name in folders_to_search:
+                    self.logger.info(f"Searching folder: {folder_name}")
+                    search_url = f"{self.base_url}/users/{mailbox}/mailFolders/{folder_id}/messages"
+                    
+                    folder_emails = self._search_folder(search_url, filter_query, sender_domains, sender_names)
+                    all_invoice_emails.extend(folder_emails)
+            else:
+                # Search only main messages folder
+                search_url = f"{self.base_url}/users/{mailbox}/messages"
+                all_invoice_emails = self._search_folder(search_url, filter_query, sender_domains, sender_names)
+            
+            self.logger.info(f"Found {len(all_invoice_emails)} invoice emails with PDF attachments")
+            return all_invoice_emails
+            
+        except requests.exceptions.RequestException as e:
+            self.logger.error(f"Error searching emails: {e}")
+            return []
+    
+    def _get_all_mail_folders(self, mailbox: str) -> List[Tuple[str, str]]:
+        """
+        Get all mail folders in the mailbox
+        
+        Returns:
+            List of (folder_id, folder_name) tuples
+        """
+        folders = []
+        
+        try:
+            # Get root mail folders
+            url = f"{self.base_url}/users/{mailbox}/mailFolders"
+            response = requests.get(url, headers=self.headers)
+            response.raise_for_status()
+            
+            root_folders = response.json().get('value', [])
+            
+            for folder in root_folders:
+                folder_id = folder.get('id')
+                folder_name = folder.get('displayName', 'Unknown')
+                folders.append((folder_id, folder_name))
+                
+                # Get child folders recursively
+                child_folders = self._get_child_folders(mailbox, folder_id, folder_name)
+                folders.extend(child_folders)
+            
+            self.logger.info(f"Found {len(folders)} folders to search")
+            return folders
+            
+        except Exception as e:
+            self.logger.error(f"Error getting mail folders: {e}")
+            # Fallback to common folder names
+            return [
+                ('inbox', 'Inbox'),
+                ('sentitems', 'Sent Items'),
+                ('drafts', 'Drafts')
+            ]
+    
+    def _get_child_folders(self, mailbox: str, parent_folder_id: str, parent_name: str) -> List[Tuple[str, str]]:
+        """
+        Recursively get child folders
+        """
+        child_folders = []
+        
+        try:
+            url = f"{self.base_url}/users/{mailbox}/mailFolders/{parent_folder_id}/childFolders"
+            response = requests.get(url, headers=self.headers)
+            response.raise_for_status()
+            
+            children = response.json().get('value', [])
+            
+            for child in children:
+                child_id = child.get('id')
+                child_name = f"{parent_name}/{child.get('displayName', 'Unknown')}"
+                child_folders.append((child_id, child_name))
+                
+                # Recursively get grandchildren
+                grandchildren = self._get_child_folders(mailbox, child_id, child_name)
+                child_folders.extend(grandchildren)
+            
+        except Exception as e:
+            self.logger.error(f"Error getting child folders for {parent_name}: {e}")
+        
+        return child_folders
+    
+    def _find_folder_by_name(self, mailbox: str, folder_name: str) -> Optional[str]:
+        """
+        Find a folder by its display name (supports nested paths like "Inbox/1-Reference")
+        
+        Args:
+            mailbox: Email address of the mailbox
+            folder_name: Folder name or path (e.g., "Inbox/1-Reference")
+            
+        Returns:
+            Folder ID if found, None otherwise
+        """
+        try:
+            self.logger.info(f"Looking for folder: '{folder_name}'")
+            
+            # Get all folders
+            all_folders = self._get_all_mail_folders(mailbox)
+            self.logger.info(f"Found {len(all_folders)} total folders to check")
+            
+            # Look for exact match
+            for folder_id, display_name in all_folders:
+                self.logger.info(f"Checking folder: '{display_name}'")
+                if display_name == folder_name:
+                    self.logger.info(f"✅ Found exact match for '{folder_name}' with ID: {folder_id}")
+                    return folder_id
+            
+            # If no exact match, try case-insensitive
+            self.logger.info(f"No exact match found, trying case-insensitive...")
+            for folder_id, display_name in all_folders:
+                if display_name.lower() == folder_name.lower():
+                    self.logger.info(f"✅ Found case-insensitive match for '{folder_name}' with ID: {folder_id}")
+                    return folder_id
+            
+            # List all available folders for debugging
+            self.logger.error(f"❌ Folder '{folder_name}' not found. Available folders:")
+            for _, display_name in all_folders:
+                self.logger.error(f"     '{display_name}'")
+            
+            return None
+            
+        except Exception as e:
+            self.logger.error(f"Error finding folder '{folder_name}': {e}")
+            return None
+    
+    def _search_folder(self, search_url: str, filter_query: str, 
+                      sender_domains: List[str], sender_names: List[str]) -> List[InvoiceEmail]:
+        """
+        Search a specific folder for invoice emails
+        """
         params = {
             '$filter': filter_query,
             '$select': 'id,subject,sender,receivedDateTime,toRecipients,ccRecipients,hasAttachments,bodyPreview',
@@ -149,7 +329,6 @@ class GraphInvoiceProcessor:
             response.raise_for_status()
             
             messages = response.json().get('value', [])
-            self.logger.info(f"Found {len(messages)} potential emails")
             
             # Filter and process results
             invoice_emails = []
@@ -177,11 +356,10 @@ class GraphInvoiceProcessor:
                     if invoice_email and invoice_email.pdf_attachments:
                         invoice_emails.append(invoice_email)
             
-            self.logger.info(f"Found {len(invoice_emails)} invoice emails with PDF attachments")
             return invoice_emails
             
         except requests.exceptions.RequestException as e:
-            self.logger.error(f"Error searching emails: {e}")
+            self.logger.error(f"Error searching folder: {e}")
             return []
     
     def _process_message(self, message: Dict) -> Optional[InvoiceEmail]:
@@ -564,11 +742,14 @@ def main():
         # Search for invoice emails
         print("🔍 Searching for Blackstone Consulting invoice emails...")
         invoice_emails = processor.search_invoice_emails(
-            mailbox='brendon@blackstone-consulting.com',  # Specify the mailbox to search
+            mailbox='brendon@blackstone-consulting.com',
             sender_domains=['blackstone-consulting.com'],
-            sender_names=['inessa', 'azalea.khan'],
+            sender_names=['inessa', 'azalea.khan'], 
             subject_pattern='Non-Recurring BCI Invoices',
-            days_back=30  # Adjust search window as needed
+            start_date='2024-10-01',  # Start date (YYYY-MM-DD)
+            end_date='2025-05-31',    # End date (YYYY-MM-DD)
+            specific_folder='Inbox/1-Reference',  # Specific folder to search
+            search_all_folders=False  # Set to False when using specific folder
         )
         
         if not invoice_emails:
