@@ -8,7 +8,7 @@ from typing import Dict, List, Optional, Any
 from datetime import datetime, timedelta
 import requests
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from urllib3.util.retry import Retry
 
 from .config import config
 
@@ -72,6 +72,8 @@ class TrackTikClient:
             'Accept': 'application/json'
         }
         
+    # Complete updated methods for tracktik_client.py
+
     def get_paginated_data(self, endpoint: str, params: Dict[str, Any] = None) -> List[Dict]:
         """
         Get all pages of data from an endpoint
@@ -87,36 +89,46 @@ class TrackTikClient:
             params = {}
             
         all_records = []
-        page = 1
-        total_pages = None
+        offset = 0
+        total_count = None
         
         while True:
             # Add pagination params
-            params.update({
+            current_params = params.copy()
+            current_params.update({
                 'limit': config.API_PAGE_SIZE,
-                'page': page
+                'offset': offset
             })
             
             # Make request
             response = self.session.get(
                 f"{self.base_url}{endpoint}",
                 headers=self._get_headers(),
-                params=params
+                params=current_params
             )
             response.raise_for_status()
             
             data = response.json()
-            all_records.extend(data['data'])
+            records = data.get('data', [])
+            all_records.extend(records)
             
-            # Check pagination
-            if total_pages is None:
-                total_pages = data['meta']['pagination']['total_pages']
-                logger.info(f"Fetching {endpoint}: {total_pages} pages total")
-                
-            if page >= total_pages:
+            # Get total count from meta
+            meta = data.get('meta', {})
+            if total_count is None and 'count' in meta:
+                total_count = meta['count']
+                logger.info(f"Fetching {endpoint}: {total_count} total records")
+            
+            # Stop conditions
+            if not records:  # No records returned
                 break
                 
-            page += 1
+            if total_count and len(all_records) >= total_count:  # Retrieved all
+                break
+                
+            if len(records) < config.API_PAGE_SIZE:  # Last page
+                break
+                
+            offset += config.API_PAGE_SIZE
             
             # Respect rate limits
             if 'X-RateLimit-Remaining' in response.headers:
@@ -127,16 +139,34 @@ class TrackTikClient:
                     
         logger.info(f"Retrieved {len(all_records)} records from {endpoint}")
         return all_records
-        
+
     def get_shifts(self, start_date: str, end_date: str, **kwargs) -> List[Dict]:
-        """Get shifts for a date range"""
+        """
+        Get shifts for a date range
+        
+        Args:
+            start_date: Start date in YYYY-MM-DD format
+            end_date: End date in YYYY-MM-DD format
+            **kwargs: Additional parameters (e.g., status='APPROVED', include='employee,position')
+            
+        Returns:
+            List of shift records
+            
+        Note: Date range cannot exceed 31 days per API requirements
+        """
+        # Validate date range
+        start = datetime.strptime(start_date, '%Y-%m-%d')
+        end = datetime.strptime(end_date, '%Y-%m-%d')
+        
+        if (end - start).days > 31:
+            raise ValueError("Date range cannot exceed 31 days per TrackTik API requirements")
+        
+        # Use :between filter which actually works!
         params = {
-            'startedOn:gte': start_date,
-            'startedOn:lte': end_date,
-            'include': 'employee,position,account',
-            'status': 'APPROVED',  # Only approved shifts for billing
+            'startDateTime:between': f'{start_date}|{end_date}',
             **kwargs
         }
+        
         return self.get_paginated_data('/rest/v1/shifts', params)
         
     def get_employees(self, **kwargs) -> List[Dict]:
