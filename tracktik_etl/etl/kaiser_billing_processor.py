@@ -3,6 +3,7 @@
 KAISER billing period processor with sub-region support
 """
 from datetime import datetime
+from .config import config
 from typing import List, Dict, Any, Optional, Tuple
 import logging
 
@@ -37,17 +38,59 @@ class KaiserBillingProcessor:
         self.rate_limiter = RateLimiter(calls_per_minute=30)  # Conservative rate
         self.checkpoint_manager = CheckpointManager()
         self.db = db
+        self.region_map = {}
+        self.kaiser_region_ids = set()
+        self._regions_loaded = False
+
+    def _load_region_mapping(self) -> Dict[int, Dict]:
+        """Load and cache region mapping for KAISER"""
+        logger.info("Loading region mapping from TrackTik...")
         
+        self.rate_limiter.wait_if_needed()
+        
+        try:
+            # Get all regions
+            regions = self.client.get_regions()  # You'll need to add this method to tracktik_client.py
+            self.rate_limiter.record_success()
+            
+            # Build mapping and identify KAISER regions
+            region_map = {}
+            kaiser_region_ids = set()
+            
+            for region in regions:
+                region_id = region['id']
+                region_map[region_id] = {
+                    'id': region_id,
+                    'name': region['name'],
+                    'customId': region.get('customId'),
+                    'parentRegion': region.get('parentRegion'),
+                    'status': region.get('status'),
+                    'company': region.get('company')
+                }
+                
+                # Check if this is a KAISER sub-region
+                if isinstance(region.get('parentRegion'), dict):
+                    parent_name = region['parentRegion'].get('name', '')
+                    if 'KAISER' in parent_name.upper():
+                        kaiser_region_ids.add(region_id)
+                        logger.info(f"Found KAISER sub-region: {region['name']} (ID: {region_id})")
+            
+            logger.info(f"Loaded {len(region_map)} total regions, {len(kaiser_region_ids)} KAISER sub-regions")
+            
+            # Store for later use
+            self.region_map = region_map
+            self.kaiser_region_ids = kaiser_region_ids
+            
+            return region_map
+            
+        except Exception as e:
+            logger.error(f"Failed to load region mapping: {e}")
+            self.rate_limiter.record_error()
+            raise
+
     def process_billing_period(self, start_date: str, end_date: str) -> Dict[str, Any]:
         """
         Process all KAISER sub-regions for a billing period
-        
-        Args:
-            start_date: YYYY-MM-DD format
-            end_date: YYYY-MM-DD format
-            
-        Returns:
-            Summary statistics dictionary
         """
         billing_period_id = f"{start_date}_to_{end_date}"
         overall_stats = {
@@ -78,12 +121,151 @@ class KaiserBillingProcessor:
                 error_msg = f"Failed to process region {region}: {str(e)}"
                 logger.error(error_msg)
                 overall_stats['errors'].append(error_msg)
-                
+        
         # Log ETL run
         self._log_etl_run(overall_stats)
         
         return overall_stats
-    
+    # Add this method to the KaiserBillingProcessor class:
+
+    def _sync_region_mapping(self):
+        """Sync region data from TrackTik to the mapping table"""
+        logger.info("Syncing region mapping to database...")
+        
+        self.rate_limiter.wait_if_needed()
+        
+        try:
+            # Get all regions from API
+            regions = self.client.get_regions()
+            self.rate_limiter.record_success()
+            
+            # Prepare data for insertion
+            region_records = []
+            
+            for region in regions:
+                # Extract parent region info
+                parent_id = None
+                parent_name = None
+                is_kaiser = False
+                level = 1
+                
+                if isinstance(region.get('parentRegion'), dict):
+                    parent_id = region['parentRegion'].get('id')
+                    parent_name = region['parentRegion'].get('name', '')
+                    level = 2  # Has a parent, so it's level 2
+                    
+                    # Check if parent is KAISER
+                    if 'KAISER' in parent_name.upper():
+                        is_kaiser = True
+                
+                # Check if this region itself is KAISER
+                if 'KAISER' in region.get('name', '').upper():
+                    is_kaiser = True
+                
+                region_records.append({
+                    'region_id': region['id'],
+                    'name': region.get('name', ''),
+                    'custom_id': region.get('customId'),
+                    'parent_region_id': parent_id,
+                    'parent_region_name': parent_name,
+                    'company': region.get('company'),
+                    'status': region.get('status'),
+                    'is_kaiser_region': is_kaiser,
+                    'level': level,
+                    'updated_at': datetime.now()
+                })
+            
+            # Insert/update in database
+            if region_records:
+                # Use UPSERT to handle updates
+                query = f"""
+                    INSERT INTO {config.POSTGRES_SCHEMA}.dim_regions 
+                    (region_id, name, custom_id, parent_region_id, parent_region_name, 
+                    company, status, is_kaiser_region, level, updated_at)
+                    VALUES (%(region_id)s, %(name)s, %(custom_id)s, %(parent_region_id)s, 
+                            %(parent_region_name)s, %(company)s, %(status)s, 
+                            %(is_kaiser_region)s, %(level)s, %(updated_at)s)
+                    ON CONFLICT (region_id) 
+                    DO UPDATE SET
+                        name = EXCLUDED.name,
+                        custom_id = EXCLUDED.custom_id,
+                        parent_region_id = EXCLUDED.parent_region_id,
+                        parent_region_name = EXCLUDED.parent_region_name,
+                        company = EXCLUDED.company,
+                        status = EXCLUDED.status,
+                        is_kaiser_region = EXCLUDED.is_kaiser_region,
+                        level = EXCLUDED.level,
+                        updated_at = EXCLUDED.updated_at
+                """
+                
+                inserted = self.db.execute_batch_insert(query, region_records)
+                logger.info(f"Synced {len(region_records)} regions to database")
+                
+                # Log KAISER regions
+                kaiser_regions = [r for r in region_records if r['is_kaiser_region']]
+                logger.info(f"Found {len(kaiser_regions)} KAISER-related regions:")
+                for kr in kaiser_regions:
+                    logger.info(f"  - {kr['name']} (ID: {kr['region_id']}, Parent: {kr['parent_region_name']})")
+            
+        except Exception as e:
+            logger.error(f"Failed to sync region mapping: {e}")
+            raise
+
+    def _get_region_clients_from_db(self, region_name: str) -> List[Dict]:
+        """Get all clients for a specific KAISER sub-region using database mapping"""
+        
+        # Don't sync regions every time - just load from DB
+        if not self._regions_loaded:
+            self._load_kaiser_regions_from_db()
+            self._regions_loaded = True
+        
+        # Get region ID from our cached mapping
+        region_id = None
+        for rid, rname in self.kaiser_region_map.items():
+            if rname == region_name:
+                region_id = rid
+                break
+        
+        if not region_id:
+            logger.warning(f"Region '{region_name}' not found in KAISER regions")
+            return []
+        
+        logger.info(f"Found region '{region_name}' with ID: {region_id}")
+        
+        # Now get clients for this region
+        self.rate_limiter.wait_if_needed()
+        
+        try:
+            all_clients = self.client.get_clients()
+            self.rate_limiter.record_success()
+            
+            # Filter clients by region ID
+            region_clients = [
+                client for client in all_clients 
+                if client.get('region') == region_id
+            ]
+            
+            logger.info(f"Found {len(region_clients)} clients in region {region_name}")
+            return region_clients
+            
+        except Exception as e:
+            self.rate_limiter.record_error()
+            raise
+
+    def _load_kaiser_regions_from_db(self):
+        """Load KAISER regions from database (no API sync)"""
+        query = f"""
+            SELECT region_id, name 
+            FROM {config.POSTGRES_SCHEMA}.dim_regions 
+            WHERE is_kaiser_region = true 
+            AND level = 2  -- Only sub-regions
+        """
+        
+        results = self.db.execute_query(query)
+        self.kaiser_region_map = {r['region_id']: r['name'] for r in results}
+        logger.info(f"Loaded {len(self.kaiser_region_map)} KAISER sub-regions from database")
+
+
     def _process_single_region(self, region: str, start_date: str, 
                           end_date: str, billing_period_id: str) -> Dict[str, Any]:
         """Process a single KAISER sub-region"""
@@ -102,7 +284,7 @@ class KaiserBillingProcessor:
         }
         
         # Get region's clients
-        region_clients = self._get_region_clients(region)
+        region_clients = self._get_region_clients_from_db(region)
         stats['clients_found'] = len(region_clients)
         
         if not region_clients:
@@ -155,23 +337,39 @@ class KaiserBillingProcessor:
     
     def _get_region_clients(self, region_name: str) -> List[Dict]:
         """Get all clients for a specific KAISER sub-region"""
+        
+        # Load region mapping if not already loaded
+        if not self.region_map:
+            self._load_region_mapping()
+        
+        # Find the region ID for this region name
+        region_id = None
+        for rid, rdata in self.region_map.items():
+            if rdata['name'] == region_name and rid in self.kaiser_region_ids:
+                region_id = rid
+                break
+        
+        if not region_id:
+            logger.warning(f"Region '{region_name}' not found in KAISER sub-regions")
+            return []
+        
+        logger.info(f"Found region '{region_name}' with ID: {region_id}")
+        
         self.rate_limiter.wait_if_needed()
         
         try:
-            # Get all clients and filter by region
-            all_clients = self.client.get_clients(include='region')
+            # Get all clients and filter by region ID
+            all_clients = self.client.get_clients()
             self.rate_limiter.record_success()
             
             region_clients = []
             for client in all_clients:
-                client_region = client.get('region', {})
-                if isinstance(client_region, dict):
-                    if client_region.get('name') == region_name:
-                        # Check if parent is KAISER
-                        parent_region = client_region.get('parentRegion', {})
-                        if parent_region and 'KAISER' in parent_region.get('name', ''):
-                            region_clients.append(client)
+                # Check if client's region matches our target region ID
+                client_region = client.get('region')
+                if client_region == region_id:  # Direct ID comparison
+                    region_clients.append(client)
             
+            logger.info(f"Found {len(region_clients)} clients in region {region_name}")
             return region_clients
             
         except Exception as e:

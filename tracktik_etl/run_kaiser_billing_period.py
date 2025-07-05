@@ -8,6 +8,9 @@ from datetime import datetime
 import logging
 from dotenv import load_dotenv
 
+# Ensure logs directory exists
+os.makedirs('logs', exist_ok=True)
+
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
@@ -32,11 +35,11 @@ def main():
     
     print(f"""
 ╔══════════════════════════════════════════════════════════╗
-║           KAISER Billing Period Processing                ║
+║           KAISER Billing Period Processing               ║
 ║                                                          ║
-║  Period: {START_DATE} to {END_DATE}                      ║
-║  Regions: All 8 KAISER sub-regions                      ║
-║  Processing: One region at a time with checkpointing    ║
+║  Period: {START_DATE} to {END_DATE}                        ║
+║  Regions: All 8 KAISER sub-regions                       ║
+║  Processing: One region at a time with checkpointing     ║
 ╚══════════════════════════════════════════════════════════╝
     """)
     

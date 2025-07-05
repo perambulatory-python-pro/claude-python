@@ -71,8 +71,9 @@ class TrackTikClient:
             'Authorization': f'Bearer {self.access_token}',
             'Accept': 'application/json'
         }
-        
-    # Complete updated methods for tracktik_client.py
+    def get_regions(self, **params) -> List[Dict]:
+        """Get regions"""
+        return self.get_paginated_data('/rest/v1/regions', params)
 
     def get_paginated_data(self, endpoint: str, params: Dict[str, Any] = None) -> List[Dict]:
         """

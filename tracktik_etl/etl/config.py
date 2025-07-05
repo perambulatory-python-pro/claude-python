@@ -25,7 +25,7 @@ class Config:
     POSTGRES_DB = os.getenv('PGDATABASE')
     POSTGRES_USER = os.getenv('PGUSER')
     POSTGRES_PASSWORD = os.getenv('PGPASSWORD')
-    POSTGRES_SCHEMA = os.getenv('POSTGRES_SCHEMA', 'tracktik')
+    POSTGRES_SCHEMA = os.getenv('POSTGRES_SCHEMA')
     
     # ETL Settings
     API_PAGE_SIZE = 100  # Max records per API call

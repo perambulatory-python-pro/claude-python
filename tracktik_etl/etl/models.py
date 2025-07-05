@@ -197,29 +197,27 @@ class BillingPeriod:
         
         return result[0]['id']
 
-
 class ETLRunLog:
     """ETL run logging operations"""
     
     @staticmethod
     def log_run(stats: Dict):
-        """Log ETL run statistics"""
+        """Log ETL run statistics to etl_sync_status"""
         
+        # Use your existing etl_sync_status table
         query = f"""
-            INSERT INTO {config.POSTGRES_SCHEMA}.etl_run_log 
-            (run_date, pipeline_name, parameters, rows_processed, status, error_message, created_at)
-            VALUES (%(run_date)s, %(pipeline_name)s, %(parameters)s::jsonb, 
-                    %(rows_processed)s, %(status)s, %(error_message)s, %(created_at)s)
+            INSERT INTO {config.POSTGRES_SCHEMA}.etl_sync_status 
+            (sync_type, last_sync_timestamp, status, records_processed, error_message)
+            VALUES (%(sync_type)s, %(last_sync_timestamp)s, %(status)s, 
+                    %(records_processed)s, %(error_message)s)
         """
         
         log_data = {
-            'run_date': datetime.now(),
-            'pipeline_name': 'kaiser_billing_period',
-            'parameters': str(stats),  # Convert to JSON string
-            'rows_processed': stats.get('total_shifts', 0),
-            'status': 'ERROR' if stats.get('errors') else 'SUCCESS',
-            'error_message': '\n'.join(stats.get('errors', [])) if stats.get('errors') else None,
-            'created_at': datetime.now()
+            'sync_type': f"kaiser_billing_{stats.get('billing_period', 'unknown')}",
+            'last_sync_timestamp': datetime.now(),
+            'status': 'error' if stats.get('errors') else 'success',
+            'records_processed': stats.get('total_shifts', 0),
+            'error_message': '\n'.join(stats.get('errors', [])) if stats.get('errors') else None
         }
         
         db.execute_query(query, log_data)

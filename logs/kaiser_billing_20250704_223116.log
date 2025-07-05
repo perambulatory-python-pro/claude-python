@@ -1,0 +1,112 @@
+2025-07-04 22:31:17,432 - etl.kaiser_billing_processor - INFO - Starting KAISER billing period processing: 2025-05-30_to_2025-06-12
+2025-07-04 22:31:17,432 - etl.kaiser_billing_processor - INFO - 
+Processing region: N California
+2025-07-04 22:31:17,518 - etl.kaiser_billing_processor - INFO - Loaded 8 KAISER sub-regions from database
+2025-07-04 22:31:17,519 - etl.kaiser_billing_processor - INFO - Found region 'N California' with ID: 274
+2025-07-04 22:31:18,365 - etl.tracktik_client - INFO - Successfully authenticated with TrackTik API
+2025-07-04 22:31:18,868 - etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-04 22:31:23,367 - etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-04 22:31:23,367 - etl.kaiser_billing_processor - INFO - Found 188 clients in region N California
+2025-07-04 22:31:23,367 - etl.kaiser_billing_processor - INFO - Loading dimensions for N California
+2025-07-04 22:31:23,428 - etl.kaiser_billing_processor - ERROR - Failed to process region N California: column "is_current" does not exist
+LINE 3: ...                  WHERE name = 'N California' AND is_current...
+                                                             ^
+
+2025-07-04 22:31:23,428 - etl.kaiser_billing_processor - INFO - 
+Processing region: S California
+2025-07-04 22:31:23,428 - etl.kaiser_billing_processor - INFO - Found region 'S California' with ID: 275
+2025-07-04 22:31:23,775 - etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-04 22:31:27,769 - etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-04 22:31:27,770 - etl.kaiser_billing_processor - INFO - Found 265 clients in region S California
+2025-07-04 22:31:27,770 - etl.kaiser_billing_processor - INFO - Loading dimensions for S California
+2025-07-04 22:31:27,883 - etl.kaiser_billing_processor - ERROR - Failed to process region S California: column "is_current" does not exist
+LINE 3: ...                  WHERE name = 'S California' AND is_current...
+                                                             ^
+
+2025-07-04 22:31:27,884 - etl.kaiser_billing_processor - INFO - 
+Processing region: Hawaii
+2025-07-04 22:31:27,884 - etl.kaiser_billing_processor - INFO - Found region 'Hawaii' with ID: 276
+2025-07-04 22:31:28,290 - etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-04 22:31:32,685 - etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-04 22:31:32,685 - etl.kaiser_billing_processor - INFO - Found 60 clients in region Hawaii
+2025-07-04 22:31:32,686 - etl.kaiser_billing_processor - INFO - Loading dimensions for Hawaii
+2025-07-04 22:31:32,733 - etl.kaiser_billing_processor - ERROR - Failed to process region Hawaii: column "is_current" does not exist
+LINE 3:                     WHERE name = 'Hawaii' AND is_current = T...
+                                                      ^
+
+2025-07-04 22:31:32,733 - etl.kaiser_billing_processor - INFO - 
+Processing region: Washington
+2025-07-04 22:31:32,734 - etl.kaiser_billing_processor - INFO - Found region 'Washington' with ID: 277
+2025-07-04 22:31:33,197 - etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-04 22:31:37,703 - etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-04 22:31:37,703 - etl.kaiser_billing_processor - INFO - Found 68 clients in region Washington
+2025-07-04 22:31:37,704 - etl.kaiser_billing_processor - INFO - Loading dimensions for Washington
+2025-07-04 22:31:37,755 - etl.kaiser_billing_processor - ERROR - Failed to process region Washington: column "is_current" does not exist
+LINE 3:                     WHERE name = 'Washington' AND is_current...
+                                                          ^
+
+2025-07-04 22:31:37,755 - etl.kaiser_billing_processor - INFO - 
+Processing region: Colorado
+2025-07-04 22:31:37,756 - etl.kaiser_billing_processor - INFO - Found region 'Colorado' with ID: 278
+2025-07-04 22:31:38,175 - etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-04 22:31:42,618 - etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-04 22:31:42,618 - etl.kaiser_billing_processor - INFO - Found 84 clients in region Colorado
+2025-07-04 22:31:42,619 - etl.kaiser_billing_processor - INFO - Loading dimensions for Colorado
+2025-07-04 22:31:42,666 - etl.kaiser_billing_processor - ERROR - Failed to process region Colorado: column "is_current" does not exist
+LINE 3:                     WHERE name = 'Colorado' AND is_current =...
+                                                        ^
+
+2025-07-04 22:31:42,666 - etl.kaiser_billing_processor - INFO - 
+Processing region: Georgia
+2025-07-04 22:31:42,666 - etl.kaiser_billing_processor - INFO - Found region 'Georgia' with ID: 279
+2025-07-04 22:31:43,131 - etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-04 22:31:48,045 - etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-04 22:31:48,046 - etl.kaiser_billing_processor - INFO - Found 50 clients in region Georgia
+2025-07-04 22:31:48,047 - etl.kaiser_billing_processor - INFO - Loading dimensions for Georgia
+2025-07-04 22:31:48,096 - etl.kaiser_billing_processor - ERROR - Failed to process region Georgia: column "is_current" does not exist
+LINE 3:                     WHERE name = 'Georgia' AND is_current = ...
+                                                       ^
+
+2025-07-04 22:31:48,097 - etl.kaiser_billing_processor - INFO - 
+Processing region: MidAtlantic
+2025-07-04 22:31:48,097 - etl.kaiser_billing_processor - INFO - Found region 'MidAtlantic' with ID: 282
+2025-07-04 22:31:48,460 - etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-04 22:31:52,962 - etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-04 22:31:52,962 - etl.kaiser_billing_processor - INFO - Found 150 clients in region MidAtlantic
+2025-07-04 22:31:52,963 - etl.kaiser_billing_processor - INFO - Loading dimensions for MidAtlantic
+2025-07-04 22:31:53,013 - etl.kaiser_billing_processor - ERROR - Failed to process region MidAtlantic: column "is_current" does not exist
+LINE 3: ...                   WHERE name = 'MidAtlantic' AND is_current...
+                                                             ^
+
+2025-07-04 22:31:53,013 - etl.kaiser_billing_processor - INFO - 
+Processing region: Northwest
+2025-07-04 22:31:53,013 - etl.kaiser_billing_processor - INFO - Found region 'Northwest' with ID: 1029
+2025-07-04 22:31:53,472 - etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-04 22:31:57,669 - etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-04 22:31:57,670 - etl.kaiser_billing_processor - INFO - Found 6 clients in region Northwest
+2025-07-04 22:31:57,670 - etl.kaiser_billing_processor - INFO - Loading dimensions for Northwest
+2025-07-04 22:31:57,722 - etl.kaiser_billing_processor - ERROR - Failed to process region Northwest: column "is_current" does not exist
+LINE 3:                     WHERE name = 'Northwest' AND is_current ...
+                                                         ^
+
+2025-07-04 22:31:57,780 - root - ERROR - Fatal error in processing
+Traceback (most recent call last):
+  File "c:\Users\brend\Finance Ops Dropbox\Brendon Jewell\coding\claude-python\tracktik_etl\run_kaiser_billing_period.py", line 50, in main
+    stats = processor.process_billing_period(START_DATE, END_DATE)
+  File "c:\Users\brend\Finance Ops Dropbox\Brendon Jewell\coding\claude-python\tracktik_etl\etl\kaiser_billing_processor.py", line 126, in process_billing_period
+    self._log_etl_run(overall_stats)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "c:\Users\brend\Finance Ops Dropbox\Brendon Jewell\coding\claude-python\tracktik_etl\etl\kaiser_billing_processor.py", line 454, in _log_etl_run
+    ETLRunLog.log_run(stats)
+    ~~~~~~~~~~~~~~~~~^^^^^^^
+  File "c:\Users\brend\Finance Ops Dropbox\Brendon Jewell\coding\claude-python\tracktik_etl\etl\models.py", line 223, in log_run
+    db.execute_query(query, log_data)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "c:\Users\brend\Finance Ops Dropbox\Brendon Jewell\coding\claude-python\tracktik_etl\etl\database.py", line 56, in execute_query
+    cursor.execute(query, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\brend\Finance Ops Dropbox\Brendon Jewell\coding\claude-python\.venv\Lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.StringDataRightTruncation: value too long for type character varying(255)
+
