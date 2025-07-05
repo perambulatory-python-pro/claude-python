@@ -36,15 +36,15 @@ def main():
     """Process KAISER billing period"""
     
     # Define billing period
-    PERIOD_ID = "2025_11"  # This is what your pipeline expects
-    START_DATE = "2025-05-16"
-    END_DATE = "2025-05-29"
+    PERIOD_ID = "2025_09"  # This is what your pipeline expects
+    START_DATE = "2025-04-18"
+    END_DATE = "2025-05-01"
     
     print(f"""
 ╔══════════════════════════════════════════════════════════╗
 ║           KAISER Billing Period Processing               ║
 ║                                                          ║
-║  Period ID: {PERIOD_ID}                                  ║
+║  Period ID: {PERIOD_ID}                                       ║
 ║  Dates: {START_DATE} to {END_DATE}                         ║
 ║  Regions: All 8 KAISER sub-regions                       ║
 ╚══════════════════════════════════════════════════════════╝
