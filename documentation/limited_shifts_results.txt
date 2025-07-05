@@ -1,0 +1,32 @@
+=== LIMITED SHIFTS API DIAGNOSTIC ===
+
+Test 1: Checking if shifts exist (limit=1)...
+INFO:tracktik_etl.etl.tracktik_client:Successfully authenticated with TrackTik API
+  Total shifts in period 2025-05-30 to 2025-06-12: 31726
+  Sample shift:
+    ID: 1079011
+    Start: 2025-05-30T00:00:00-04:00
+    Status: ACTIVE
+    Account: None
+
+
+Test 2: Checking single day (2025-06-01)...
+  Total shifts on 2025-06-01: 1722
+
+
+Test 3: Checking last 7 days...
+  Total shifts from 2025-06-28 to 2025-07-05: 20121
+
+
+Test 4: Testing account filter...
+  ERROR: 400 Client Error: Bad Request for url: https://blackstoneconsulting.staffr.us/rest/v1/shifts?startDateTime%3Abetween=2024-01-01%7C2025-12-31&account=314&limit=1
+
+
+Test 5: Finding ANY shift in the system...
+  ERROR: 400 Client Error: Bad Request for url: https://blackstoneconsulting.staffr.us/rest/v1/shifts?limit=1&sort=-id
+
+
+Test 6: Testing with scopes...
+  Scope 'IS_CURRENT': 547 shifts
+  Scope 'IN_THE_FUTURE': 52012 shifts
+  Scope 'PUBLISHED': ERROR - 400 Client Error: Bad Request for url: https://blackstoneconsulting.staffr.us/rest/v1/shifts?scope=PUBLISHED&limit=1

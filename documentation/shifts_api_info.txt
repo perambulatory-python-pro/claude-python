@@ -1,0 +1,351 @@
+Response samples
+200
+Content type
+application/json
+
+[
+  {
+    "status": "CANCELLED",
+    "customId": "C123-A",
+    "billable": true,
+    "payable": true,
+    "paidTimeOff": false,
+    "vacant": true,
+    "onShiftBoard": true,
+    "startDateTime": "1997-07-16T19:20:30+01:00",
+    "startsOn": "string",
+    "startTimestamp": 123,
+    "endDateTime": "1997-07-16T19:20:30+01:00",
+    "endsOn": "string",
+    "endTimestamp": 123,
+    "breakInMinutes": 15,
+    "published": true,
+    "employee": 123,
+    "publishedBy": 123,
+    "vendor": 123,
+    "position": 123,
+    "summary": 123,
+    "modifiedOn": "string",
+    "lastModified": "string",
+    "notified": true,
+    "acknowledged": true,
+    "viewed": true,
+    "locked": true,
+    "plannedDurationHours": 0,
+    "plannedPayableHours": 0,
+    "clockedHours": 0,
+    "approvedHours": 0,
+    "billableHours": 0,
+    "payableHours": 0,
+    "payRateLevel": "string",
+    "payRate": 0,
+    "billRate": 0,
+    "attendanceStatus": "SCHEDULED",
+    "overtimeHours": 0,
+    "paidAmount": 0,
+    "billedAmount": 0,
+    "holidayHours": 0,
+    "payCodeLabel": 123,
+    "effectivePayCodeLabel": 123,
+    "breakRuleComplianceLog": 123,
+    "id": 12345,
+    "uri": "http://example.com",
+    "resourceType": "string",
+    "createdBy": 123,
+    "createdOn": "string",
+    "updatedBy": 123,
+    "updatedOn": "string",
+    "timeZone": "string"
+  }
+]
+
+===================================================================
+query Parameters
+filters
+required
+object non-empty
+Example of a required filter using the id property: id:in=123,456.
+
+At least one of the filters (on properties or scope) is required. Pseudo filters :in and :between can be used in the filters on properties. For the properties of type date-time the maximum range for the :between pseudo filter is 1 month. For the pseudo filter :in the maximum allowed number of separated values by comma is 100.
+
+limit	
+integer <int32>
+Example: limit=100
+The collection items limit
+
+offset	
+integer <int32>
+Example: offset=50
+The collection items offset
+
+fields	
+string
+Example: fields=id,customId,firstName:FIRST
+List of fields you want returned separated by a coma. You can alias the returned field by adding the alias after a column
+
+include	
+string
+Example: include=region
+Expand response to get full related object instead of ID. See the expand guide for more info.
+
+sort	
+Array of strings
+Example: sort=-id
+The collection items sort field and order (prefix with "-" for descending sort].
+
+q	
+string
+Example: q=tracktik
+Global search for the object
+
+[att]	
+string
+Filter any attribute by its value. You can search sub-objects by using the qualified attribute name.
+
+[att]:in	
+string
+Example: [att]:in=1,2,3
+Filter the collection by attribute list.
+
+[att]:contains	
+string
+Search a specific attribute partially
+
+includeInactive	
+string
+Example: includeInactive=true
+Return the list of inactive objects in the results. By default only active objects are returned
+
+scope	
+string
+Enum: "HAS_HOLIDAY" "HAS_OVERTIME" "CURRENTLY_LATE" "IS_CURRENT" "IS_ACKNOWLEDGED" "NOT_ACKNOWLEDGED" "VACANT" "PUBLISHED" "NOT_PUBLISHED" "NOT_VACANT" "NEEDS_APPROVAL" "WAS_MISSED" "WAS_LATE" "ENDED_EARLY" "CAN_CLOCK_IN" "IS_WORKABLE" "MY_AVAILABLE_SHIFT_BOARD" "ON_SHIFT_BOARD" "IN_THE_FUTURE" "NEW" "UPDATED" "NOT_VIEWED" "HAS_INCOMPLETE_BREAKS" "IS_LONE_WORKER"
+List of scope that could be applied to the collection. You can apply multiple scopes separated by a coma.
+
+id	
+string
+Custom filter that could be applied to the collection. Filter by id
+
+idIn	
+string
+Custom filter that could be applied to the collection. Filter by a list of ids, seperated by a comma.
+====================================================================
+Responses
+200
+Shifts collection
+
+Response Schema: application/json
+Array 
+status	
+string
+Default: "ACTIVE"
+Enum: "CANCELLED" "ACTIVE"
+If the shift is active or cancelled
+
+customId	
+string [ 0 .. 255 ] characters
+Shift Custom ID
+
+billable	
+boolean
+Default: true
+If the shift is billable or non-billable
+
+payable	
+boolean
+Default: true
+If the shift is payable or non-payable
+
+paidTimeOff	
+boolean
+Default: false
+If the shift is paid time off or not
+
+vacant	
+boolean
+If the shift is vacant
+
+onShiftBoard	
+boolean
+If the shift is available on Open Shifts
+
+startDateTime	
+string <date-time>
+Start of the shift expressed according to ISO 8601. Complete date plus hours and minutes: YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00). Note: The value is stored in UTC and the response will also be in UTC.
+
+startsOn	
+string
+Start timestamp in UTC
+
+startTimestamp	
+integer
+Deprecated
+This field was deprecated in favor of startsOn
+
+endDateTime	
+string <date-time>
+End of the shift expressed according to ISO 8601. Complete date plus hours and minutes: YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00). Note: The value is stored in UTC and the response will also be in UTC.
+
+endsOn	
+string
+End timestamp in UTC
+
+endTimestamp	
+integer
+Deprecated
+This field was deprecated in favor of endsOn
+
+breakInMinutes	
+number >= 1
+The number of minuted allocated for breaks
+
+published	
+boolean
+If the shift is published and viewable by employees
+
+employee	
+integer
+The employee assigned to the shift
+
+publishedBy	
+integer
+The user who published the shift
+
+vendor	
+integer
+The vendor assigned to the shift
+
+position	
+integer
+The work post where the shift is scheduled
+
+summary	
+integer
+Summary
+
+modifiedOn	
+string
+Last Modified
+
+lastModified	
+string
+Deprecated
+This field was deprecated in favor of modifiedOn
+
+notified	
+boolean
+Last version of the shift has been sent by the employee
+
+acknowledged	
+boolean
+Last version of the shift has been acknowledged by the employee
+
+viewed	
+boolean
+Last version has been viewed by the shift's owner
+
+locked	
+boolean
+Shift is locked and cannot be modified
+
+plannedDurationHours	
+number
+Duration in hours
+
+plannedPayableHours	
+number
+Shift planned payable hours, breaks removed when they are not payable
+
+clockedHours	
+number
+Shift clocked raw hours from all work sessions
+
+approvedHours	
+number
+Shift approved hours. Use action approve to set this value
+
+billableHours	
+number
+Shift billable hours, breaks removed when they are not billable. Use action approve to set this value
+
+payableHours	
+number
+Shift payable hours, breaks removed when they are not payable. Use action approve to set this value
+
+payRateLevel	
+string [ 0 .. 255 ] characters
+Pay rate levels: NOT_PAYABLE, SHIFT_RATE, EMPLOYEE_MATRIX_RATE, POSITION_RATE, SITE_USER_RATE, EMPLOYEE_RATE, SYSTEM_DEFAULT, MISSING
+
+payRate	
+number
+Pay rate for the shift. Changing this value will also change the payRateLevel to SHIFT_RATE
+
+billRate	
+number
+Bill rate for the shift.
+
+attendanceStatus	
+string [ 0 .. 255 ] characters
+Enum: "SCHEDULED" "LATE" "IN_PROGRESS" "ON_BREAK" "MISSED" "COMPLETED" "OVER_CLOCK" "EARLY_CLOCK_OUT" "PTO"
+Attendance Status
+
+overtimeHours	
+number
+Overtime Hours
+
+paidAmount	
+number
+Paid
+
+billedAmount	
+number
+Billed
+
+holidayHours	
+number
+Holiday Hours
+
+payCodeLabel	
+integer
+Pay Code used as a label
+
+effectivePayCodeLabel	
+integer
+Pay Code used as a label. It will also show the relation when it uses from the position.
+
+breakRuleComplianceLog	
+integer
+Break Rule Compliance Log
+
+id	
+integer
+System ID
+
+uri	
+string <uri>
+Object URI
+
+resourceType	
+string [ 0 .. 255 ] characters
+Resource Type
+
+createdBy	
+integer
+Created By
+
+createdOn	
+string
+Created On
+
+updatedBy	
+integer
+Last Updated By
+
+updatedOn	
+string
+Last Updated On
+
+timeZone	
+string [ 0 .. 255 ] characters
+Time Zone
+
+]

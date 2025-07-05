@@ -1,6 +1,7 @@
 # etl/tracktik_client.py
 """
 TrackTik API Client with authentication and retry logic
+UPDATED WITH get_regions() method and improved error handling
 """
 import time
 import logging
@@ -71,9 +72,6 @@ class TrackTikClient:
             'Authorization': f'Bearer {self.access_token}',
             'Accept': 'application/json'
         }
-    def get_regions(self, **params) -> List[Dict]:
-        """Get regions"""
-        return self.get_paginated_data('/rest/v1/regions', params)
 
     def get_paginated_data(self, endpoint: str, params: Dict[str, Any] = None) -> List[Dict]:
         """
@@ -182,10 +180,75 @@ class TrackTikClient:
         """Get all clients/sites"""
         return self.get_paginated_data('/rest/v1/clients', kwargs)
         
-    def get_positions(self, **kwargs) -> List[Dict]:
-        """Get all positions"""
+    def get_positions(self, account_id: int = None, **kwargs) -> List[Dict]:
+        """Get all positions, optionally filtered by account/client ID"""
         params = {
             'include': 'account',
             **kwargs
         }
+        
+        # Add account filter if specified
+        if account_id:
+            params['account.id'] = account_id
+            
         return self.get_paginated_data('/rest/v1/positions', params)
+    
+    def get_regions(self, **kwargs) -> List[Dict]:
+        """Get all regions from TrackTik API"""
+        params = {
+            'include': 'parentRegion',  # Include parent region data
+            **kwargs
+        }
+        return self.get_paginated_data('/rest/v1/regions', params)
+    
+    def get_specific_shift(self, shift_id: int) -> Dict:
+        """Get a specific shift by ID with full details"""
+        endpoint = f'/rest/v1/shifts/{shift_id}'
+        params = {
+            'include': 'employee,position,account,summary'
+        }
+        
+        response = self.session.get(
+            f"{self.base_url}{endpoint}",
+            headers=self._get_headers(),
+            params=params
+        )
+        response.raise_for_status()
+        
+        data = response.json()
+        return data.get('data', {})
+    
+    def test_connection(self) -> bool:
+        """Test API connection and authentication"""
+        try:
+            # Try to get a small amount of data
+            response = self.session.get(
+                f"{self.base_url}/rest/v1/employees",
+                headers=self._get_headers(),
+                params={'limit': 1}
+            )
+            response.raise_for_status()
+            
+            data = response.json()
+            logger.info("✅ TrackTik API connection test successful")
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ TrackTik API connection test failed: {e}")
+            return False
+    
+    def get_account_info(self) -> Dict:
+        """Get information about the current account/company"""
+        try:
+            response = self.session.get(
+                f"{self.base_url}/rest/v1/account",
+                headers=self._get_headers()
+            )
+            response.raise_for_status()
+            
+            data = response.json()
+            return data.get('data', {})
+            
+        except Exception as e:
+            logger.error(f"Failed to get account info: {e}")
+            return {}

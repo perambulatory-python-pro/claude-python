@@ -1,0 +1,101 @@
+[{
+  "column_name": "shift_id",
+  "data_type": "bigint",
+  "is_nullable": "NO"
+}, {
+  "column_name": "billing_period_id",
+  "data_type": "character varying",
+  "is_nullable": "NO"
+}, {
+  "column_name": "employee_id",
+  "data_type": "integer",
+  "is_nullable": "NO"
+}, {
+  "column_name": "position_id",
+  "data_type": "integer",
+  "is_nullable": "NO"
+}, {
+  "column_name": "client_id",
+  "data_type": "integer",
+  "is_nullable": "NO"
+}, {
+  "column_name": "shift_date",
+  "data_type": "date",
+  "is_nullable": "NO"
+}, {
+  "column_name": "start_datetime",
+  "data_type": "timestamp with time zone",
+  "is_nullable": "NO"
+}, {
+  "column_name": "end_datetime",
+  "data_type": "timestamp with time zone",
+  "is_nullable": "NO"
+}, {
+  "column_name": "scheduled_hours",
+  "data_type": "numeric",
+  "is_nullable": "YES"
+}, {
+  "column_name": "clocked_hours",
+  "data_type": "numeric",
+  "is_nullable": "YES"
+}, {
+  "column_name": "approved_hours",
+  "data_type": "numeric",
+  "is_nullable": "YES"
+}, {
+  "column_name": "billable_hours",
+  "data_type": "numeric",
+  "is_nullable": "YES"
+}, {
+  "column_name": "payable_hours",
+  "data_type": "numeric",
+  "is_nullable": "YES"
+}, {
+  "column_name": "bill_rate_regular",
+  "data_type": "numeric",
+  "is_nullable": "YES"
+}, {
+  "column_name": "bill_rate_effective",
+  "data_type": "numeric",
+  "is_nullable": "YES"
+}, {
+  "column_name": "bill_overtime_hours",
+  "data_type": "numeric",
+  "is_nullable": "YES"
+}, {
+  "column_name": "bill_overtime_impact",
+  "data_type": "numeric",
+  "is_nullable": "YES"
+}, {
+  "column_name": "bill_total",
+  "data_type": "numeric",
+  "is_nullable": "YES"
+}, {
+  "column_name": "status",
+  "data_type": "character varying",
+  "is_nullable": "YES"
+}, {
+  "column_name": "approved_by",
+  "data_type": "integer",
+  "is_nullable": "YES"
+}, {
+  "column_name": "approved_at",
+  "data_type": "timestamp with time zone",
+  "is_nullable": "YES"
+}, {
+  "column_name": "raw_data",
+  "data_type": "jsonb",
+  "is_nullable": "YES"
+}, {
+  "column_name": "created_at",
+  "data_type": "timestamp with time zone",
+  "is_nullable": "YES"
+}, {
+  "column_name": "updated_at",
+  "data_type": "timestamp with time zone",
+  "is_nullable": "YES"
+}, {
+  "column_name": "etl_batch_id",
+  "data_type": "uuid",
+  "is_nullable": "YES"
+}]

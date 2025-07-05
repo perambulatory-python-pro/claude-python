@@ -1,0 +1,95 @@
+=== FINAL SHIFT ANALYSIS ===
+
+Test 1: Getting shifts WITHOUT include parameter...
+
+Shift 1:
+  ID: 1079011
+  Status: ACTIVE
+  Account: None
+  Position: 2045
+  Employee: 3212
+  Start: 2025-05-30T00:00:00-04:00
+  End: 2025-05-30T05:00:00-04:00
+
+Full structure of first shift:
+{
+  "status": "ACTIVE",
+  "billable": true,
+  "payable": true,
+  "paidTimeOff": false,
+  "vacant": false,
+  "onShiftBoard": false,
+  "timeZone": "America/New_York",
+  "startDateTime": "2025-05-30T00:00:00-04:00",
+  "endDateTime": "2025-05-30T05:00:00-04:00",
+  "breakInMinutes": 0,
+  "published": true,
+  "employee": 3212,
+  "vendor": null,
+  "position": 2045,
+  "summary": 1079011,
+  "notified": false,
+  "acknowledged": false,
+  "viewed": false,
+  "locked": true,
+  "plannedPayableHours": 5,
+  "attendanceStatus": "COMPLETED",
+  "payCodeLabel": null,
+  "breakRuleComplianceLog": null,
+  "id": 1079011
+}
+
+Shift 2:
+  ID: 1079013
+  Status: ACTIVE
+  Account: None
+  Position: 2045
+  Employee: 2403
+  Start: 2025-05-30T00:00:00-04:00
+  End: 2025-05-30T07:18:00-04:00
+
+Shift 3:
+  ID: 1079046
+  Status: ACTIVE
+  Account: None
+  Position: 2231
+  Employee: 2132
+  Start: 2025-05-30T00:00:00-04:00
+  End: 2025-05-30T08:10:00-04:00
+
+Shift 4:
+  ID: 1079047
+  Status: ACTIVE
+  Account: None
+  Position: 2231
+  Employee: 2775
+  Start: 2025-05-30T00:00:00-04:00
+  End: 2025-05-30T08:18:00-04:00
+
+Shift 5:
+  ID: 1079057
+  Status: ACTIVE
+  Account: None
+  Position: 2089
+  Employee: 2943
+  Start: 2025-05-30T00:00:00-04:00
+  End: 2025-05-30T05:30:00-04:00
+
+
+Test 2: Getting N California shifts (region 274)...
+  Total N California shifts: 4345
+  Unique positions in sample: 6
+  Unique employees in sample: 10
+  Sample position IDs: [3700, 4020, 4340, 4375, 4217]
+  Sample employee IDs: [3457, 3459, 4551, 3948, 5649]
+
+
+Test 3: Checking shifts for all KAISER regions...
+  N California (274): 4345 shifts
+  S California (275): 19746 shifts
+  Hawaii (276): 617 shifts
+  Washington (277): 1108 shifts
+  Colorado (278): 798 shifts
+  Georgia (279): 820 shifts
+  MidAtlantic (282): 2201 shifts
+  Northwest (1029): 62 shifts
