@@ -19,7 +19,10 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler(f'logs/kaiser_billing_{datetime.now():%Y%m%d_%H%M%S}.log'),
+        logging.FileHandler(
+            f'logs/kaiser_billing_{datetime.now():%Y%m%d_%H%M%S}.log',
+            encoding='utf-8'  # Add this!
+        ),
         logging.StreamHandler(sys.stdout)
     ]
 )
