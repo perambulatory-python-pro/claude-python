@@ -1,0 +1,1704 @@
+2025-07-05 11:35:31,747 - tracktik_etl.etl.etl_pipeline - INFO - Starting KAISER billing period processing: 2025_03
+2025-07-05 11:35:31,955 - tracktik_etl.etl.models - INFO - Created ETL batch 0c32d3de-caa6-4c09-b968-d0e18039d534 for KAISER_BILLING_2025_03
+2025-07-05 11:35:31,956 - tracktik_etl.etl.etl_pipeline - INFO - Loading KAISER region mapping from database...
+2025-07-05 11:35:32,026 - tracktik_etl.etl.etl_pipeline - INFO - Loaded 9 KAISER regions from database
+2025-07-05 11:35:32,026 - tracktik_etl.etl.etl_pipeline - INFO - 
+==================================================
+2025-07-05 11:35:32,027 - tracktik_etl.etl.etl_pipeline - INFO - Processing region: N California
+2025-07-05 11:35:32,027 - tracktik_etl.etl.etl_pipeline - INFO - ==================================================
+2025-07-05 11:35:32,027 - tracktik_etl.etl.etl_pipeline - INFO - Loading shifts for N California, period 2025_03 (2025-01-24 to 2025-02-06)
+2025-07-05 11:35:32,027 - tracktik_etl.etl.etl_pipeline - INFO - Getting clients for KAISER region: N California (ID: 274)
+2025-07-05 11:35:32,846 - tracktik_etl.etl.tracktik_client - INFO - Successfully authenticated with TrackTik API
+2025-07-05 11:35:33,278 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-05 11:35:36,978 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-05 11:35:36,978 - tracktik_etl.etl.etl_pipeline - INFO - Found 188 clients in N California
+2025-07-05 11:35:36,978 - tracktik_etl.etl.etl_pipeline - INFO - Loading dimensions for region: N California
+2025-07-05 11:35:36,978 - tracktik_etl.etl.etl_pipeline - INFO -   Loading 188 clients...
+2025-07-05 11:35:47,337 - tracktik_etl.etl.database - INFO - Dimension dim_clients: {'inserted': 0, 'updated': 188, 'unchanged': 0}
+2025-07-05 11:35:47,338 - tracktik_etl.etl.etl_pipeline - INFO -   Clients: {'inserted': 0, 'updated': 188, 'unchanged': 0}
+2025-07-05 11:35:47,338 - tracktik_etl.etl.etl_pipeline - INFO -   Loading positions for 188 clients...
+2025-07-05 11:35:47,637 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:47,638 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:47,921 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:47,922 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:48,210 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:48,210 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:48,478 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:48,478 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:48,762 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:48,763 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:48,997 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:48,998 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:49,265 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:49,266 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:49,554 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:49,555 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:49,794 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:49,794 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:50,028 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:50,028 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:50,313 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:50,313 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:50,592 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:50,593 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:50,869 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:50,870 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:51,150 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:51,150 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:51,417 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:51,418 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:51,701 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:51,702 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:51,987 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:51,988 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:52,237 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:52,238 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:52,502 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:52,502 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:52,744 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:52,745 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:53,014 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:53,015 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:53,313 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:53,313 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:53,583 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:53,583 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:53,853 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:53,854 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:54,085 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:54,086 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:54,384 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:54,384 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:54,649 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:54,650 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:54,880 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:35:54,881 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:35:55,157 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:35:55,157 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:35:55,454 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:35:55,454 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:35:55,714 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:35:55,714 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:35:55,977 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:35:55,978 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:35:56,213 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:35:56,213 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:35:56,498 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 14 total records
+2025-07-05 11:35:56,498 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 14 records from /rest/v1/positions
+2025-07-05 11:35:56,778 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 15 total records
+2025-07-05 11:35:56,778 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 15 records from /rest/v1/positions
+2025-07-05 11:35:57,075 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 21 total records
+2025-07-05 11:35:57,075 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 21 records from /rest/v1/positions
+2025-07-05 11:35:57,361 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:35:57,362 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:35:57,607 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 14 total records
+2025-07-05 11:35:57,608 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 14 records from /rest/v1/positions
+2025-07-05 11:35:57,853 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 11 total records
+2025-07-05 11:35:57,853 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/positions
+2025-07-05 11:35:58,130 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 11 total records
+2025-07-05 11:35:58,131 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/positions
+2025-07-05 11:35:58,416 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 27 total records
+2025-07-05 11:35:58,417 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 27 records from /rest/v1/positions
+2025-07-05 11:35:58,698 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 21 total records
+2025-07-05 11:35:58,698 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 21 records from /rest/v1/positions
+2025-07-05 11:35:58,953 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 27 total records
+2025-07-05 11:35:58,954 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 27 records from /rest/v1/positions
+2025-07-05 11:35:59,213 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 35 total records
+2025-07-05 11:35:59,214 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 35 records from /rest/v1/positions
+2025-07-05 11:35:59,527 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 25 total records
+2025-07-05 11:35:59,527 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 25 records from /rest/v1/positions
+2025-07-05 11:35:59,818 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 9 total records
+2025-07-05 11:35:59,819 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 9 records from /rest/v1/positions
+2025-07-05 11:36:00,082 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 21 total records
+2025-07-05 11:36:00,082 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 21 records from /rest/v1/positions
+2025-07-05 11:36:00,385 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:36:00,386 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:36:00,684 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 25 total records
+2025-07-05 11:36:00,685 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 25 records from /rest/v1/positions
+2025-07-05 11:36:00,937 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 22 total records
+2025-07-05 11:36:00,938 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 22 records from /rest/v1/positions
+2025-07-05 11:36:01,236 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:36:01,237 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:36:01,507 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 31 total records
+2025-07-05 11:36:01,507 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 31 records from /rest/v1/positions
+2025-07-05 11:36:01,765 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 40 total records
+2025-07-05 11:36:01,766 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 40 records from /rest/v1/positions
+2025-07-05 11:36:02,075 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 21 total records
+2025-07-05 11:36:02,075 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 21 records from /rest/v1/positions
+2025-07-05 11:36:02,377 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:02,378 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:02,638 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 24 total records
+2025-07-05 11:36:02,638 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 24 records from /rest/v1/positions
+2025-07-05 11:36:02,958 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 28 total records
+2025-07-05 11:36:02,958 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 28 records from /rest/v1/positions
+2025-07-05 11:36:03,254 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 20 total records
+2025-07-05 11:36:03,254 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 20 records from /rest/v1/positions
+2025-07-05 11:36:03,556 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 12 total records
+2025-07-05 11:36:03,556 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 12 records from /rest/v1/positions
+2025-07-05 11:36:03,800 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:36:03,800 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:36:04,069 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:36:04,069 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:36:04,359 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:36:04,359 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:36:04,629 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:36:04,630 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:36:04,923 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:04,923 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:05,193 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:05,193 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:05,481 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:05,481 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:05,730 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:05,731 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:06,012 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:06,013 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:06,247 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:06,247 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:06,537 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:06,537 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:06,780 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:06,781 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:07,049 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:07,050 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:07,339 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:07,339 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:07,611 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:07,611 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:07,898 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:07,899 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:08,169 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:08,170 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:08,420 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:08,421 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:08,699 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:08,700 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:08,940 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:08,940 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:09,232 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:09,232 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:09,515 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:09,515 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:09,787 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:09,788 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:10,072 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:10,073 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:10,317 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:10,318 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:10,603 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:10,604 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:10,896 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:10,897 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:11,166 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:11,166 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:11,413 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:11,413 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:11,685 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:11,685 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:11,949 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:11,950 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:12,236 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:12,236 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:12,510 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:12,511 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:12,757 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:12,758 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:13,025 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:13,025 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:13,307 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:13,308 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:13,580 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:13,580 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:13,875 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:13,876 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:14,362 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:14,362 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:14,604 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:14,604 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:14,895 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:14,896 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:15,175 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:15,175 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:15,418 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:15,419 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:15,708 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:15,708 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:15,963 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:15,963 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:16,236 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:16,236 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:16,483 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:16,483 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:16,765 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:16,766 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:17,012 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:17,012 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:17,296 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:17,297 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:17,576 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:17,576 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:17,860 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:17,860 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:18,144 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:18,144 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:18,411 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:18,412 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:18,684 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:36:18,685 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:36:18,930 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:18,931 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:19,201 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:19,202 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:19,475 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:19,476 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:19,764 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:19,764 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:20,062 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:20,062 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:20,335 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:20,335 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:20,572 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:20,573 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:20,840 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:20,841 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:21,127 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:21,128 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:21,383 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:21,383 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:21,622 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:21,622 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:21,910 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:21,911 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:22,148 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:22,148 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:22,419 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:22,419 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:22,661 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:22,661 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:22,948 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:22,948 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:23,223 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:23,224 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:23,465 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:36:23,466 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:36:23,730 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:36:23,730 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:36:24,032 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:36:24,033 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:36:24,304 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:24,305 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:24,590 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:24,590 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:24,840 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:24,840 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:25,080 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:25,080 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:25,382 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:25,382 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:25,623 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:25,623 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:25,907 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:25,907 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:26,235 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:26,236 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:26,518 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:26,518 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:26,765 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:26,765 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:27,060 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:27,060 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:27,339 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:27,339 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:27,588 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:27,588 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:27,863 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:27,863 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:28,200 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:28,201 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:28,494 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:28,494 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:28,772 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:28,772 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:29,056 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:29,056 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:29,357 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:29,358 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:29,647 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:29,648 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:29,917 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:29,917 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:30,160 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:30,161 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:30,439 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:30,439 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:30,735 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:30,736 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:31,044 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:31,044 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:31,304 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:31,305 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:31,575 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:31,575 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:31,868 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:31,869 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:32,156 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:32,156 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:32,430 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:32,430 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:32,714 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:32,715 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:32,962 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:32,962 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:33,257 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:33,258 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:33,507 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:33,507 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:33,793 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:33,794 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:34,062 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:34,063 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:34,331 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:34,332 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:34,584 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:34,584 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:34,829 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:34,829 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:35,097 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:35,097 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:35,338 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:35,339 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:35,605 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:35,605 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:35,846 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:35,846 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:36,119 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:36:36,119 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:36:36,407 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:36,408 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:36,675 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:36,675 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:36,959 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:36,959 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:37,257 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:36:37,257 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:36:37,531 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:37,531 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:37,786 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:36:37,787 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:36:38,029 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:38,030 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:38,321 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:38,322 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:38,566 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:36:38,567 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:36:38,847 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:36:38,848 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:36:38,848 - tracktik_etl.etl.etl_pipeline - INFO -   Loading 1034 positions...
+2025-07-05 11:37:17,684 - tracktik_etl.etl.database - INFO - Dimension dim_positions: {'inserted': 0, 'updated': 0, 'unchanged': 1034}
+2025-07-05 11:37:17,684 - tracktik_etl.etl.etl_pipeline - INFO -   Positions: {'inserted': 0, 'updated': 0, 'unchanged': 1034}
+2025-07-05 11:37:17,685 - tracktik_etl.etl.etl_pipeline - INFO - Retrieving shifts for region N California (ID: 274)
+2025-07-05 11:37:18,416 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/shifts: 4182 total records
+2025-07-05 11:37:52,603 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4182 records from /rest/v1/shifts
+2025-07-05 11:37:52,603 - tracktik_etl.etl.etl_pipeline - INFO - Retrieved 4182 shifts for N California
+2025-07-05 11:37:52,605 - tracktik_etl.etl.etl_pipeline - INFO - Found 388 unique employees and 154 unique positions
+2025-07-05 11:37:52,699 - tracktik_etl.etl.etl_pipeline - INFO -   Found 4 new employees not in dim_employees
+2025-07-05 11:37:52,699 - tracktik_etl.etl.etl_pipeline - INFO -   Creating minimal employee records: [3896, 4436, 4413, 4359]...
+2025-07-05 11:37:52,699 - tracktik_etl.etl.models - INFO - Processing 4 employees with SCD Type 2
+2025-07-05 11:37:52,921 - tracktik_etl.etl.database - INFO - Dimension dim_employees: {'inserted': 4, 'updated': 0, 'unchanged': 0}
+2025-07-05 11:37:52,921 - tracktik_etl.etl.etl_pipeline - INFO - Created 4 new minimal employee records, updated 0 existing records
+2025-07-05 11:37:52,921 - tracktik_etl.etl.etl_pipeline - INFO -   Created 4 minimal employee records
+2025-07-05 11:37:52,922 - tracktik_etl.etl.etl_pipeline - INFO -   Processed 388 employees (384 existing, 4 new)
+2025-07-05 11:37:52,922 - tracktik_etl.etl.models - INFO - Processing 388 employees with SCD Type 2
+2025-07-05 11:37:53,017 - tracktik_etl.etl.models - ERROR - Error in DimEmployee.upsert: conflicting key value violates exclusion constraint "no_overlap_employee"
+DETAIL:  Key (employee_id, tstzrange(valid_from, valid_to))=(4137, ["2025-07-05 11:37:52.922928+00",)) conflicts with existing key (employee_id, tstzrange(valid_from, valid_to))=(4137, ["2025-07-05 02:53:11.446807+00","2025-07-05 15:37:52.937649+00")).
+
+2025-07-05 11:37:53,018 - tracktik_etl.etl.etl_pipeline - INFO -   Employees processed: 388
+2025-07-05 11:37:53,091 - tracktik_etl.etl.etl_pipeline - INFO - Loaded client mapping for 152 positions
+2025-07-05 11:37:53,092 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 3758 in shift 751943
+2025-07-05 11:37:53,092 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 3759 in shift 751991
+2025-07-05 11:37:53,092 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 3758 in shift 798500
+2025-07-05 11:37:53,093 - tracktik_etl.etl.etl_pipeline - WARNING - Filtered out 47 shifts due to missing employee or client references
+2025-07-05 11:37:53,094 - tracktik_etl.etl.database - INFO - Inserting 4135 records into fact_shifts partition 2025_03
+2025-07-05 11:37:54,398 - tracktik_etl.etl.database - INFO - Inserted 4135 total records into fact_shifts
+2025-07-05 11:37:54,398 - tracktik_etl.etl.etl_pipeline - INFO - Inserted 4135 shifts for N California
+2025-07-05 11:37:54,401 - tracktik_etl.etl.etl_pipeline - INFO - ✅ N California complete: 4135 shifts
+2025-07-05 11:37:54,401 - tracktik_etl.etl.etl_pipeline - INFO - 
+==================================================
+2025-07-05 11:37:54,401 - tracktik_etl.etl.etl_pipeline - INFO - Processing region: S California
+2025-07-05 11:37:54,401 - tracktik_etl.etl.etl_pipeline - INFO - ==================================================
+2025-07-05 11:37:54,401 - tracktik_etl.etl.etl_pipeline - INFO - Loading shifts for S California, period 2025_03 (2025-01-24 to 2025-02-06)
+2025-07-05 11:37:54,401 - tracktik_etl.etl.etl_pipeline - INFO - Getting clients for KAISER region: S California (ID: 275)
+2025-07-05 11:37:54,765 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-05 11:37:58,361 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-05 11:37:58,362 - tracktik_etl.etl.etl_pipeline - INFO - Found 265 clients in S California
+2025-07-05 11:37:58,362 - tracktik_etl.etl.etl_pipeline - INFO - Loading dimensions for region: S California
+2025-07-05 11:37:58,362 - tracktik_etl.etl.etl_pipeline - INFO -   Loading 265 clients...
+2025-07-05 11:38:14,385 - tracktik_etl.etl.database - INFO - Dimension dim_clients: {'inserted': 0, 'updated': 265, 'unchanged': 0}
+2025-07-05 11:38:14,386 - tracktik_etl.etl.etl_pipeline - INFO -   Clients: {'inserted': 0, 'updated': 265, 'unchanged': 0}
+2025-07-05 11:38:14,386 - tracktik_etl.etl.etl_pipeline - INFO -   Loading positions for 265 clients...
+2025-07-05 11:38:14,634 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:14,635 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:14,939 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:14,939 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:15,211 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:15,211 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:15,495 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:15,496 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:15,759 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:15,759 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:16,031 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:16,031 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:16,318 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:16,319 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:16,599 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:16,600 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:16,863 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:16,863 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:17,164 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:17,165 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:17,411 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:17,411 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:17,698 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:17,698 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:17,930 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:17,930 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:18,199 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:18,199 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:18,482 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:18,483 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:18,748 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:18,749 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:19,027 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:19,027 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:19,307 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:19,307 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:19,552 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:19,552 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:19,827 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:19,827 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:20,105 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:20,106 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:20,389 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:20,389 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:20,669 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:20,669 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:20,962 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:38:20,963 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:38:21,268 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 37 total records
+2025-07-05 11:38:21,268 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 37 records from /rest/v1/positions
+2025-07-05 11:38:21,522 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 26 total records
+2025-07-05 11:38:21,522 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 26 records from /rest/v1/positions
+2025-07-05 11:38:21,794 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:38:21,795 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:38:22,035 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:38:22,036 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:38:22,311 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:38:22,311 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:38:22,604 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:38:22,604 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:38:22,839 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:22,839 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:23,112 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:38:23,113 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:38:23,398 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:23,399 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:23,689 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:23,690 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:23,927 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:38:23,927 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:38:24,210 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:38:24,210 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:38:24,546 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 83 total records
+2025-07-05 11:38:24,546 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 83 records from /rest/v1/positions
+2025-07-05 11:38:24,785 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:24,785 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:25,021 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:25,021 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:25,290 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:38:25,290 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:38:25,574 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:25,574 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:25,860 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 26 total records
+2025-07-05 11:38:25,860 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 26 records from /rest/v1/positions
+2025-07-05 11:38:26,101 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:38:26,102 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:38:26,380 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:26,380 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:26,681 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:38:26,681 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:38:26,950 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:26,951 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:27,195 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:27,195 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:27,473 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:27,473 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:27,775 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 9 total records
+2025-07-05 11:38:27,775 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 9 records from /rest/v1/positions
+2025-07-05 11:38:28,020 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:38:28,020 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:38:28,296 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 12 total records
+2025-07-05 11:38:28,297 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 12 records from /rest/v1/positions
+2025-07-05 11:38:28,600 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 23 total records
+2025-07-05 11:38:28,600 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 23 records from /rest/v1/positions
+2025-07-05 11:38:28,839 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:28,839 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:29,139 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:29,139 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:29,391 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 24 total records
+2025-07-05 11:38:29,391 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 24 records from /rest/v1/positions
+2025-07-05 11:38:29,682 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 25 total records
+2025-07-05 11:38:29,682 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 25 records from /rest/v1/positions
+2025-07-05 11:38:29,934 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:29,935 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:30,224 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:38:30,225 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:38:30,468 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:30,468 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:30,738 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:30,738 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:31,044 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:31,045 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:31,334 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:38:31,334 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:38:31,617 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:38:31,618 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:38:31,887 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:31,887 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:32,120 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:32,120 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:32,397 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:32,398 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:32,641 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:38:32,642 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:38:32,925 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:32,926 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:33,158 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:38:33,158 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:38:33,461 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 18 total records
+2025-07-05 11:38:33,461 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 18 records from /rest/v1/positions
+2025-07-05 11:38:33,746 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 25 total records
+2025-07-05 11:38:33,747 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 25 records from /rest/v1/positions
+2025-07-05 11:38:33,982 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:33,982 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:34,263 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:34,263 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:34,503 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:34,504 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:34,749 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 19 total records
+2025-07-05 11:38:34,749 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 19 records from /rest/v1/positions
+2025-07-05 11:38:35,042 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:38:35,043 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:38:35,283 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:38:35,284 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:38:35,574 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:35,574 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:35,850 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 10 total records
+2025-07-05 11:38:35,850 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 10 records from /rest/v1/positions
+2025-07-05 11:38:36,096 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 20 total records
+2025-07-05 11:38:36,096 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 20 records from /rest/v1/positions
+2025-07-05 11:38:36,402 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 43 total records
+2025-07-05 11:38:36,402 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 43 records from /rest/v1/positions
+2025-07-05 11:38:36,672 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 53 total records
+2025-07-05 11:38:36,672 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 53 records from /rest/v1/positions
+2025-07-05 11:38:36,973 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 51 total records
+2025-07-05 11:38:36,974 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 51 records from /rest/v1/positions
+2025-07-05 11:38:37,273 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 11 total records
+2025-07-05 11:38:37,273 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/positions
+2025-07-05 11:38:37,556 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 16 total records
+2025-07-05 11:38:37,557 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 16 records from /rest/v1/positions
+2025-07-05 11:38:37,866 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 36 total records
+2025-07-05 11:38:37,866 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 36 records from /rest/v1/positions
+2025-07-05 11:38:38,172 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 29 total records
+2025-07-05 11:38:38,172 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 29 records from /rest/v1/positions
+2025-07-05 11:38:38,472 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 31 total records
+2025-07-05 11:38:38,473 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 31 records from /rest/v1/positions
+2025-07-05 11:38:38,795 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 33 total records
+2025-07-05 11:38:38,795 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 33 records from /rest/v1/positions
+2025-07-05 11:38:39,117 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 36 total records
+2025-07-05 11:38:39,118 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 36 records from /rest/v1/positions
+2025-07-05 11:38:39,374 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 32 total records
+2025-07-05 11:38:39,374 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 32 records from /rest/v1/positions
+2025-07-05 11:38:39,655 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 25 total records
+2025-07-05 11:38:39,655 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 25 records from /rest/v1/positions
+2025-07-05 11:38:39,926 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:38:39,926 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:38:40,193 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 39 total records
+2025-07-05 11:38:40,193 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 39 records from /rest/v1/positions
+2025-07-05 11:38:40,467 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 11 total records
+2025-07-05 11:38:40,467 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/positions
+2025-07-05 11:38:40,756 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:40,757 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:41,019 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 32 total records
+2025-07-05 11:38:41,020 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 32 records from /rest/v1/positions
+2025-07-05 11:38:41,257 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:38:41,258 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:38:41,506 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 16 total records
+2025-07-05 11:38:41,506 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 16 records from /rest/v1/positions
+2025-07-05 11:38:41,821 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 30 total records
+2025-07-05 11:38:41,821 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 30 records from /rest/v1/positions
+2025-07-05 11:38:42,067 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:38:42,067 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:38:42,315 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:42,315 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:42,605 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:42,606 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:42,876 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:42,877 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:43,112 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:43,112 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:43,400 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:43,400 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:43,640 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:43,640 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:43,928 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:43,928 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:44,162 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:38:44,162 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:38:44,434 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:38:44,434 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:38:44,674 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:44,675 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:44,945 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:44,945 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:45,186 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:45,186 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:45,471 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:38:45,471 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:38:45,707 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:45,708 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:45,988 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:45,988 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:46,281 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:46,281 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:46,517 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:38:46,517 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:38:46,797 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:46,798 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:47,083 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:38:47,084 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:38:47,318 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:47,318 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:47,600 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:38:47,600 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:38:47,834 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:38:47,835 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:38:48,117 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:48,118 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:48,361 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:48,361 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:48,629 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:48,630 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:48,918 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:48,918 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:49,157 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 10 total records
+2025-07-05 11:38:49,158 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 10 records from /rest/v1/positions
+2025-07-05 11:38:49,427 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:49,427 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:49,716 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:38:49,716 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:38:49,949 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:49,949 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:50,236 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:38:50,236 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:38:50,522 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:50,522 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:50,796 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:50,797 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:51,069 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:51,069 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:51,317 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:51,318 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:51,611 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:51,612 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:51,848 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:51,848 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:52,120 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:52,120 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:52,365 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:52,365 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:52,661 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:52,662 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:52,899 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:38:52,899 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:38:53,173 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:53,174 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:53,457 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:53,458 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:53,759 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:53,759 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:54,000 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:38:54,001 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:38:54,272 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:38:54,272 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:38:54,563 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:54,563 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:54,809 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:54,809 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:55,094 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:55,094 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:55,336 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:55,337 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:55,577 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:55,577 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:55,847 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:55,848 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:56,100 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:56,101 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:56,398 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:56,399 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:56,674 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:56,675 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:56,929 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:38:56,930 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:38:57,172 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:57,172 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:57,443 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 9 total records
+2025-07-05 11:38:57,444 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 9 records from /rest/v1/positions
+2025-07-05 11:38:57,729 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:38:57,730 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:38:58,015 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:38:58,016 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:38:58,292 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:38:58,292 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:38:58,577 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:58,578 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:58,817 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:58,817 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:59,089 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:59,089 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:59,380 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:59,380 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:38:59,669 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:38:59,669 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:38:59,914 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:38:59,914 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:00,189 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:00,190 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:00,433 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:00,433 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:00,703 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:00,704 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:00,994 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:00,994 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:01,247 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:01,247 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:01,523 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:01,523 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:01,763 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:01,763 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:02,062 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:02,063 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:02,375 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:02,376 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:02,615 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:02,616 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:02,898 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:02,898 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:03,189 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 9 total records
+2025-07-05 11:39:03,189 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 9 records from /rest/v1/positions
+2025-07-05 11:39:03,477 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:39:03,478 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:39:03,763 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:03,764 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:04,008 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:04,008 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:04,284 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:04,284 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:04,572 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:04,573 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:04,844 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:39:04,845 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:39:05,118 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:39:05,119 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:39:05,416 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:39:05,416 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:39:05,655 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:05,656 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:05,930 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:05,930 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:06,167 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:06,168 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:06,458 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:06,459 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:06,729 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:06,729 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:07,016 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:07,017 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:07,251 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:07,251 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:07,486 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:39:07,487 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:39:07,756 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:07,756 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:08,040 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:08,040 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:08,274 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:08,275 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:08,563 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:08,563 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:08,804 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:08,804 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:09,085 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:09,086 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:09,373 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:09,373 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:09,613 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:39:09,613 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:39:09,880 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:09,881 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:10,112 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:10,113 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:10,356 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:10,356 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:10,622 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:10,622 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:10,859 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:10,859 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:11,089 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:11,090 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:11,372 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:11,372 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:11,670 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:39:11,670 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:39:11,936 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:39:11,936 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:39:12,232 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:12,232 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:12,501 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:12,501 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:12,738 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:12,738 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:13,014 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:13,014 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:13,289 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:13,290 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:13,580 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:13,580 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:13,865 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:13,865 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:14,146 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:14,147 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:14,436 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:14,437 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:14,680 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:14,680 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:14,917 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 11 total records
+2025-07-05 11:39:14,918 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/positions
+2025-07-05 11:39:15,221 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:39:15,222 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:39:15,499 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:15,499 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:15,747 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:15,747 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:16,053 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:16,054 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:16,319 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:16,320 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:16,556 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:39:16,556 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:39:16,826 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:16,826 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:17,095 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:17,096 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:17,368 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:17,368 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:17,669 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:17,669 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:17,945 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:17,946 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:18,237 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:18,237 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:18,481 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:18,481 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:18,759 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:18,759 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:19,044 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:19,044 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:19,298 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:19,299 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:19,540 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:19,540 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:19,812 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:19,812 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:20,095 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:39:20,095 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:39:20,339 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:20,339 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:20,682 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:39:20,682 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:39:20,916 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:39:20,916 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:39:21,163 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:39:21,163 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:39:21,435 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:39:21,436 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:39:21,726 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:39:21,726 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:39:22,020 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:22,021 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:22,272 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:39:22,273 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:39:22,511 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:22,511 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:22,789 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:39:22,789 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:39:23,036 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 12 total records
+2025-07-05 11:39:23,036 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 12 records from /rest/v1/positions
+2025-07-05 11:39:23,335 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:23,335 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:23,615 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 12 total records
+2025-07-05 11:39:23,616 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 12 records from /rest/v1/positions
+2025-07-05 11:39:23,908 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:23,909 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:24,143 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:24,143 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:24,413 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:24,413 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:24,712 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:39:24,712 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:39:24,982 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:24,982 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:25,236 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:25,236 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:25,511 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:25,511 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:25,780 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:25,780 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:26,068 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:39:26,068 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:39:26,069 - tracktik_etl.etl.etl_pipeline - INFO -   Loading 1882 positions...
+2025-07-05 11:40:36,083 - tracktik_etl.etl.database - INFO - Dimension dim_positions: {'inserted': 0, 'updated': 0, 'unchanged': 1882}
+2025-07-05 11:40:36,084 - tracktik_etl.etl.etl_pipeline - INFO -   Positions: {'inserted': 0, 'updated': 0, 'unchanged': 1882}
+2025-07-05 11:40:36,085 - tracktik_etl.etl.etl_pipeline - INFO - Retrieving shifts for region S California (ID: 275)
+2025-07-05 11:40:36,888 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/shifts: 12367 total records
+2025-07-05 11:42:29,690 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 12367 records from /rest/v1/shifts
+2025-07-05 11:42:29,691 - tracktik_etl.etl.etl_pipeline - INFO - Retrieved 12367 shifts for S California
+2025-07-05 11:42:29,693 - tracktik_etl.etl.etl_pipeline - INFO - Found 1048 unique employees and 405 unique positions
+2025-07-05 11:42:29,867 - tracktik_etl.etl.etl_pipeline - INFO -   Found 12 new employees not in dim_employees
+2025-07-05 11:42:29,867 - tracktik_etl.etl.etl_pipeline - INFO -   Creating minimal employee records: [3009, 3073, 2084, 5351, 4297]...
+2025-07-05 11:42:29,867 - tracktik_etl.etl.models - INFO - Processing 12 employees with SCD Type 2
+2025-07-05 11:42:30,322 - tracktik_etl.etl.database - INFO - Dimension dim_employees: {'inserted': 12, 'updated': 0, 'unchanged': 0}
+2025-07-05 11:42:30,322 - tracktik_etl.etl.etl_pipeline - INFO - Created 12 new minimal employee records, updated 0 existing records
+2025-07-05 11:42:30,323 - tracktik_etl.etl.etl_pipeline - INFO -   Created 12 minimal employee records
+2025-07-05 11:42:30,323 - tracktik_etl.etl.etl_pipeline - INFO -   Processed 1048 employees (1036 existing, 12 new)
+2025-07-05 11:42:30,323 - tracktik_etl.etl.models - INFO - Processing 1048 employees with SCD Type 2
+2025-07-05 11:42:30,419 - tracktik_etl.etl.models - ERROR - Error in DimEmployee.upsert: conflicting key value violates exclusion constraint "no_overlap_employee"
+DETAIL:  Key (employee_id, tstzrange(valid_from, valid_to))=(4096, ["2025-07-05 11:42:30.323988+00",)) conflicts with existing key (employee_id, tstzrange(valid_from, valid_to))=(4096, ["2025-07-05 03:32:16.622828+00","2025-07-05 15:42:30.337367+00")).
+
+2025-07-05 11:42:30,419 - tracktik_etl.etl.etl_pipeline - INFO -   Employees processed: 1048
+2025-07-05 11:42:30,533 - tracktik_etl.etl.etl_pipeline - INFO - Loaded client mapping for 402 positions
+2025-07-05 11:42:30,534 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 265 in shift 806935
+2025-07-05 11:42:30,535 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 265 in shift 832008
+2025-07-05 11:42:30,535 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 265 in shift 806937
+2025-07-05 11:42:30,536 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 641 in shift 792870
+2025-07-05 11:42:30,536 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 225 in shift 831705
+2025-07-05 11:42:30,536 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 265 in shift 836145
+2025-07-05 11:42:30,537 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 265 in shift 805293
+2025-07-05 11:42:30,537 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 265 in shift 837479
+2025-07-05 11:42:30,537 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 265 in shift 837480
+2025-07-05 11:42:30,538 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 265 in shift 837481
+2025-07-05 11:42:30,538 - tracktik_etl.etl.etl_pipeline - WARNING - No client found for position 265 in shift 837482
+2025-07-05 11:42:30,539 - tracktik_etl.etl.etl_pipeline - WARNING - Filtered out 90 shifts due to missing employee or client references
+2025-07-05 11:42:30,540 - tracktik_etl.etl.database - INFO - Inserting 12277 records into fact_shifts partition 2025_03
+2025-07-05 11:42:34,102 - tracktik_etl.etl.database - INFO - Inserted 12277 total records into fact_shifts
+2025-07-05 11:42:34,103 - tracktik_etl.etl.etl_pipeline - INFO - Inserted 12277 shifts for S California
+2025-07-05 11:42:34,112 - tracktik_etl.etl.etl_pipeline - INFO - ✅ S California complete: 12277 shifts
+2025-07-05 11:42:34,112 - tracktik_etl.etl.etl_pipeline - INFO - 
+==================================================
+2025-07-05 11:42:34,112 - tracktik_etl.etl.etl_pipeline - INFO - Processing region: Hawaii
+2025-07-05 11:42:34,112 - tracktik_etl.etl.etl_pipeline - INFO - ==================================================
+2025-07-05 11:42:34,112 - tracktik_etl.etl.etl_pipeline - INFO - Loading shifts for Hawaii, period 2025_03 (2025-01-24 to 2025-02-06)
+2025-07-05 11:42:34,112 - tracktik_etl.etl.etl_pipeline - INFO - Getting clients for KAISER region: Hawaii (ID: 276)
+2025-07-05 11:42:34,516 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-05 11:42:38,258 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-05 11:42:38,259 - tracktik_etl.etl.etl_pipeline - INFO - Found 60 clients in Hawaii
+2025-07-05 11:42:38,259 - tracktik_etl.etl.etl_pipeline - INFO - Loading dimensions for region: Hawaii
+2025-07-05 11:42:38,260 - tracktik_etl.etl.etl_pipeline - INFO -   Loading 60 clients...
+2025-07-05 11:42:41,886 - tracktik_etl.etl.database - INFO - Dimension dim_clients: {'inserted': 0, 'updated': 60, 'unchanged': 0}
+2025-07-05 11:42:41,887 - tracktik_etl.etl.etl_pipeline - INFO -   Clients: {'inserted': 0, 'updated': 60, 'unchanged': 0}
+2025-07-05 11:42:41,887 - tracktik_etl.etl.etl_pipeline - INFO -   Loading positions for 60 clients...
+2025-07-05 11:42:42,145 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:42:42,145 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:42:42,377 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:42:42,377 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:42:42,694 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:42:42,694 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:42:42,971 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:42:42,971 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:42:43,260 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:42:43,260 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:42:43,556 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 37 total records
+2025-07-05 11:42:43,557 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 37 records from /rest/v1/positions
+2025-07-05 11:42:43,854 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 24 total records
+2025-07-05 11:42:43,855 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 24 records from /rest/v1/positions
+2025-07-05 11:42:44,122 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:42:44,123 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:42:44,402 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:42:44,403 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:42:44,684 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:44,685 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:44,968 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:42:44,968 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:42:45,223 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:42:45,224 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:42:45,513 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:42:45,513 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:42:45,788 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:42:45,788 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:42:46,080 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:42:46,080 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:42:46,331 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:42:46,332 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:42:46,623 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:42:46,623 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:42:46,859 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:42:46,859 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:42:47,129 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:42:47,129 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:42:47,407 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:42:47,408 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:42:47,706 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:47,706 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:47,942 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:42:47,942 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:42:48,174 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:42:48,174 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:42:48,447 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:42:48,447 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:42:48,695 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:42:48,696 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:42:48,982 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:48,982 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:49,234 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:42:49,235 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:42:49,553 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 67 total records
+2025-07-05 11:42:49,553 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 67 records from /rest/v1/positions
+2025-07-05 11:42:49,842 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:42:49,843 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:42:50,087 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 11 total records
+2025-07-05 11:42:50,087 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/positions
+2025-07-05 11:42:50,372 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:42:50,372 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:42:50,646 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:50,646 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:50,908 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:42:50,909 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:42:51,201 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:42:51,201 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:42:51,475 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:51,476 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:51,748 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:42:51,749 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:42:52,023 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:42:52,024 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:42:52,265 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:52,265 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:52,547 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:52,548 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:52,837 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:42:52,837 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:42:53,083 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:53,084 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:53,373 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:42:53,373 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:42:53,656 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:42:53,656 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:42:53,941 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:42:53,941 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:42:54,212 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:54,212 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:54,459 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:42:54,459 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:42:54,728 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:42:54,728 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:42:55,019 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 20 total records
+2025-07-05 11:42:55,020 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 20 records from /rest/v1/positions
+2025-07-05 11:42:55,288 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:55,289 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:55,560 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:42:55,561 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:42:55,835 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:42:55,835 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:42:56,070 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:42:56,070 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:42:56,350 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:56,350 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:56,625 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:56,625 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:56,892 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:42:56,892 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:42:57,128 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:42:57,128 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:42:57,399 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:57,400 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:57,667 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:57,668 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:57,942 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:42:57,943 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:42:58,223 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:42:58,224 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:42:58,224 - tracktik_etl.etl.etl_pipeline - INFO -   Loading 307 positions...
+2025-07-05 11:43:09,780 - tracktik_etl.etl.database - INFO - Dimension dim_positions: {'inserted': 0, 'updated': 0, 'unchanged': 307}
+2025-07-05 11:43:09,781 - tracktik_etl.etl.etl_pipeline - INFO -   Positions: {'inserted': 0, 'updated': 0, 'unchanged': 307}
+2025-07-05 11:43:09,782 - tracktik_etl.etl.etl_pipeline - INFO - Retrieving shifts for region Hawaii (ID: 276)
+2025-07-05 11:43:10,362 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/shifts: 693 total records
+2025-07-05 11:43:13,905 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 693 records from /rest/v1/shifts
+2025-07-05 11:43:13,905 - tracktik_etl.etl.etl_pipeline - INFO - Retrieved 693 shifts for Hawaii
+2025-07-05 11:43:13,905 - tracktik_etl.etl.etl_pipeline - INFO - Found 55 unique employees and 50 unique positions
+2025-07-05 11:43:13,958 - tracktik_etl.etl.etl_pipeline - INFO -   Found 8 new employees not in dim_employees
+2025-07-05 11:43:13,958 - tracktik_etl.etl.etl_pipeline - INFO -   Creating minimal employee records: [2945, 2564, 4743, 4487, 5036]...
+2025-07-05 11:43:13,958 - tracktik_etl.etl.models - INFO - Processing 8 employees with SCD Type 2
+2025-07-05 11:43:14,386 - tracktik_etl.etl.database - INFO - Dimension dim_employees: {'inserted': 8, 'updated': 0, 'unchanged': 0}
+2025-07-05 11:43:14,387 - tracktik_etl.etl.etl_pipeline - INFO - Created 8 new minimal employee records, updated 0 existing records
+2025-07-05 11:43:14,387 - tracktik_etl.etl.etl_pipeline - INFO -   Created 8 minimal employee records
+2025-07-05 11:43:14,387 - tracktik_etl.etl.etl_pipeline - INFO -   Processed 55 employees (47 existing, 8 new)
+2025-07-05 11:43:14,388 - tracktik_etl.etl.models - INFO - Processing 55 employees with SCD Type 2
+2025-07-05 11:43:14,470 - tracktik_etl.etl.models - ERROR - Error in DimEmployee.upsert: conflicting key value violates exclusion constraint "no_overlap_employee"
+DETAIL:  Key (employee_id, tstzrange(valid_from, valid_to))=(4864, ["2025-07-05 11:43:14.388617+00",)) conflicts with existing key (employee_id, tstzrange(valid_from, valid_to))=(4864, ["2025-07-05 03:34:10.275547+00","2025-07-05 15:43:14.400178+00")).
+
+2025-07-05 11:43:14,470 - tracktik_etl.etl.etl_pipeline - INFO -   Employees processed: 55
+2025-07-05 11:43:14,533 - tracktik_etl.etl.etl_pipeline - INFO - Loaded client mapping for 50 positions
+2025-07-05 11:43:14,534 - tracktik_etl.etl.etl_pipeline - WARNING - Filtered out 96 shifts due to missing employee or client references
+2025-07-05 11:43:14,534 - tracktik_etl.etl.database - INFO - Inserting 597 records into fact_shifts partition 2025_03
+2025-07-05 11:43:14,730 - tracktik_etl.etl.database - INFO - Inserted 597 total records into fact_shifts
+2025-07-05 11:43:14,731 - tracktik_etl.etl.etl_pipeline - INFO - Inserted 597 shifts for Hawaii
+2025-07-05 11:43:14,732 - tracktik_etl.etl.etl_pipeline - INFO - ✅ Hawaii complete: 597 shifts
+2025-07-05 11:43:14,732 - tracktik_etl.etl.etl_pipeline - INFO - 
+==================================================
+2025-07-05 11:43:14,732 - tracktik_etl.etl.etl_pipeline - INFO - Processing region: Washington
+2025-07-05 11:43:14,732 - tracktik_etl.etl.etl_pipeline - INFO - ==================================================
+2025-07-05 11:43:14,733 - tracktik_etl.etl.etl_pipeline - INFO - Loading shifts for Washington, period 2025_03 (2025-01-24 to 2025-02-06)
+2025-07-05 11:43:14,733 - tracktik_etl.etl.etl_pipeline - INFO - Getting clients for KAISER region: Washington (ID: 277)
+2025-07-05 11:43:15,129 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-05 11:43:18,778 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-05 11:43:18,778 - tracktik_etl.etl.etl_pipeline - INFO - Found 68 clients in Washington
+2025-07-05 11:43:18,778 - tracktik_etl.etl.etl_pipeline - INFO - Loading dimensions for region: Washington
+2025-07-05 11:43:18,779 - tracktik_etl.etl.etl_pipeline - INFO -   Loading 68 clients...
+2025-07-05 11:43:22,714 - tracktik_etl.etl.database - INFO - Dimension dim_clients: {'inserted': 0, 'updated': 68, 'unchanged': 0}
+2025-07-05 11:43:22,715 - tracktik_etl.etl.etl_pipeline - INFO -   Clients: {'inserted': 0, 'updated': 68, 'unchanged': 0}
+2025-07-05 11:43:22,715 - tracktik_etl.etl.etl_pipeline - INFO -   Loading positions for 68 clients...
+2025-07-05 11:43:23,006 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:23,007 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:23,282 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:23,282 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:23,545 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:23,545 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:23,786 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:23,786 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:24,052 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:24,053 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:24,341 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:24,342 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:24,619 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:24,620 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:24,858 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:24,858 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:25,123 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:25,123 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:25,411 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:25,411 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:25,695 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:25,696 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:25,963 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:25,963 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:26,205 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:26,206 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:26,486 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 9 total records
+2025-07-05 11:43:26,486 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 9 records from /rest/v1/positions
+2025-07-05 11:43:26,770 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:43:26,771 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:43:27,049 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:43:27,049 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:43:27,345 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:43:27,345 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:43:27,617 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:43:27,617 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:43:27,904 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:43:27,904 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:43:28,185 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:28,185 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:28,509 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 11 total records
+2025-07-05 11:43:28,509 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/positions
+2025-07-05 11:43:28,751 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:28,751 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:29,021 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:29,021 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:29,318 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:29,318 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:29,567 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:43:29,568 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:43:29,860 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:43:29,860 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:43:30,145 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:43:30,145 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:43:30,383 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:43:30,383 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:43:30,674 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 11 total records
+2025-07-05 11:43:30,674 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/positions
+2025-07-05 11:43:30,960 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:43:30,961 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:43:31,210 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:43:31,211 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:43:31,474 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:31,475 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:31,775 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:31,776 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:32,088 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:32,088 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:32,357 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:32,358 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:32,646 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:32,646 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:32,909 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:32,909 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:33,189 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:33,189 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:33,431 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:43:33,431 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:43:33,697 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:33,697 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:33,988 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:43:33,988 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:43:34,269 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:34,269 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:34,535 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:34,535 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:34,813 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:34,814 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:35,077 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:35,077 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:35,373 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:43:35,374 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:43:35,684 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:35,685 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:35,970 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:43:35,971 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:43:36,254 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:36,254 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:36,500 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:36,501 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:36,775 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 9 total records
+2025-07-05 11:43:36,776 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 9 records from /rest/v1/positions
+2025-07-05 11:43:37,018 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:43:37,018 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:43:37,293 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:43:37,294 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:43:37,582 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:43:37,582 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:43:37,855 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:37,855 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:38,141 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:38,141 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:38,412 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:38,412 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:38,707 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:38,707 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:38,946 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:38,947 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:39,235 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:43:39,235 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:43:39,489 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:39,490 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:39,809 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:43:39,810 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:43:40,049 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:43:40,049 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:43:40,360 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:40,360 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:40,644 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:40,644 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:40,882 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:43:40,883 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:43:41,165 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:41,166 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:41,405 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:43:41,405 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:43:41,406 - tracktik_etl.etl.etl_pipeline - INFO -   Loading 245 positions...
+2025-07-05 11:43:50,600 - tracktik_etl.etl.database - INFO - Dimension dim_positions: {'inserted': 0, 'updated': 0, 'unchanged': 245}
+2025-07-05 11:43:50,600 - tracktik_etl.etl.etl_pipeline - INFO -   Positions: {'inserted': 0, 'updated': 0, 'unchanged': 245}
+2025-07-05 11:43:50,601 - tracktik_etl.etl.etl_pipeline - INFO - Retrieving shifts for region Washington (ID: 277)
+2025-07-05 11:43:51,206 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/shifts: 1183 total records
+2025-07-05 11:43:59,233 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1183 records from /rest/v1/shifts
+2025-07-05 11:43:59,234 - tracktik_etl.etl.etl_pipeline - INFO - Retrieved 1183 shifts for Washington
+2025-07-05 11:43:59,234 - tracktik_etl.etl.etl_pipeline - INFO - Found 122 unique employees and 52 unique positions
+2025-07-05 11:43:59,341 - tracktik_etl.etl.etl_pipeline - INFO -   Found 11 new employees not in dim_employees
+2025-07-05 11:43:59,342 - tracktik_etl.etl.etl_pipeline - INFO -   Creating minimal employee records: [4704, 4901, 4969, 5037, 2446]...
+2025-07-05 11:43:59,342 - tracktik_etl.etl.models - INFO - Processing 11 employees with SCD Type 2
+2025-07-05 11:43:59,766 - tracktik_etl.etl.database - INFO - Dimension dim_employees: {'inserted': 11, 'updated': 0, 'unchanged': 0}
+2025-07-05 11:43:59,767 - tracktik_etl.etl.etl_pipeline - INFO - Created 11 new minimal employee records, updated 0 existing records
+2025-07-05 11:43:59,767 - tracktik_etl.etl.etl_pipeline - INFO -   Created 11 minimal employee records
+2025-07-05 11:43:59,767 - tracktik_etl.etl.etl_pipeline - INFO -   Processed 122 employees (111 existing, 11 new)
+2025-07-05 11:43:59,768 - tracktik_etl.etl.models - INFO - Processing 122 employees with SCD Type 2
+2025-07-05 11:43:59,853 - tracktik_etl.etl.models - ERROR - Error in DimEmployee.upsert: conflicting key value violates exclusion constraint "no_overlap_employee"
+DETAIL:  Key (employee_id, tstzrange(valid_from, valid_to))=(3075, ["2025-07-05 11:43:59.768437+00",)) conflicts with existing key (employee_id, tstzrange(valid_from, valid_to))=(3075, ["2025-07-05 04:30:33.073842+00","2025-07-05 15:43:59.780776+00")).
+
+2025-07-05 11:43:59,854 - tracktik_etl.etl.etl_pipeline - INFO -   Employees processed: 122
+2025-07-05 11:43:59,916 - tracktik_etl.etl.etl_pipeline - INFO - Loaded client mapping for 52 positions
+2025-07-05 11:43:59,916 - tracktik_etl.etl.etl_pipeline - WARNING - Filtered out 102 shifts due to missing employee or client references
+2025-07-05 11:43:59,916 - tracktik_etl.etl.database - INFO - Inserting 1081 records into fact_shifts partition 2025_03
+2025-07-05 11:44:00,244 - tracktik_etl.etl.database - INFO - Inserted 1081 total records into fact_shifts
+2025-07-05 11:44:00,245 - tracktik_etl.etl.etl_pipeline - INFO - Inserted 1081 shifts for Washington
+2025-07-05 11:44:00,247 - tracktik_etl.etl.etl_pipeline - INFO - ✅ Washington complete: 1081 shifts
+2025-07-05 11:44:00,247 - tracktik_etl.etl.etl_pipeline - INFO - 
+==================================================
+2025-07-05 11:44:00,247 - tracktik_etl.etl.etl_pipeline - INFO - Processing region: MidAtlantic
+2025-07-05 11:44:00,248 - tracktik_etl.etl.etl_pipeline - INFO - ==================================================
+2025-07-05 11:44:00,248 - tracktik_etl.etl.etl_pipeline - INFO - Loading shifts for MidAtlantic, period 2025_03 (2025-01-24 to 2025-02-06)
+2025-07-05 11:44:00,248 - tracktik_etl.etl.etl_pipeline - INFO - Getting clients for KAISER region: MidAtlantic (ID: 282)
+2025-07-05 11:44:00,598 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/clients: 1005 total records
+2025-07-05 11:44:04,418 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1005 records from /rest/v1/clients
+2025-07-05 11:44:04,418 - tracktik_etl.etl.etl_pipeline - INFO - Found 150 clients in MidAtlantic
+2025-07-05 11:44:04,419 - tracktik_etl.etl.etl_pipeline - INFO - Loading dimensions for region: MidAtlantic
+2025-07-05 11:44:04,419 - tracktik_etl.etl.etl_pipeline - INFO -   Loading 150 clients...
+2025-07-05 11:44:12,770 - tracktik_etl.etl.database - INFO - Dimension dim_clients: {'inserted': 0, 'updated': 150, 'unchanged': 0}
+2025-07-05 11:44:12,771 - tracktik_etl.etl.etl_pipeline - INFO -   Clients: {'inserted': 0, 'updated': 150, 'unchanged': 0}
+2025-07-05 11:44:12,771 - tracktik_etl.etl.etl_pipeline - INFO -   Loading positions for 150 clients...
+2025-07-05 11:44:13,055 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:13,055 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:13,327 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:13,327 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:13,608 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:13,608 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:13,849 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:13,849 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:14,084 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:14,084 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:14,350 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:14,351 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:14,657 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 10 total records
+2025-07-05 11:44:14,657 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 10 records from /rest/v1/positions
+2025-07-05 11:44:14,899 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 10 total records
+2025-07-05 11:44:14,900 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 10 records from /rest/v1/positions
+2025-07-05 11:44:15,168 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:44:15,169 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:44:15,434 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:15,434 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:15,710 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:15,710 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:15,945 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:15,945 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:16,330 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:16,331 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:16,622 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:16,622 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:16,901 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:16,901 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:17,190 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:17,190 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:17,462 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:17,462 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:17,741 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:17,741 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:18,031 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:44:18,032 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:44:18,274 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:18,275 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:18,542 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:18,543 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:18,811 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:18,812 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:19,103 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:19,103 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:19,401 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:19,401 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:19,644 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:19,644 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:19,921 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:19,921 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:20,216 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 21 total records
+2025-07-05 11:44:20,216 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 21 records from /rest/v1/positions
+2025-07-05 11:44:20,453 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:20,454 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:20,695 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:20,695 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:20,938 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:20,938 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:21,207 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:21,208 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:21,503 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:44:21,503 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:44:21,793 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:44:21,794 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:44:22,036 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:22,036 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:22,333 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:22,334 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:22,574 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:22,575 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:22,845 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:22,846 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:23,131 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:23,131 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:23,370 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:44:23,370 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:44:23,637 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:23,637 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:23,918 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:44:23,918 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:44:24,165 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:24,166 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:24,441 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:24,442 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:24,728 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:24,730 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:24,982 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:44:24,982 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:44:25,228 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:44:25,229 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:44:25,503 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:44:25,504 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:44:25,788 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 21 total records
+2025-07-05 11:44:25,788 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 21 records from /rest/v1/positions
+2025-07-05 11:44:26,019 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:26,019 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:26,292 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:26,292 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:26,533 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:44:26,533 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:44:26,814 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:26,814 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:27,054 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:27,054 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:27,343 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:44:27,343 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:44:27,625 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 11 total records
+2025-07-05 11:44:27,625 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/positions
+2025-07-05 11:44:27,913 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:44:27,914 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:44:28,189 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:28,189 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:28,428 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:28,428 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:28,667 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:28,667 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:28,935 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:28,935 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:29,208 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:29,209 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:29,496 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:29,496 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:29,737 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:29,737 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:30,026 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:30,026 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:30,325 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:30,325 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:30,628 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:30,629 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:30,867 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:44:30,867 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:44:31,110 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:44:31,111 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:44:31,356 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 10 total records
+2025-07-05 11:44:31,356 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 10 records from /rest/v1/positions
+2025-07-05 11:44:31,630 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:31,630 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:31,916 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:31,916 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:32,161 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:32,161 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:32,448 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:44:32,449 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:44:32,688 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:32,688 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:32,980 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:32,980 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:33,228 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:44:33,229 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:44:33,529 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:33,529 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:33,815 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:33,815 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:34,056 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:34,056 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:34,354 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:34,354 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:34,599 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 4 total records
+2025-07-05 11:44:34,599 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 4 records from /rest/v1/positions
+2025-07-05 11:44:34,841 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:34,841 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:35,112 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:35,113 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:35,402 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:35,402 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:35,642 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:35,642 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:35,943 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 16 total records
+2025-07-05 11:44:35,944 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 16 records from /rest/v1/positions
+2025-07-05 11:44:36,222 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 14 total records
+2025-07-05 11:44:36,222 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 14 records from /rest/v1/positions
+2025-07-05 11:44:36,524 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 25 total records
+2025-07-05 11:44:36,524 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 25 records from /rest/v1/positions
+2025-07-05 11:44:36,766 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:44:36,767 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:44:37,030 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:37,031 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:37,284 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:37,285 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:37,558 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 10 total records
+2025-07-05 11:44:37,559 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 10 records from /rest/v1/positions
+2025-07-05 11:44:37,812 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 11 total records
+2025-07-05 11:44:37,813 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/positions
+2025-07-05 11:44:38,298 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 8 total records
+2025-07-05 11:44:38,298 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 8 records from /rest/v1/positions
+2025-07-05 11:44:38,545 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 9 total records
+2025-07-05 11:44:38,546 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 9 records from /rest/v1/positions
+2025-07-05 11:44:38,842 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:38,842 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:39,077 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:39,078 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:39,376 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:44:39,377 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:44:39,613 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:39,613 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:39,907 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:44:39,907 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:44:40,149 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:40,149 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:40,449 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 11 total records
+2025-07-05 11:44:40,449 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/positions
+2025-07-05 11:44:40,693 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:40,694 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:40,967 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:40,967 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:41,223 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 10 total records
+2025-07-05 11:44:41,224 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 10 records from /rest/v1/positions
+2025-07-05 11:44:41,492 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:44:41,492 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:44:41,727 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 6 total records
+2025-07-05 11:44:41,727 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 6 records from /rest/v1/positions
+2025-07-05 11:44:41,991 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:41,991 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:42,295 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 17 total records
+2025-07-05 11:44:42,295 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 17 records from /rest/v1/positions
+2025-07-05 11:44:42,540 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:42,540 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:42,780 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:44:42,780 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:44:43,085 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:43,085 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:43,411 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:43,411 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:43,667 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:44:43,668 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:44:43,927 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:43,928 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:44,159 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:44,159 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:44,423 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:44,423 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:44,731 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 21 total records
+2025-07-05 11:44:44,731 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 21 records from /rest/v1/positions
+2025-07-05 11:44:44,995 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:44:44,995 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:44:45,314 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 15 total records
+2025-07-05 11:44:45,314 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 15 records from /rest/v1/positions
+2025-07-05 11:44:45,551 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:45,551 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:45,825 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:45,825 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:46,060 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:46,060 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:46,344 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:44:46,344 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:44:46,607 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:46,607 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:46,879 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 7 total records
+2025-07-05 11:44:46,879 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 7 records from /rest/v1/positions
+2025-07-05 11:44:47,161 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:47,162 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:47,400 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:47,401 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:47,666 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:47,666 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:47,951 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:44:47,952 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:44:48,216 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:48,217 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:48,508 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 14 total records
+2025-07-05 11:44:48,508 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 14 records from /rest/v1/positions
+2025-07-05 11:44:48,768 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:48,768 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:49,052 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:49,052 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:49,294 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:49,294 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:49,590 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 13 total records
+2025-07-05 11:44:49,590 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 13 records from /rest/v1/positions
+2025-07-05 11:44:49,822 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:49,822 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:50,097 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:44:50,097 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:44:50,334 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:50,334 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:50,595 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:50,596 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:50,869 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 3 total records
+2025-07-05 11:44:50,869 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 3 records from /rest/v1/positions
+2025-07-05 11:44:51,106 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:51,106 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:51,407 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:51,407 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:51,681 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:51,681 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:51,969 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:51,969 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:52,221 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 5 total records
+2025-07-05 11:44:52,221 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 5 records from /rest/v1/positions
+2025-07-05 11:44:52,497 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 1 total records
+2025-07-05 11:44:52,497 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1 records from /rest/v1/positions
+2025-07-05 11:44:52,734 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:52,734 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:52,967 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 2 total records
+2025-07-05 11:44:52,967 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2 records from /rest/v1/positions
+2025-07-05 11:44:53,244 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/positions: 0 total records
+2025-07-05 11:44:53,244 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 0 records from /rest/v1/positions
+2025-07-05 11:44:53,245 - tracktik_etl.etl.etl_pipeline - INFO -   Loading 736 positions...
+2025-07-05 11:45:20,335 - tracktik_etl.etl.database - INFO - Dimension dim_positions: {'inserted': 0, 'updated': 0, 'unchanged': 736}
+2025-07-05 11:45:20,336 - tracktik_etl.etl.etl_pipeline - INFO -   Positions: {'inserted': 0, 'updated': 0, 'unchanged': 736}
+2025-07-05 11:45:20,336 - tracktik_etl.etl.etl_pipeline - INFO - Retrieving shifts for region MidAtlantic (ID: 282)
+2025-07-05 11:45:21,020 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/shifts: 2247 total records
+2025-07-05 11:45:39,067 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2247 records from /rest/v1/shifts
+2025-07-05 11:45:39,068 - tracktik_etl.etl.etl_pipeline - INFO - Retrieved 2247 shifts for MidAtlantic
+2025-07-05 11:45:39,068 - tracktik_etl.etl.etl_pipeline - INFO - Found 216 unique employees and 109 unique positions
+2025-07-05 11:45:39,140 - tracktik_etl.etl.etl_pipeline - INFO -   Found 3 new employees not in dim_employees
+2025-07-05 11:45:39,140 - tracktik_etl.etl.etl_pipeline - INFO -   Creating minimal employee records: [2994, 4835, 4884]...
+2025-07-05 11:45:39,141 - tracktik_etl.etl.models - INFO - Processing 3 employees with SCD Type 2
+2025-07-05 11:45:39,285 - tracktik_etl.etl.database - INFO - Dimension dim_employees: {'inserted': 3, 'updated': 0, 'unchanged': 0}
+2025-07-05 11:45:39,286 - tracktik_etl.etl.etl_pipeline - INFO - Created 3 new minimal employee records, updated 0 existing records
+2025-07-05 11:45:39,286 - tracktik_etl.etl.etl_pipeline - INFO -   Created 3 minimal employee records
+2025-07-05 11:45:39,286 - tracktik_etl.etl.etl_pipeline - INFO -   Processed 216 employees (213 existing, 3 new)
+2025-07-05 11:45:39,286 - tracktik_etl.etl.models - INFO - Processing 216 employees with SCD Type 2
+2025-07-05 11:45:39,374 - tracktik_etl.etl.models - ERROR - Error in DimEmployee.upsert: conflicting key value violates exclusion constraint "no_overlap_employee"
+DETAIL:  Key (employee_id, tstzrange(valid_from, valid_to))=(4608, ["2025-07-05 11:45:39.287113+00",)) conflicts with existing key (employee_id, tstzrange(valid_from, valid_to))=(4608, ["2025-07-05 04:07:35.123838+00","2025-07-05 15:45:39.298433+00")).
+
+2025-07-05 11:45:39,374 - tracktik_etl.etl.etl_pipeline - INFO -   Employees processed: 216
+2025-07-05 11:45:39,438 - tracktik_etl.etl.etl_pipeline - INFO - Loaded client mapping for 109 positions
+2025-07-05 11:45:39,439 - tracktik_etl.etl.etl_pipeline - WARNING - Filtered out 41 shifts due to missing employee or client references
+2025-07-05 11:45:39,439 - tracktik_etl.etl.database - INFO - Inserting 2206 records into fact_shifts partition 2025_03
+2025-07-05 11:45:40,173 - tracktik_etl.etl.database - INFO - Inserted 2206 total records into fact_shifts
+2025-07-05 11:45:40,173 - tracktik_etl.etl.etl_pipeline - INFO - Inserted 2206 shifts for MidAtlantic
+2025-07-05 11:45:40,175 - tracktik_etl.etl.etl_pipeline - INFO - ✅ MidAtlantic complete: 2206 shifts
+2025-07-05 11:45:40,235 - tracktik_etl.etl.models - INFO - Completed batch 0c32d3de-caa6-4c09-b968-d0e18039d534: COMPLETED, 20296 records
+2025-07-05 11:45:40,294 - tracktik_etl.etl.etl_pipeline - INFO - 
+============================================================
+2025-07-05 11:45:40,294 - tracktik_etl.etl.etl_pipeline - INFO - KAISER BILLING PERIOD PROCESSING SUMMARY
+2025-07-05 11:45:40,295 - tracktik_etl.etl.etl_pipeline - INFO - ============================================================
+2025-07-05 11:45:40,295 - tracktik_etl.etl.etl_pipeline - INFO - Period: 2025_03 (2025-01-24 to 2025-02-06)
+2025-07-05 11:45:40,295 - tracktik_etl.etl.etl_pipeline - INFO - Batch ID: 0c32d3de-caa6-4c09-b968-d0e18039d534
+2025-07-05 11:45:40,295 - tracktik_etl.etl.etl_pipeline - INFO - 
+2025-07-05 11:45:40,296 - tracktik_etl.etl.etl_pipeline - INFO - 📊 TOTALS:
+2025-07-05 11:45:40,296 - tracktik_etl.etl.etl_pipeline - INFO -   Shifts Loaded: 20,296
+2025-07-05 11:45:40,296 - tracktik_etl.etl.etl_pipeline - INFO -   Employees: 1,829
+2025-07-05 11:45:40,296 - tracktik_etl.etl.etl_pipeline - INFO -   Clients: 0
+2025-07-05 11:45:40,296 - tracktik_etl.etl.etl_pipeline - INFO -   Positions: 0
+2025-07-05 11:45:40,297 - tracktik_etl.etl.etl_pipeline - INFO - 
+2025-07-05 11:45:40,297 - tracktik_etl.etl.etl_pipeline - INFO - 🏢 BY REGION:
+2025-07-05 11:45:40,297 - tracktik_etl.etl.etl_pipeline - INFO -   N California   :  4,135 shifts,  388 employees
+2025-07-05 11:45:40,297 - tracktik_etl.etl.etl_pipeline - INFO -   S California   : 12,277 shifts, 1048 employees
+2025-07-05 11:45:40,298 - tracktik_etl.etl.etl_pipeline - INFO -   Hawaii         :    597 shifts,   55 employees
+2025-07-05 11:45:40,298 - tracktik_etl.etl.etl_pipeline - INFO -   Washington     :  1,081 shifts,  122 employees
+2025-07-05 11:45:40,298 - tracktik_etl.etl.etl_pipeline - INFO -   MidAtlantic    :  2,206 shifts,  216 employees
+2025-07-05 11:45:40,298 - tracktik_etl.etl.etl_pipeline - INFO - 
+✅ No errors - processing completed successfully!
+2025-07-05 11:45:40,298 - tracktik_etl.etl.etl_pipeline - INFO - ============================================================

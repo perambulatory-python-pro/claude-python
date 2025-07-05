@@ -247,20 +247,53 @@ class ETLPipeline:
                 
                 logger.info(f"Found {len(employee_ids)} unique employees and {len(position_ids)} unique positions")
                 
-                # We need to fetch employee details since shifts only have IDs
-                # For now, we'll create minimal employee records
-                # In production, you might want to batch fetch employee details
+                # Check which employees exist and create minimal records for missing ones
+                if employee_ids:
+                    existing_employees_query = f"""
+                        SELECT DISTINCT employee_id 
+                        FROM {config.POSTGRES_SCHEMA}.dim_employees 
+                        WHERE employee_id = ANY(%(employee_ids)s) AND is_current = TRUE
+                    """
+                    existing_employees = db.execute_query(existing_employees_query, {'employee_ids': list(employee_ids)})
+                    existing_emp_ids = {row['employee_id'] for row in existing_employees}
+                    
+                    missing_employees = employee_ids - existing_emp_ids
+                    if missing_employees:
+                        logger.info(f"  Found {len(missing_employees)} new employees not in dim_employees")
+                        logger.info(f"  Creating minimal employee records: {list(missing_employees)[:5]}...")
+                        
+                        # Create minimal employee records for missing employees
+                        minimal_employee_records = []
+                        for emp_id in missing_employees:
+                            minimal_employee_records.append({
+                                'employee_id': emp_id,
+                                'custom_id': None,
+                                'first_name': None,
+                                'last_name': None,
+                                'email': None,
+                                'phone': None,
+                                'status': 'ACTIVE',  # Default assumption
+                                'region_id': region_id,  # We know they're in this region
+                                'valid_from': datetime.now(),
+                                'is_current': True,
+                                'etl_batch_id': self.batch_id
+                            })
+                        
+                        # Insert minimal records using direct insert (not SCD Type 2)
+                        if minimal_employee_records:
+                            self._insert_minimal_employees(minimal_employee_records)
+                            logger.info(f"  Created {len(minimal_employee_records)} minimal employee records")
+                    
+                    stats['employees_found'] = len(employee_ids)
+                    logger.info(f"  Processed {len(employee_ids)} employees ({len(existing_emp_ids)} existing, {len(missing_employees)} new)")
+                
+                # Prepare employee records for upsert
                 employee_records = []
                 for emp_id in employee_ids:
                     employee_records.append({
                         'id': emp_id,
                         'region': region_id  # We know they're in this region
                     })
-                
-                if employee_records:
-                    results = DimEmployee.upsert(employee_records, self.batch_id)
-                    stats['employees_found'] = len(employee_ids)
-                    logger.info(f"  Employees processed: {len(employee_ids)}")
                 
                 # Transform and insert shifts
                 transformed_shifts = []
@@ -313,10 +346,25 @@ class ETLPipeline:
                         
                         # ===== CRITICAL FILTERING CODE - THIS WAS MISSING! =====
                         # Filter out shifts without valid client_id
-                        valid_shifts = [s for s in transformed_shifts if s.get('client_id') is not None]
+                        # Filter out shifts for employees that don't exist in dim_employees
+                        valid_shifts = []
+                        for shift in transformed_shifts:
+                            employee_id = shift.get('employee_id')
+                            client_id = shift.get('client_id')
+                            
+                            if employee_id in existing_emp_ids and client_id is not None:
+                                valid_shifts.append(shift)
+                            else:
+                                if employee_id not in existing_emp_ids:
+                                    logger.debug(f"Filtering shift - employee {employee_id} not in dim_employees")
+                                if client_id is None:
+                                    logger.debug(f"Filtering shift - no client_id for shift {shift.get('shift_id')}")
+                        
                         if len(valid_shifts) < len(transformed_shifts):
-                            logger.warning(f"Filtered out {len(transformed_shifts) - len(valid_shifts)} shifts without client_id")
-                            stats['data_quality_issues'] += len(transformed_shifts) - len(valid_shifts)
+                            filtered_count = len(transformed_shifts) - len(valid_shifts)
+                            logger.warning(f"Filtered out {filtered_count} shifts due to missing employee or client references")
+                            stats['data_quality_issues'] += filtered_count
+                        
                         transformed_shifts = valid_shifts
                         # ===== END OF CRITICAL FILTERING CODE =====
 
@@ -351,6 +399,40 @@ class ETLPipeline:
         except Exception as e:
             logger.error(f"Error loading shifts for {region_name}: {str(e)}")
             raise
+    
+
+    def _insert_minimal_employees(self, employee_records: List[Dict]):
+        """Insert minimal employee records for new employees found in shifts"""
+        if not employee_records:
+            return
+            
+        try:
+            # Use the existing DimEmployee.upsert method which handles SCD Type 2 properly
+            # Convert to the format expected by DimEmployee.upsert
+            formatted_records = []
+            for record in employee_records:
+                formatted_records.append({
+                    'id': record['employee_id'],  # DimEmployee expects 'id' field
+                    'customId': record.get('custom_id'),
+                    'firstName': record.get('first_name'),
+                    'lastName': record.get('last_name'),
+                    'email': record.get('email'),
+                    'phone': record.get('phone'),
+                    'status': record.get('status', 'ACTIVE'),
+                    'region': record.get('region_id')
+                })
+            
+            # Use existing upsert logic
+            from tracktik_etl.etl.models import DimEmployee
+            result = DimEmployee.upsert(formatted_records, self.batch_id)
+            
+            logger.info(f"Created {result.get('inserted', 0)} new minimal employee records, "
+                       f"updated {result.get('updated', 0)} existing records")
+            
+        except Exception as e:
+            logger.error(f"Error inserting minimal employee records: {e}")
+            raise
+
     
     def process_kaiser_billing_period(self, period_id: str) -> Dict[str, Any]:
         """

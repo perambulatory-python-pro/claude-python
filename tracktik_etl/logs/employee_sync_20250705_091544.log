@@ -1,0 +1,198 @@
+2025-07-05 09:15:45,310 - __main__ - INFO - Current employee counts by region:
+2025-07-05 09:15:45,539 - __main__ - INFO -   S California: 1,750 employees
+2025-07-05 09:15:45,540 - __main__ - INFO -   N California: 443 employees
+2025-07-05 09:15:45,540 - __main__ - INFO -   MidAtlantic: 226 employees
+2025-07-05 09:15:45,540 - __main__ - INFO -   Washington: 126 employees
+2025-07-05 09:15:45,540 - __main__ - INFO -   Georgia: 86 employees
+2025-07-05 09:15:45,540 - __main__ - INFO -   Colorado: 75 employees
+2025-07-05 09:15:45,540 - __main__ - INFO -   Hawaii: 56 employees
+2025-07-05 09:15:45,542 - __main__ - INFO -   Northwest: 9 employees
+2025-07-05 09:15:45,542 - __main__ - INFO - Starting KAISER employee sync across all regions...
+2025-07-05 09:15:45,542 - __main__ - INFO - Loading KAISER region mapping from database...
+2025-07-05 09:15:45,596 - __main__ - INFO - Loaded 9 KAISER regions from database
+2025-07-05 09:15:45,596 - __main__ - INFO - 
+============================================================
+2025-07-05 09:15:45,596 - __main__ - INFO - Processing region: N California
+2025-07-05 09:15:45,597 - __main__ - INFO - ============================================================
+2025-07-05 09:15:45,597 - __main__ - INFO - Fetching employees for region: N California (ID: 274)
+2025-07-05 09:15:46,632 - tracktik_etl.etl.tracktik_client - INFO - Successfully authenticated with TrackTik API
+2025-07-05 09:15:47,019 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/employees: 1532 total records
+2025-07-05 09:15:53,218 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 1600 records from /rest/v1/employees
+2025-07-05 09:15:53,218 - __main__ - INFO - Retrieved 1600 employees for N California
+2025-07-05 09:16:04,600 - __main__ - INFO -   Processed 100 employees...
+2025-07-05 09:16:16,025 - __main__ - INFO -   Processed 200 employees...
+2025-07-05 09:16:27,493 - __main__ - INFO -   Processed 300 employees...
+2025-07-05 09:16:39,140 - __main__ - INFO -   Processed 400 employees...
+2025-07-05 09:16:50,750 - __main__ - INFO -   Processed 500 employees...
+2025-07-05 09:17:02,331 - __main__ - INFO -   Processed 600 employees...
+2025-07-05 09:17:14,023 - __main__ - INFO -   Processed 700 employees...
+2025-07-05 09:17:25,867 - __main__ - INFO -   Processed 800 employees...
+2025-07-05 09:17:37,659 - __main__ - INFO -   Processed 900 employees...
+2025-07-05 09:17:49,473 - __main__ - INFO -   Processed 1000 employees...
+2025-07-05 09:18:01,229 - __main__ - INFO -   Processed 1100 employees...
+2025-07-05 09:18:12,734 - __main__ - INFO -   Processed 1200 employees...
+2025-07-05 09:18:24,091 - __main__ - INFO -   Processed 1300 employees...
+2025-07-05 09:18:35,831 - __main__ - INFO -   Processed 1400 employees...
+2025-07-05 09:18:47,658 - __main__ - INFO -   Processed 1500 employees...
+2025-07-05 09:18:59,199 - __main__ - INFO -   Processed 1600 employees...
+2025-07-05 09:18:59,199 - __main__ - INFO - ✅ N California completed:
+2025-07-05 09:18:59,200 - __main__ - INFO -   Retrieved: 1600
+2025-07-05 09:18:59,200 - __main__ - INFO -   Updated: 882
+2025-07-05 09:18:59,200 - __main__ - INFO -   Inserted: 718
+2025-07-05 09:18:59,201 - __main__ - INFO -   Errors: 0
+2025-07-05 09:18:59,202 - __main__ - INFO - 
+============================================================
+2025-07-05 09:18:59,202 - __main__ - INFO - Processing region: S California
+2025-07-05 09:18:59,202 - __main__ - INFO - ============================================================
+2025-07-05 09:18:59,203 - __main__ - INFO - Fetching employees for region: S California (ID: 275)
+2025-07-05 09:18:59,635 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/employees: 2132 total records
+2025-07-05 09:19:08,324 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 2132 records from /rest/v1/employees
+2025-07-05 09:19:08,325 - __main__ - INFO - Retrieved 2132 employees for S California
+2025-07-05 09:19:20,594 - __main__ - INFO -   Processed 100 employees...
+2025-07-05 09:19:32,600 - __main__ - INFO -   Processed 200 employees...
+2025-07-05 09:19:44,691 - __main__ - INFO -   Processed 300 employees...
+2025-07-05 09:19:56,632 - __main__ - INFO -   Processed 400 employees...
+2025-07-05 09:20:09,299 - __main__ - INFO -   Processed 500 employees...
+2025-07-05 09:20:21,737 - __main__ - INFO -   Processed 600 employees...
+2025-07-05 09:20:33,711 - __main__ - INFO -   Processed 700 employees...
+2025-07-05 09:20:45,599 - __main__ - INFO -   Processed 800 employees...
+2025-07-05 09:20:57,475 - __main__ - INFO -   Processed 900 employees...
+2025-07-05 09:21:09,219 - __main__ - INFO -   Processed 1000 employees...
+2025-07-05 09:21:21,382 - __main__ - INFO -   Processed 1100 employees...
+2025-07-05 09:21:34,523 - __main__ - INFO -   Processed 1200 employees...
+2025-07-05 09:21:46,455 - __main__ - INFO -   Processed 1300 employees...
+2025-07-05 09:21:58,708 - __main__ - INFO -   Processed 1400 employees...
+2025-07-05 09:22:11,003 - __main__ - INFO -   Processed 1500 employees...
+2025-07-05 09:22:23,141 - __main__ - INFO -   Processed 1600 employees...
+2025-07-05 09:22:35,514 - __main__ - INFO -   Processed 1700 employees...
+2025-07-05 09:22:47,526 - __main__ - INFO -   Processed 1800 employees...
+2025-07-05 09:22:59,438 - __main__ - INFO -   Processed 1900 employees...
+2025-07-05 09:23:11,815 - __main__ - INFO -   Processed 2000 employees...
+2025-07-05 09:23:24,370 - __main__ - INFO -   Processed 2100 employees...
+2025-07-05 09:23:28,378 - __main__ - INFO - ✅ S California completed:
+2025-07-05 09:23:28,379 - __main__ - INFO -   Retrieved: 2132
+2025-07-05 09:23:28,379 - __main__ - INFO -   Updated: 1750
+2025-07-05 09:23:28,379 - __main__ - INFO -   Inserted: 382
+2025-07-05 09:23:28,380 - __main__ - INFO -   Errors: 0
+2025-07-05 09:23:28,381 - __main__ - INFO - 
+============================================================
+2025-07-05 09:23:28,381 - __main__ - INFO - Processing region: Hawaii
+2025-07-05 09:23:28,381 - __main__ - INFO - ============================================================
+2025-07-05 09:23:28,382 - __main__ - INFO - Fetching employees for region: Hawaii (ID: 276)
+2025-07-05 09:23:28,729 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/employees: 56 total records
+2025-07-05 09:23:28,729 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 56 records from /rest/v1/employees
+2025-07-05 09:23:28,729 - __main__ - INFO - Retrieved 56 employees for Hawaii
+2025-07-05 09:23:35,437 - __main__ - INFO - ✅ Hawaii completed:
+2025-07-05 09:23:35,437 - __main__ - INFO -   Retrieved: 56
+2025-07-05 09:23:35,437 - __main__ - INFO -   Updated: 52
+2025-07-05 09:23:35,438 - __main__ - INFO -   Inserted: 4
+2025-07-05 09:23:35,438 - __main__ - INFO -   Errors: 0
+2025-07-05 09:23:35,439 - __main__ - INFO - 
+============================================================
+2025-07-05 09:23:35,439 - __main__ - INFO - Processing region: Washington
+2025-07-05 09:23:35,439 - __main__ - INFO - ============================================================
+2025-07-05 09:23:35,439 - __main__ - INFO - Fetching employees for region: Washington (ID: 277)
+2025-07-05 09:23:35,852 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/employees: 165 total records
+2025-07-05 09:23:36,178 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 165 records from /rest/v1/employees
+2025-07-05 09:23:36,178 - __main__ - INFO - Retrieved 165 employees for Washington
+2025-07-05 09:23:48,460 - __main__ - INFO -   Processed 100 employees...
+2025-07-05 09:23:56,142 - __main__ - INFO - ✅ Washington completed:
+2025-07-05 09:23:56,142 - __main__ - INFO -   Retrieved: 165
+2025-07-05 09:23:56,143 - __main__ - INFO -   Updated: 124
+2025-07-05 09:23:56,143 - __main__ - INFO -   Inserted: 41
+2025-07-05 09:23:56,143 - __main__ - INFO -   Errors: 0
+2025-07-05 09:23:56,143 - __main__ - INFO - 
+============================================================
+2025-07-05 09:23:56,143 - __main__ - INFO - Processing region: Colorado
+2025-07-05 09:23:56,143 - __main__ - INFO - ============================================================
+2025-07-05 09:23:56,143 - __main__ - INFO - Fetching employees for region: Colorado (ID: 278)
+2025-07-05 09:23:56,580 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/employees: 97 total records
+2025-07-05 09:23:56,580 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 97 records from /rest/v1/employees
+2025-07-05 09:23:56,581 - __main__ - INFO - Retrieved 97 employees for Colorado
+2025-07-05 09:24:08,150 - __main__ - INFO - ✅ Colorado completed:
+2025-07-05 09:24:08,151 - __main__ - INFO -   Retrieved: 97
+2025-07-05 09:24:08,151 - __main__ - INFO -   Updated: 75
+2025-07-05 09:24:08,151 - __main__ - INFO -   Inserted: 22
+2025-07-05 09:24:08,151 - __main__ - INFO -   Errors: 0
+2025-07-05 09:24:08,151 - __main__ - INFO - 
+============================================================
+2025-07-05 09:24:08,151 - __main__ - INFO - Processing region: Georgia
+2025-07-05 09:24:08,152 - __main__ - INFO - ============================================================
+2025-07-05 09:24:08,152 - __main__ - INFO - Fetching employees for region: Georgia (ID: 279)
+2025-07-05 09:24:08,565 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/employees: 127 total records
+2025-07-05 09:24:08,845 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 127 records from /rest/v1/employees
+2025-07-05 09:24:08,845 - __main__ - INFO - Retrieved 127 employees for Georgia
+2025-07-05 09:24:20,690 - __main__ - INFO -   Processed 100 employees...
+2025-07-05 09:24:23,919 - __main__ - INFO - ✅ Georgia completed:
+2025-07-05 09:24:23,919 - __main__ - INFO -   Retrieved: 127
+2025-07-05 09:24:23,920 - __main__ - INFO -   Updated: 86
+2025-07-05 09:24:23,920 - __main__ - INFO -   Inserted: 41
+2025-07-05 09:24:23,920 - __main__ - INFO -   Errors: 0
+2025-07-05 09:24:23,921 - __main__ - INFO - 
+============================================================
+2025-07-05 09:24:23,921 - __main__ - INFO - Processing region: MidAtlantic
+2025-07-05 09:24:23,921 - __main__ - INFO - ============================================================
+2025-07-05 09:24:23,921 - __main__ - INFO - Fetching employees for region: MidAtlantic (ID: 282)
+2025-07-05 09:24:24,324 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/employees: 340 total records
+2025-07-05 09:24:25,442 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 340 records from /rest/v1/employees
+2025-07-05 09:24:25,442 - __main__ - INFO - Retrieved 340 employees for MidAtlantic
+2025-07-05 09:24:37,474 - __main__ - INFO -   Processed 100 employees...
+2025-07-05 09:24:49,224 - __main__ - INFO -   Processed 200 employees...
+2025-07-05 09:25:01,430 - __main__ - INFO -   Processed 300 employees...
+2025-07-05 09:25:06,143 - __main__ - INFO - ✅ MidAtlantic completed:
+2025-07-05 09:25:06,143 - __main__ - INFO -   Retrieved: 340
+2025-07-05 09:25:06,143 - __main__ - INFO -   Updated: 220
+2025-07-05 09:25:06,143 - __main__ - INFO -   Inserted: 120
+2025-07-05 09:25:06,143 - __main__ - INFO -   Errors: 0
+2025-07-05 09:25:06,143 - __main__ - INFO - 
+============================================================
+2025-07-05 09:25:06,144 - __main__ - INFO - Processing region: Northwest
+2025-07-05 09:25:06,144 - __main__ - INFO - ============================================================
+2025-07-05 09:25:06,144 - __main__ - INFO - Fetching employees for region: Northwest (ID: 1029)
+2025-07-05 09:25:06,485 - tracktik_etl.etl.tracktik_client - INFO - Fetching /rest/v1/employees: 11 total records
+2025-07-05 09:25:06,485 - tracktik_etl.etl.tracktik_client - INFO - Retrieved 11 records from /rest/v1/employees
+2025-07-05 09:25:06,485 - __main__ - INFO - Retrieved 11 employees for Northwest
+2025-07-05 09:25:07,811 - __main__ - INFO - ✅ Northwest completed:
+2025-07-05 09:25:07,811 - __main__ - INFO -   Retrieved: 11
+2025-07-05 09:25:07,812 - __main__ - INFO -   Updated: 9
+2025-07-05 09:25:07,812 - __main__ - INFO -   Inserted: 2
+2025-07-05 09:25:07,812 - __main__ - INFO -   Errors: 0
+2025-07-05 09:25:07,813 - __main__ - INFO - 
+================================================================================
+2025-07-05 09:25:07,813 - __main__ - INFO - KAISER EMPLOYEE SYNC SUMMARY
+2025-07-05 09:25:07,813 - __main__ - INFO - ================================================================================
+2025-07-05 09:25:07,814 - __main__ - INFO - Start Time: 2025-07-05 09:15:45.542881
+2025-07-05 09:25:07,814 - __main__ - INFO - End Time: 2025-07-05 09:25:07.813242
+2025-07-05 09:25:07,814 - __main__ - INFO - Duration: 9.4 minutes
+2025-07-05 09:25:07,814 - __main__ - INFO - 
+2025-07-05 09:25:07,814 - __main__ - INFO - 📊 OVERALL TOTALS:
+2025-07-05 09:25:07,814 - __main__ - INFO -   Employees Processed: 4,528
+2025-07-05 09:25:07,814 - __main__ - INFO -   Employees Updated: 3,198
+2025-07-05 09:25:07,815 - __main__ - INFO -   Employees Inserted: 1,330
+2025-07-05 09:25:07,815 - __main__ - INFO -   API Calls Made: 8
+2025-07-05 09:25:07,815 - __main__ - INFO -   Total Errors: 0
+2025-07-05 09:25:07,815 - __main__ - INFO - 
+2025-07-05 09:25:07,816 - __main__ - INFO - 🏢 BY REGION:
+2025-07-05 09:25:07,816 - __main__ - INFO -   N California   : 1600 retrieved,  882 updated,  718 inserted,  0 errors
+2025-07-05 09:25:07,816 - __main__ - INFO -   S California   : 2132 retrieved, 1750 updated,  382 inserted,  0 errors
+2025-07-05 09:25:07,816 - __main__ - INFO -   Hawaii         :   56 retrieved,   52 updated,    4 inserted,  0 errors
+2025-07-05 09:25:07,816 - __main__ - INFO -   Washington     :  165 retrieved,  124 updated,   41 inserted,  0 errors
+2025-07-05 09:25:07,816 - __main__ - INFO -   Colorado       :   97 retrieved,   75 updated,   22 inserted,  0 errors
+2025-07-05 09:25:07,817 - __main__ - INFO -   Georgia        :  127 retrieved,   86 updated,   41 inserted,  0 errors
+2025-07-05 09:25:07,817 - __main__ - INFO -   MidAtlantic    :  340 retrieved,  220 updated,  120 inserted,  0 errors
+2025-07-05 09:25:07,817 - __main__ - INFO -   Northwest      :   11 retrieved,    9 updated,    2 inserted,  0 errors
+2025-07-05 09:25:07,817 - __main__ - INFO - 
+✅ No errors - sync completed successfully!
+2025-07-05 09:25:07,817 - __main__ - INFO - ================================================================================
+2025-07-05 09:25:07,817 - __main__ - INFO - 
+🎉 Employee sync completed successfully!
+2025-07-05 09:25:07,817 - __main__ - INFO - 
+Final employee counts by region:
+2025-07-05 09:25:07,874 - __main__ - INFO -   S California: 2,132 employees (+382)
+2025-07-05 09:25:07,875 - __main__ - INFO -   N California: 1,161 employees (+718)
+2025-07-05 09:25:07,875 - __main__ - INFO -   MidAtlantic: 346 employees (+120)
+2025-07-05 09:25:07,876 - __main__ - INFO -   Washington: 167 employees (+41)
+2025-07-05 09:25:07,876 - __main__ - INFO -   Georgia: 127 employees (+41)
+2025-07-05 09:25:07,876 - __main__ - INFO -   Colorado: 97 employees (+22)
+2025-07-05 09:25:07,876 - __main__ - INFO -   Hawaii: 60 employees (+4)
+2025-07-05 09:25:07,876 - __main__ - INFO -   Northwest: 11 employees (+2)

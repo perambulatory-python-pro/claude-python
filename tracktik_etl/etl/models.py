@@ -15,41 +15,68 @@ from tracktik_etl.etl.config import config
 logger = logging.getLogger(__name__)
 
 class DimEmployee:
-    """Employee dimension operations - SCD Type 2"""
+    """Employee dimension operations - SCD Type 2
+    
+    NOTE: Complete employee records should be managed through the dedicated 
+    employee sync script (sync_kaiser_employees.py).
+    Billing period processing may create minimal records for new employees.
+    """
     
     @staticmethod
     def upsert(employees: List[Dict], batch_id: str) -> Dict[str, int]:
-        """Upsert employee records with proper SCD Type 2"""
+        """Upsert employee records with proper SCD Type 2
+        
+        This method is used by the employee sync script for complete employee data.
+        """
         
         if not employees:
             return {'inserted': 0, 'updated': 0, 'unchanged': 0}
+        
+        logger.info(f"Processing {len(employees)} employees with SCD Type 2")
         
         try:
             # Transform TrackTik data to our schema
             records = []
             for emp in employees:
-                # Extract region info - handle both int and dict formats
-                region_info = emp.get('region')
-                region_id = None
-                region_name = None
-                
-                if isinstance(region_info, dict):
-                    region_id = region_info.get('id')
-                    region_name = region_info.get('name')
-                elif isinstance(region_info, (int, str)):
-                    region_id = int(region_info) if region_info else None
-                    region_name = None  # Will need to look up separately
+                # Handle both API format (from employee sync) and minimal format (from billing)
+                if 'id' in emp:
+                    # API format from employee sync
+                    employee_id = emp['id']
+                    custom_id = emp.get('customId')
+                    first_name = emp.get('firstName')
+                    last_name = emp.get('lastName')
+                    email = emp.get('email')
+                    phone = emp.get('primaryPhone') or emp.get('phone')
+                    status = emp.get('status')
+                    
+                    # Extract region info
+                    region_info = emp.get('region')
+                    if isinstance(region_info, dict):
+                        region_id = region_info.get('id')
+                    elif isinstance(region_info, (int, str)):
+                        region_id = int(region_info) if region_info else None
+                    else:
+                        region_id = None
+                else:
+                    # Already transformed format
+                    employee_id = emp['employee_id']
+                    custom_id = emp.get('custom_id')
+                    first_name = emp.get('first_name')
+                    last_name = emp.get('last_name')
+                    email = emp.get('email')
+                    phone = emp.get('phone')
+                    status = emp.get('status')
+                    region_id = emp.get('region_id')
                 
                 records.append({
-                    'employee_id': emp['id'],
-                    'custom_id': emp.get('customId'),
-                    'first_name': emp.get('firstName'),
-                    'last_name': emp.get('lastName'),
-                    'email': emp.get('email'),
-                    'phone': emp.get('phone'),
-                    'status': emp.get('status'),
+                    'employee_id': employee_id,
+                    'custom_id': custom_id,
+                    'first_name': first_name,
+                    'last_name': last_name,
+                    'email': email,
+                    'phone': phone,
+                    'status': status,
                     'region_id': region_id,
-                    'region_name': region_name,
                     'valid_from': datetime.now(),
                     'is_current': True,
                     'etl_batch_id': batch_id
@@ -59,7 +86,7 @@ class DimEmployee:
                 table='dim_employees',
                 records=records,
                 id_field='employee_id',
-                scd_fields=['first_name', 'last_name', 'email', 'phone', 'status', 'region_id', 'region_name']
+                scd_fields=['custom_id', 'first_name', 'last_name', 'email', 'phone', 'status', 'region_id']
             )
             
             return result
@@ -67,6 +94,36 @@ class DimEmployee:
         except Exception as e:
             logger.error(f"Error in DimEmployee.upsert: {str(e)}")
             return {'inserted': 0, 'updated': 0, 'unchanged': 0, 'error': str(e)}
+    
+    @staticmethod
+    def get_existing_employees(employee_ids: List[int]) -> Dict[int, Dict]:
+        """Get existing employee records for reference (no updates)"""
+        if not employee_ids:
+            return {}
+            
+        query = f"""
+            SELECT employee_id, custom_id, first_name, last_name, region_id
+            FROM {config.POSTGRES_SCHEMA}.dim_employees
+            WHERE employee_id = ANY(%(employee_ids)s) AND is_current = TRUE
+        """
+        
+        results = db.execute_query(query, {'employee_ids': employee_ids})
+        return {row['employee_id']: dict(row) for row in results}
+    
+    @staticmethod
+    def get_existing_employees(employee_ids: List[int]) -> Dict[int, Dict]:
+        """Get existing employee records for reference (no updates)"""
+        if not employee_ids:
+            return {}
+            
+        query = f"""
+            SELECT employee_id, custom_id, first_name, last_name, region_id
+            FROM {config.POSTGRES_SCHEMA}.dim_employees
+            WHERE employee_id = ANY(%(employee_ids)s) AND is_current = TRUE
+        """
+        
+        results = db.execute_query(query, {'employee_ids': employee_ids})
+        return {row['employee_id']: dict(row) for row in results}
 
 
 class DimClient:
