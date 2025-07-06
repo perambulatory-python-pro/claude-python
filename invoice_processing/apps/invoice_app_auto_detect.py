@@ -24,13 +24,52 @@ from typing import Dict, List
 from dotenv import load_dotenv
 import logging
 
+# Load environment variables
+load_dotenv()
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 from database.database_manager_compatible import CompatibleEnhancedDatabaseManager
 from invoice_processing.core.data_mapper_enhanced import EnhancedDataMapper
-
-
-# NEW: Import smart processing components
-from legacy_scripts.fixed_date_converter import patch_enhanced_data_mapper
 from invoice_processing.runners.smart_duplicate_handler import process_file_with_smart_duplicates
+
+def initialize_app():
+    """
+    Initialize app components only once per session
+    Clean version without date converter patching
+    """
+    if 'app_initialized' not in st.session_state:
+        # Mark initialization as in-progress
+        st.session_state.app_initialized = False
+        
+        try:
+            # Initialize database manager
+            st.session_state.enhanced_db_manager = CompatibleEnhancedDatabaseManager()
+            st.session_state.db_manager = st.session_state.enhanced_db_manager  # Alias for compatibility
+            logger.info("Database manager initialized")
+            
+            # Initialize data mapper
+            st.session_state.data_mapper = EnhancedDataMapper()
+            logger.info("Data mapper initialized")
+            
+            # Initialize other session state variables
+            if 'processing_logs' not in st.session_state:
+                st.session_state.processing_logs = []
+            
+            # Mark as successfully initialized
+            st.session_state.app_initialized = True
+            logger.info("✅ App initialization completed successfully")
+            
+        except Exception as e:
+            logger.error(f"Failed to initialize app: {e}")
+            st.error(f"Failed to initialize app: {e}")
+            st.stop()
+
+# Call initialization at the start of the app
+initialize_app()
+
 # --- Moved from data_mapper_enhanced.py to break circular import ---
 def process_kp_payment_html(html_content: str, filename: str = "email_content") -> bool:
     """
@@ -132,11 +171,6 @@ if missing_deps:
         st.sidebar.write(f"• {dep}")
     st.sidebar.info("Install with: `pip install extract-msg beautifulsoup4`")
 
-# Apply the date fix when the app starts
-patch_enhanced_data_mapper()
-
-# Load environment variables
-load_dotenv()
 
 # Configure page
 st.set_page_config(
@@ -145,21 +179,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-# Initialize session state
-if 'enhanced_db_manager' not in st.session_state:
-    try:
-        st.session_state.enhanced_db_manager = CompatibleEnhancedDatabaseManager()
-        st.session_state.data_mapper = EnhancedDataMapper()
-    except Exception as e:
-        st.error(f"Database connection failed: {e}")
-        st.stop()
-
-if 'processing_logs' not in st.session_state:
-    st.session_state.processing_logs = []
 
 def safe_dataframe_display(df, num_rows=10):
     """
@@ -184,20 +203,25 @@ def safe_dataframe_display(df, num_rows=10):
 def render_upload_payment_tab():
     """
     Renders the upload payment tab with fixed state management
-    Replaces the inline logic in your payment processing page
     """
     st.subheader("💰 Payment Remittance Processing")
     
-    # Check if we have pending payment processing
+    # Check if we have pending payment processing (HTML or Excel)
     if st.session_state.get('show_payment_processing', False) and 'pending_payment_html' in st.session_state:
-        # Show the payment processing interface
+        # Show the HTML payment processing interface
         html_content = st.session_state.pending_payment_html
         filename = st.session_state.get('pending_payment_filename', 'email_content.html')
         
         st.info("📧 **Processing Pending Payment Email**")
+        process_kp_payment_html(html_content, filename)
         
-        # Process the payment HTML (now outside any form)
-        process_kp_payment_html(html_content, filename)  # This will be your fixed function
+    elif st.session_state.get('show_payment_excel_processing', False) and 'pending_payment_df' in st.session_state:
+        # Show the Excel payment processing interface
+        df = st.session_state.pending_payment_df
+        filename = st.session_state.get('pending_payment_filename', 'payment.xlsx')
+        
+        st.info("📊 **Processing Payment Excel File**")
+        process_kp_payment_excel(df, filename)
         
     else:
         # Show the normal upload interface
@@ -668,6 +692,7 @@ def get_cached_table_stats():
         logger.error(f"Error getting table stats: {e}")
         return {}
 
+
 def process_file_with_auto_detection(uploaded_file):
     """
     Process uploaded file with automatic type detection and appropriate handling
@@ -689,13 +714,18 @@ def process_file_with_auto_detection(uploaded_file):
         
         # Show preview with safe display
         with st.expander("📋 Preview Data"):
-            # Use the safe display function
             display_df = safe_dataframe_display(df, 10)
             st.dataframe(display_df)
             st.write(f"**Columns:** {', '.join(df.columns.tolist())}")
         
         # Handle based on detected type
-        if detected_type == "BCI Details":
+        if detected_type == "KP_Payment_Excel":
+            # Store the dataframe and filename in session state and trigger processing
+            st.session_state.pending_payment_df = df
+            st.session_state.pending_payment_filename = uploaded_file.name
+            st.session_state.show_payment_excel_processing = True
+            st.rerun()
+        elif detected_type == "BCI Details":
             return process_bci_details(df, uploaded_file.name)
         elif detected_type == "AUS Details":
             return process_aus_details(df, uploaded_file.name)
@@ -703,8 +733,6 @@ def process_file_with_auto_detection(uploaded_file):
             return process_invoice_master(df, uploaded_file.name, detected_type)
         elif detected_type == "Kaiser SCR Building Data":
             return process_kaiser_scr(df, uploaded_file.name)
-        elif detected_type == "KP_Payment_Excel":  # ADD THIS LINE
-            return process_kp_payment_excel(df, uploaded_file.name)  # ADD THIS LINE
         else:
             st.warning(f"⚠️ Could not auto-detect file type. Please select manually.")
             return False
@@ -1220,6 +1248,11 @@ def process_kp_payment_excel(df: pd.DataFrame, filename: str):
         
         if not mapped_data:
             st.error("No valid payment data found in file")
+            # Clear the pending state
+            if 'pending_payment_df' in st.session_state:
+                del st.session_state.pending_payment_df
+            if 'show_payment_excel_processing' in st.session_state:
+                del st.session_state.show_payment_excel_processing
             return False
         
         # Show payment summary
@@ -1243,7 +1276,7 @@ def process_kp_payment_excel(df: pd.DataFrame, filename: str):
         
         # Show detail records preview
         with st.expander("📋 Invoice Details Preview"):
-            preview_df = pd.DataFrame(mapped_data[:10])  # Show first 10
+            preview_df = pd.DataFrame(mapped_data[:10])
             st.dataframe(preview_df)
             
             if len(mapped_data) > 10:
@@ -1257,43 +1290,64 @@ def process_kp_payment_excel(df: pd.DataFrame, filename: str):
             st.error("⚠️ **Payment Already Processed**")
             existing_summary = db.get_payment_summary(payment_id)
             st.json(existing_summary)
+            
+            # Clear the pending state
+            if 'pending_payment_df' in st.session_state:
+                del st.session_state.pending_payment_df
+            if 'show_payment_excel_processing' in st.session_state:
+                del st.session_state.show_payment_excel_processing
+            
             return False
         
         # Process to database
-        if st.button("💾 Save Payment to Database", type="primary"):
-            with st.spinner("Saving payment data..."):
-                
-                # Insert master record
-                master_success = db.insert_payment_master(
-                    payment_id=payment_id,
-                    payment_date=payment_date,
-                    payment_amount=total_amount,
-                    vendor_name=first_record.get('vendor_name', 'BLACKSTONE CONSULTING INC'),
-                    source_file=filename
-                )
-                
-                if master_success:
-                    # Insert detail records
-                    details_success = db.insert_payment_details_batch(mapped_data)
-                    
-                    if details_success:
-                        st.success(f"✅ **Successfully processed payment {payment_id}!**")
-                        st.success(f"💾 Saved {len(mapped_data)} invoice detail records")
-                        
-                        add_log(f"Processed Kaiser payment: {payment_id} with {len(mapped_data)} details")
-                        return True
-                    else:
-                        st.error("❌ Failed to save payment details")
-                        return False
-                else:
-                    st.error("❌ Failed to save payment master record")
-                    return False
+        col1, col2 = st.columns(2)
         
-        return True
+        with col1:
+            if st.button("💾 Save Payment to Database", type="primary", key="save_excel_payment_btn"):
+                # Prepare the data for processing
+                master_data = {
+                    'payment_id': payment_id,
+                    'payment_date': payment_date,
+                    'payment_amount': total_amount,
+                    'vendor_name': first_record.get('vendor_name', 'BLACKSTONE CONSULTING INC')
+                }
+                
+                # Use the same execute_payment_processing function
+                success = execute_payment_processing(master_data, mapped_data, filename, db)
+                
+                if success:
+                    # Clear the pending state after successful processing
+                    if 'pending_payment_df' in st.session_state:
+                        del st.session_state.pending_payment_df
+                    if 'show_payment_excel_processing' in st.session_state:
+                        del st.session_state.show_payment_excel_processing
+                    
+                    add_log(f"Processed Kaiser payment: {payment_id} with {len(mapped_data)} details")
+                
+                return success
+        
+        with col2:
+            if st.button("❌ Cancel", key="cancel_excel_payment_btn"):
+                # Clear the pending state
+                if 'pending_payment_df' in st.session_state:
+                    del st.session_state.pending_payment_df
+                if 'show_payment_excel_processing' in st.session_state:
+                    del st.session_state.show_payment_excel_processing
+                st.success("✅ Payment processing cancelled")
+                st.rerun()
+        
+        return False
         
     except Exception as e:
         st.error(f"❌ Payment processing failed: {e}")
         add_log(f"Payment processing error: {e}")
+        
+        # Clear the pending state on error
+        if 'pending_payment_df' in st.session_state:
+            del st.session_state.pending_payment_df
+        if 'show_payment_excel_processing' in st.session_state:
+            del st.session_state.show_payment_excel_processing
+        
         return False
 
 

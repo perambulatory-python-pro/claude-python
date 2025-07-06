@@ -13,7 +13,7 @@ Key Python Concepts:
 
 from turtle import st
 import pandas as pd
-from datetime import datetime, date
+from datetime import datetime, date, timedelta 
 from typing import Dict, List, Optional, Union, Any, Tuple
 from sqlalchemy import text
 import logging
@@ -180,37 +180,49 @@ class EnhancedDataMapper:
         return df
     
     @staticmethod
-    def convert_excel_date(date_value: Any) -> Optional[date]:
-        """Convert various Excel date formats to Python date objects"""
-        if pd.isna(date_value) or date_value is None:
-            return None
-            
+    # Update your convert_excel_date method in EnhancedDataMapper class
+
+    def convert_excel_date(self, excel_date):
+        """
+        Convert Excel date to string format YYYY-MM-DD
+        Returns string or None, never a date object
+        """
         try:
-            if isinstance(date_value, date):
-                return date_value
+            if pd.isna(excel_date) or excel_date is None:
+                return None
             
-            if isinstance(date_value, datetime):
-                return date_value.date()
+            # If it's already a string in the right format, return it
+            if isinstance(excel_date, str):
+                # Try to parse it to validate and standardize
+                parsed = self.parse_date(excel_date)
+                return parsed  # parse_date already returns string or None
             
-            if isinstance(date_value, pd.Timestamp):
-                return date_value.date()
+            # If it's a datetime or date object
+            if hasattr(excel_date, 'strftime'):
+                return excel_date.strftime('%Y-%m-%d')
             
-            if isinstance(date_value, str):
-                for fmt in ['%Y-%m-%d', '%m/%d/%Y', '%Y%m%d', '%m-%d-%Y', '%m/%d/%y']:
-                    try:
-                        return datetime.strptime(date_value, fmt).date()
-                    except ValueError:
-                        continue
+            # If it's a pandas Timestamp
+            if hasattr(excel_date, 'date'):
+                return excel_date.date().strftime('%Y-%m-%d')
             
-            if isinstance(date_value, (int, float)):
-                excel_epoch = datetime(1900, 1, 1)
-                return (excel_epoch + pd.Timedelta(days=date_value-2)).date()
+            # If it's a number (Excel serial date)
+            if isinstance(excel_date, (int, float)):
+                # Excel dates start from 1900-01-01
+                from datetime import datetime, timedelta
+                
+                # Handle the Excel date serial number
+                if excel_date > 59:  # Excel incorrectly treats 1900 as leap year
+                    excel_date -= 1
+                
+                # Convert to datetime and return as string
+                base_date = datetime(1900, 1, 1)
+                result_date = base_date + timedelta(days=int(excel_date) - 2)
+                return result_date.strftime('%Y-%m-%d')
             
-            logger.warning(f"Could not convert date value: {date_value}")
             return None
             
         except Exception as e:
-            logger.warning(f"Date conversion error for {date_value}: {e}")
+            logger.warning(f"Error converting Excel date '{excel_date}': {e}")
             return None
     
     @staticmethod
@@ -512,41 +524,7 @@ class EnhancedDataMapper:
         logger.info(f"Mapped {len(mapped_records)} Kaiser SCR building records")
         return mapped_records
     
-    def standardize_payment_data(self, payment_data: dict) -> dict:
-        """
-        Standardize payment data format regardless of source (Excel or HTML)
-        Ensures consistent data types and formats
-        """
-        standardized = payment_data.copy()
-        
-        # 1. Preserve leading zeros in payment_id by ensuring it's a string
-        if 'payment_id' in standardized:
-            standardized['payment_id'] = str(standardized['payment_id']).strip()
-        
-        # 2. Standardize numeric fields to consistent format
-        # For amounts, use Python float which will display as needed (0 or 0.0)
-        numeric_fields = ['gross_amount', 'discount', 'net_amount', 'payment_amount']
-        for field in numeric_fields:
-            if field in standardized:
-                try:
-                    # Convert to float, then let database handle display
-                    value = float(standardized[field])
-                    # For discount specifically, ensure integer if it's zero
-                    if field == 'discount' and value == 0:
-                        standardized[field] = 0
-                    else:
-                        standardized[field] = value
-                except:
-                    standardized[field] = 0
-        
-        # 3. Standardize null/empty values
-        # Convert NaN, empty strings, and 'nan' to None (NULL in database)
-        for key, value in standardized.items():
-            if pd.isna(value) or value == 'nan' or value == '':
-                standardized[key] = None
-        
-        return standardized
-
+    
     def extract_payment_master_data(self, df: pd.DataFrame) -> Dict[str, Any]:
         """
         Extract master payment record(s) from DataFrame
@@ -586,8 +564,7 @@ class EnhancedDataMapper:
             payment_id = formatted_payment_ids[0] if formatted_payment_ids else ''
             
             # Extract payment date
-            payment_date_obj = self.convert_excel_date(first_row.get('Payment Date'))
-            payment_date = payment_date_obj.strftime('%Y-%m-%d') if payment_date_obj else None
+            payment_date = self.convert_excel_date(first_row.get('Payment Date'))
             
             # Calculate total payment amount
             calculated_total = df['Net Amount'].sum() if 'Net Amount' in df.columns else 0
@@ -805,10 +782,11 @@ class EnhancedDataMapper:
             validation_results['is_valid'] = False
             return validation_results
 
+    # This should be in data_mapper_enhanced.py, NOT in database_manager_compatible.py
+
     def standardize_html_payment_columns(self, df: pd.DataFrame) -> pd.DataFrame:
         """
         Standardize HTML email column names to match expected format
-        Based on your mapping document
         """
         try:
             # Create a copy to avoid modifying original
@@ -816,32 +794,44 @@ class EnhancedDataMapper:
             
             # Define the exact mappings from HTML Email to database fields
             column_mapping = {
-                # HTML Email Column → Database Field (for consistency in processing)
-                'Date': 'Date',                         # Keep as is, map to invoice_date later
-                'Invoice ID': 'Invoice ID',             # Keep as is, map to invoice_no later
-                'Gross Amount': 'Gross Amount',         # Keep as is
-                'Discount': 'Discount',                 # Keep as is
-                'Net Amount': 'Net Amount',             # Keep as is
-                'Payment Message': 'Payment Message',   # Keep as is, map to payment_message later
+                # HTML Email Column → Database Field
+                'Date': 'invoice_date',
+                'Invoice ID': 'invoice_no',
+                'Gross Amount': 'gross_amount',
+                'Discount': 'discount',
+                'Net Amount': 'net_amount',
+                'Payment Message': 'payment_message',
                 
-                # Handles variations that might appear
-                'Payment Date': 'Date',                 # If accidentally named this
-                'invoice_date': 'Date',
-                'invoice_id': 'Invoice ID',
-                'gross_amount': 'Gross Amount',
-                'discount': 'Discount', 
-                'net_amount': 'Net Amount',
-                'payment_message': 'Payment Message'
+                # Handle variations
+                'invoice_date': 'invoice_date',
+                'invoice_id': 'invoice_no',
+                'gross_amount': 'gross_amount',
+                'discount': 'discount',
+                'net_amount': 'net_amount',
+                'payment_message': 'payment_message'
             }
             
             # Apply mappings
             for old_name, new_name in column_mapping.items():
-                if old_name in standardized_df.columns:
+                if old_name in standardized_df.columns and old_name != new_name:
                     standardized_df = standardized_df.rename(columns={old_name: new_name})
                     logger.info(f"Mapped column: '{old_name}' → '{new_name}'")
             
-            logger.info(f"Standardized columns: {list(standardized_df.columns)}")
+            # Clean up amount columns
+            amount_columns = ['gross_amount', 'net_amount', 'discount']
+            for col in amount_columns:
+                if col in standardized_df.columns:
+                    standardized_df[col] = standardized_df[col].apply(self.clean_amount_value)
             
+            # Clean up date columns - FIXED VERSION
+            date_columns = ['invoice_date', 'payment_date']
+            for col in date_columns:
+                if col in standardized_df.columns:
+                    standardized_df[col] = standardized_df[col].apply(
+                        lambda x: self.parse_date(x) if pd.notna(x) else None
+                    )
+            
+            logger.info(f"Standardized columns: {list(standardized_df.columns)}")
             return standardized_df
             
         except Exception as e:
@@ -868,6 +858,47 @@ class EnhancedDataMapper:
             logger.warning(f"Could not parse amount: {amount_str}")
             return 0.0
 
+    def clean_amount_value(self, value):
+        """
+        Clean and convert amount values to float
+        Handles various formats like $1,234.56, (1234.56), etc.
+        """
+        try:
+            # Handle None/NaN
+            if pd.isna(value) or value is None:
+                return 0.0
+                
+            # If already a number, just return as float
+            if isinstance(value, (int, float)):
+                return float(value)
+                
+            # Convert to string for processing
+            value_str = str(value).strip()
+            
+            # Handle empty strings
+            if not value_str:
+                return 0.0
+                
+            # Remove currency symbols
+            value_str = value_str.replace('$', '').replace('€', '').replace('£', '')
+            
+            # Remove commas
+            value_str = value_str.replace(',', '')
+            
+            # Handle parentheses (negative values in accounting)
+            if value_str.startswith('(') and value_str.endswith(')'):
+                value_str = '-' + value_str[1:-1]
+            
+            # Remove any remaining spaces
+            value_str = value_str.strip()
+            
+            # Convert to float
+            return float(value_str)
+            
+        except (ValueError, TypeError) as e:
+            logger.warning(f"Error cleaning amount value '{value}': {e}")
+            return 0.0
+    
     def parse_date(self, date_str: str) -> str:
         """
         Parse date string to standard format YYYY-MM-DD
@@ -911,91 +942,26 @@ class EnhancedDataMapper:
             logger.warning(f"Date parsing error: {e}")
             return None
     
-    def parse_payment_email_html(self, html_content: str) -> pd.DataFrame:
-        """
-        Dynamic parser that handles various invoice formats
-        """
-        from bs4 import BeautifulSoup
-        import re
-        
-        soup = BeautifulSoup(html_content, 'html.parser')
-        
-        # Get all table cells
-        all_cells = soup.find_all(['td', 'th'])
-        cells_text = [cell.get_text(strip=True) for cell in all_cells]
-        
-        logger.info(f"Total cells found: {len(cells_text)}")
-        
-        data_rows = []
-        i = 0
-        
-        while i < len(cells_text) - 4:
-            current_cell = cells_text[i]
-            
-            # Check if this looks like a valid date
-            if re.match(r'\d{1,2}/\d{1,2}/\d{4}', current_cell):
-                # Check the next cell (invoice ID)
-                if i + 1 < len(cells_text):
-                    next_cell = cells_text[i + 1]
-                    
-                    # Invoice validation: 
-                    # - Length >= 4 characters
-                    # - Not "Payment Amount:" or other header text
-                    # - Can be alphanumeric (VARCHAR)
-                    if (len(next_cell) >= 4 and 
-                        not any(keyword in next_cell for keyword in ['Payment', 'Amount', 'Date', 'Invoice', 'Vendor']) and
-                        next_cell.strip() != ''):
-                        
-                        # This looks like a valid invoice row
-                        row = cells_text[i:i+6]
-                        
-                        # Additional validation: check if the amounts look like numbers
-                        try:
-                            # Try to parse the gross amount (index 2) as a float
-                            float(row[2].replace('$', '').replace(',', ''))
-                            
-                            data_rows.append(row)
-                            logger.info(f"Found valid invoice row: {row}")
-                            i += 6
-                            continue
-                        except:
-                            # Not a valid amount, skip this row
-                            pass
-            
-            i += 1
-        
-        if data_rows:
-            logger.info(f"Found {len(data_rows)} valid invoice rows")
-            df = pd.DataFrame(data_rows, columns=[
-                'Date', 'Invoice ID', 'Gross Amount', 
-                'Discount', 'Net Amount', 'Payment Message'
-            ])
-            return df
-        else:
-            logger.error("No valid invoice rows found!")
-            raise ValueError("No payment data found")
+
+    # In your EnhancedDataMapper class, update the map_kp_payment_excel method:
 
     def map_kp_payment_excel(self, df: pd.DataFrame) -> List[Dict]:
         """
         Map Kaiser Permanente payment Excel file to database format
-        
-        Args:
-            df: DataFrame containing payment data from Excel file
-            
-        Returns:
-            List of dictionaries ready for database insertion
+        FIXED: Map Invoice ID to invoice_no (not invoice_id)
         """
         try:
             # Column mapping for Kaiser payment files
+            # FIXED: Changed 'invoice_id' to 'invoice_no' to match database schema
             payment_mapping = {
                 'Payment ID': 'payment_id',
                 'Payment Date': 'payment_date', 
                 'Payment Amount': 'payment_amount',
-                'Vendor Name': 'vendor_name',
-                'Invoice ID': 'invoice_id',
+                'Invoice ID': 'invoice_no',  # FIXED: was 'invoice_id', now 'invoice_no'
                 'Gross Amount': 'gross_amount',
                 'Net Amount': 'net_amount',
-                'Discount Amount': 'discount_amount'
+                'Discount': 'discount',  # FIXED: Changed from 'Discount Amount' to match your Excel
+                'Payment Message': 'payment_message'
             }
             
             # Clean and standardize column names
@@ -1021,26 +987,36 @@ class EnhancedDataMapper:
                     if excel_col in row.index:
                         value = row[excel_col]
                         
-                        if db_field in ['payment_date']:
+                        if db_field in ['payment_date', 'invoice_date']:
                             # Handle date conversion
                             record[db_field] = self.convert_excel_date(value)
-                        elif db_field in ['gross_amount', 'net_amount', 'discount_amount', 'payment_amount']:
+                        elif db_field in ['gross_amount', 'net_amount', 'discount', 'payment_amount']:
                             # Handle amount conversion
                             record[db_field] = self.clean_amount_value(value)
                         elif db_field == 'payment_id':
                             # Ensure payment ID has leading zeros (10 digits for Kaiser)
-                            record[db_field] = str(value).zfill(10) if value else None
+                            if pd.notna(value):
+                                record[db_field] = str(value).zfill(10)
+                            else:
+                                record[db_field] = None
                         else:
                             # Regular string fields
-                            record[db_field] = str(value) if not pd.isna(value) else None
+                            record[db_field] = str(value) if pd.notna(value) else None
                 
                 # Set defaults if missing
                 if 'vendor_name' not in record or not record['vendor_name']:
                     record['vendor_name'] = 'BLACKSTONE CONSULTING INC'
                 
+                # Ensure we have the payment_date from the first row if not in each row
+                if 'payment_date' not in record and mapped_records:
+                    record['payment_date'] = mapped_records[0].get('payment_date')
+                
                 # Only add records with required data
-                if record.get('payment_id') and record.get('invoice_id'):
+                # FIXED: Check for 'invoice_no' instead of 'invoice_id'
+                if record.get('payment_id') and record.get('invoice_no'):
                     mapped_records.append(record)
+                else:
+                    logger.warning(f"Skipping record - missing required fields. Record: {record}")
             
             logger.info(f"Mapped {len(mapped_records)} Kaiser payment records")
             return mapped_records
@@ -1049,6 +1025,64 @@ class EnhancedDataMapper:
             logger.error(f"Error mapping Kaiser payment Excel: {e}")
             raise
 
+    # Add this method to your EnhancedDataMapper class to handle date standardization
+
+    def standardize_payment_data(self, data: Dict) -> Dict:
+        """
+        Standardize payment data to ensure consistent types
+        Converts datetime.date objects to strings for database compatibility
+        """
+        standardized = data.copy()
+        
+        # Handle date fields - convert to string format
+        date_fields = ['payment_date', 'invoice_date']
+        for field in date_fields:
+            if field in standardized and standardized[field] is not None:
+                value = standardized[field]
+                
+                # If it's already a string in the right format, keep it
+                if isinstance(value, str) and len(value) == 10 and value.count('-') == 2:
+                    continue
+                    
+                # If it's a datetime.date object, convert to string
+                elif hasattr(value, 'strftime'):
+                    standardized[field] = value.strftime('%Y-%m-%d')
+                    
+                # If it's a pandas Timestamp
+                elif hasattr(value, 'date'):
+                    standardized[field] = value.date().strftime('%Y-%m-%d')
+                    
+                # Try parsing if it's a string in different format
+                elif isinstance(value, str):
+                    parsed = self.parse_date(value)
+                    if parsed:
+                        standardized[field] = parsed
+                        
+        # Handle amount fields - ensure they're floats
+        amount_fields = ['payment_amount', 'gross_amount', 'discount', 'net_amount', 
+                        'calculated_amount', 'discount_amount']
+        for field in amount_fields:
+            if field in standardized and standardized[field] is not None:
+                try:
+                    standardized[field] = float(standardized[field])
+                except (ValueError, TypeError):
+                    standardized[field] = 0.0
+        
+        # Ensure payment_id is a string with leading zeros
+        if 'payment_id' in standardized and standardized['payment_id'] is not None:
+            payment_id = standardized['payment_id']
+            if isinstance(payment_id, (int, float)):
+                standardized['payment_id'] = str(int(payment_id)).zfill(10)
+            else:
+                standardized['payment_id'] = str(payment_id).strip()
+        
+        # Standardize null/empty values
+        for key, value in standardized.items():
+            if pd.isna(value) or value == 'nan' or value == '':
+                standardized[key] = None
+        
+        return standardized
+    
     def detect_payment_email_html(self, content: str) -> bool:
         """
         Enhanced detection for Kaiser Permanente payment emails
@@ -1092,345 +1126,234 @@ class EnhancedDataMapper:
             logger.warning(f"Error detecting payment email HTML: {e}")
             return False
 
+    
+    def parse_payment_email_html(self, html_content: str) -> pd.DataFrame:
+        """
+        Parse payment details from Kaiser HTML email
+        Specifically handles the nested table structure in Kaiser emails
+        """
+        from bs4 import BeautifulSoup
+        import re
+        
+        try:
+            soup = BeautifulSoup(html_content, 'html.parser')
+            
+            # Find all tables with class="main"
+            main_tables = soup.find_all('table', class_='main')
+            logger.info(f"Found {len(main_tables)} main tables")
+            
+            # The payment details are in a nested table structure
+            # Look for the table that contains the payment details headers
+            detail_table = None
+            
+            for table in main_tables:
+                # Check if this table contains the headers we're looking for
+                headers = table.find_all('th')
+                header_texts = [h.get_text(strip=True) for h in headers]
+                
+                # Check if this is the detail table by looking for specific headers
+                if any('Invoice ID' in h for h in header_texts) and any('Net Amount' in h for h in header_texts):
+                    detail_table = table
+                    logger.info(f"Found detail table with headers: {header_texts}")
+                    break
+            
+            if not detail_table:
+                # Alternative: Look for nested tables
+                for table in main_tables:
+                    nested_tables = table.find_all('table', class_='main')
+                    for nested in nested_tables:
+                        headers = nested.find_all('th')
+                        header_texts = [h.get_text(strip=True) for h in headers]
+                        if any('Invoice ID' in h for h in header_texts):
+                            detail_table = nested
+                            logger.info("Found detail table as nested table")
+                            break
+                    if detail_table:
+                        break
+            
+            if not detail_table:
+                logger.error("Could not find payment detail table")
+                raise ValueError("Payment detail table not found")
+            
+            # Parse the detail table
+            data_rows = []
+            
+            # Get all rows
+            rows = detail_table.find_all('tr')
+            
+            # Find header row and data rows
+            header_row_idx = -1
+            for i, row in enumerate(rows):
+                if row.find('th'):
+                    header_row_idx = i
+                    break
+            
+            # Process data rows (after header)
+            if header_row_idx >= 0:
+                for row in rows[header_row_idx + 1:]:
+                    cells = row.find_all('td')
+                    if len(cells) >= 5:  # Must have at least 5 cells
+                        # Extract cell values
+                        date_val = cells[0].get_text(strip=True)
+                        invoice_id = cells[1].get_text(strip=True)
+                        gross_amount = cells[2].get_text(strip=True)
+                        discount = cells[3].get_text(strip=True)
+                        net_amount = cells[4].get_text(strip=True)
+                        payment_msg = cells[5].get_text(strip=True) if len(cells) > 5 else ''
+                        
+                        # Validate this is a data row (has invoice ID)
+                        if invoice_id and invoice_id.strip():
+                            data_rows.append({
+                                'Date': date_val,
+                                'Invoice ID': invoice_id,
+                                'Gross Amount': gross_amount,
+                                'Discount': discount,
+                                'Net Amount': net_amount,
+                                'Payment Message': payment_msg
+                            })
+                            logger.info(f"Found invoice row: ID={invoice_id}, Date={date_val}, Net={net_amount}")
+            
+            if not data_rows:
+                logger.error("No data rows found in payment detail table")
+                raise ValueError("No payment details found")
+            
+            # Create DataFrame
+            df = pd.DataFrame(data_rows)
+            logger.info(f"Successfully parsed {len(df)} payment rows")
+            
+            return df
+            
+        except Exception as e:
+            logger.error(f"Error parsing payment email HTML: {e}")
+            raise
+
+
     def extract_kaiser_payment_metadata(self, html_content: str) -> dict:
         """
         Extract payment header info from Kaiser email
-        FIXED: Better date handling and stream error suppression
+        Updated to handle the actual HTML structure
         """
+        from bs4 import BeautifulSoup
         import re
-        from datetime import datetime
-        import logging
-        
-        # Temporarily suppress extract_msg stream warnings
-        extract_msg_logger = logging.getLogger('extract_msg')
-        original_level = extract_msg_logger.level
-        extract_msg_logger.setLevel(logging.ERROR)
         
         try:
             # Handle bytes content
             if isinstance(html_content, bytes):
-                for encoding in ['utf-8', 'utf-16', 'latin-1', 'cp1252']:
-                    try:
-                        html_content = html_content.decode(encoding)
-                        break
-                    except UnicodeDecodeError:
-                        continue
-                else:
-                    html_content = html_content.decode('utf-8', errors='replace')
+                html_content = html_content.decode('utf-8', errors='replace')
             
+            soup = BeautifulSoup(html_content, 'html.parser')
+            
+            # Initialize with defaults
             payment_id = None
             payment_date = None
             payment_amount = None
             vendor_name = 'BLACKSTONE CONSULTING INC'
+            vendor_id = None
             
-            from bs4 import BeautifulSoup
-            soup = BeautifulSoup(html_content, 'html.parser')
+            # Find all main tables
+            main_tables = soup.find_all('table', class_='main')
             
-            # Find all tables
-            tables = soup.find_all('table')
-            
-            # Based on debug output: Table 3 (index 2) contains payment metadata
-            if len(tables) >= 3:
-                payment_table = tables[2]  # Table 3 from debug output
-                
-                # Extract payment metadata from table 3
-                rows = payment_table.find_all('tr')
+            # Look for payment metadata in tables
+            for table in main_tables:
+                rows = table.find_all('tr')
                 for row in rows:
-                    cells = row.find_all(['td', 'th'])
+                    cells = row.find_all('td')
                     if len(cells) >= 2:
-                        label = cells[0].get_text(strip=True).lower()
-                        value = cells[1].get_text(strip=True)
+                        header_cell = cells[0].get_text(strip=True).lower()
+                        value_cell = cells[1].get_text(strip=True)
                         
-                        if 'payment id' in label:
-                            payment_id = value.zfill(10)  # Ensure 10 digits
+                        if 'payment id' in header_cell:
+                            payment_id = value_cell
                             logger.info(f"Found Payment ID: {payment_id}")
-                        elif 'payment date' in label:
+                        elif 'payment date' in header_cell:
+                            # Parse the date
+                            payment_date = self.parse_kaiser_date(value_cell)
+                            logger.info(f"Found Payment Date: {payment_date}")
+                        elif 'payment amount' in header_cell:
                             try:
-                                # FIXED: Better date parsing
-                                payment_date = self.parse_kaiser_date(value)
-                                if payment_date:
-                                    logger.info(f"Found Payment Date: {payment_date}")
-                            except Exception as e:
-                                logger.warning(f"Could not parse payment date '{value}': {e}")
-                        elif 'payment amount' in label or 'amount' in label:
-                            try:
-                                # Clean up amount string
-                                amount_str = re.sub(r'[^\d\.]', '', value)
-                                if amount_str:
-                                    payment_amount = float(amount_str)
-                                    logger.info(f"Found Payment Amount: ${payment_amount:,.2f}")
+                                payment_amount = float(value_cell.replace(',', ''))
+                                logger.info(f"Found Payment Amount: ${payment_amount}")
                             except:
-                                pass
+                                logger.warning(f"Could not parse payment amount: {value_cell}")
+                        elif 'vendor id' in header_cell:
+                            vendor_id = value_cell
+                            logger.info(f"Found Vendor ID: {vendor_id}")
+                        elif 'vendor' in header_cell and 'vendor name 2' not in header_cell:
+                            if value_cell.strip():
+                                vendor_name = value_cell
+                                logger.info(f"Found Vendor Name: {vendor_name}")
             
-            # Fallback: regex search in full content
+            # Ensure we have required fields
             if not payment_id:
-                payment_id_match = re.search(r'payment\s*id[:\s]*([0-9]{10})', html_content, re.IGNORECASE)
-                if payment_id_match:
-                    payment_id = payment_id_match.group(1)
-                    logger.info(f"Found Payment ID via regex: {payment_id}")
-            
-            # FIXED: Better date extraction from full content
-            if not payment_date:
-                # Look for dates in various formats in the full content
-                date_patterns = [
-                    r'(\d{1,2}/\d{1,2}/\d{4})',  # MM/DD/YYYY
-                    r'(\d{4}-\d{1,2}-\d{1,2})',  # YYYY-MM-DD
-                    r'(\d{1,2}-\d{1,2}-\d{4})'   # MM-DD-YYYY
-                ]
-                
-                for pattern in date_patterns:
-                    date_matches = re.findall(pattern, html_content)
-                    for date_str in date_matches:
-                        parsed_date = self.parse_kaiser_date(date_str)
-                        if parsed_date:
-                            payment_date = parsed_date
-                            logger.info(f"Found Payment Date via regex: {payment_date}")
-                            break
-                    if payment_date:
-                        break
-            
-            if not payment_amount:
-                # Look for amount in various formats
-                amount_patterns = [
-                    r'payment\s*amount[:\s]*\$?([0-9,\.]+)',
-                    r'amount[:\s]*\$?([0-9,\.]+)',
-                    r'\$([0-9,\.]+)'
-                ]
-                
-                for pattern in amount_patterns:
-                    amount_match = re.search(pattern, html_content, re.IGNORECASE)
-                    if amount_match:
-                        try:
-                            amount_str = amount_match.group(1).replace(',', '')
-                            payment_amount = float(amount_str)
-                            logger.info(f"Found Payment Amount via regex: ${payment_amount:,.2f}")
-                            break
-                        except:
-                            continue
-            
-            # Calculate amount from invoice details if not found in header
-            if not payment_amount and len(tables) >= 4:
-                try:
-                    details_table = tables[3]  # Table 4 from debug output
-                    total_amount = 0
-                    
-                    rows = details_table.find_all('tr')
-                    for row in rows[1:]:  # Skip header
-                        cells = row.find_all(['td', 'th'])
-                        if len(cells) >= 3:  # Expecting Date, Invoice ID, Amount columns
-                            # Get the last cell which should be the amount
-                            amount_cell = cells[-1].get_text(strip=True)
-                            amount_match = re.search(r'([0-9,\.]+)', amount_cell)
-                            if amount_match:
-                                try:
-                                    amount = float(amount_match.group(1).replace(',', ''))
-                                    total_amount += amount
-                                except:
-                                    continue
-                    
-                    if total_amount > 0:
-                        payment_amount = total_amount
-                        logger.info(f"Calculated Payment Amount from details: ${payment_amount:,.2f}")
-                except Exception as e:
-                    logger.debug(f"Error calculating amount from details: {e}")
-            
-            # Set defaults if not found
-            if not payment_id:
-                import hashlib
-                content_hash = hashlib.md5(html_content.encode()).hexdigest()[:8]
-                payment_id = f'EMAIL_{content_hash}'
+                logger.warning("Payment ID not found in metadata")
+                payment_id = 'UNKNOWN'
             
             if not payment_date:
+                logger.warning("Payment date not found, using today")
+                from datetime import datetime
                 payment_date = datetime.now().strftime('%Y-%m-%d')
-                logger.warning(f"Using today's date as fallback: {payment_date}")
             
-            if not payment_amount:
+            if payment_amount is None:
+                logger.warning("Payment amount not found, will calculate from details")
                 payment_amount = 0.0
-            
-            logger.info(f"Final extracted payment metadata: ID={payment_id}, Date={payment_date}, Amount=${payment_amount:,.2f}, Vendor={vendor_name}")
             
             return {
                 'payment_id': payment_id,
                 'payment_date': payment_date,
                 'payment_amount': payment_amount,
-                'vendor_name': vendor_name
+                'vendor_name': vendor_name,
+                'vendor_id': vendor_id
             }
             
         except Exception as e:
             logger.error(f"Error extracting payment metadata: {e}")
-            import hashlib
-            content_hash = hashlib.md5(str(html_content).encode()).hexdigest()[:8]
+            # Return defaults
+            from datetime import datetime
             return {
-                'payment_id': f'EMAIL_{content_hash}',
+                'payment_id': 'ERROR_' + datetime.now().strftime('%Y%m%d%H%M%S'),
                 'payment_date': datetime.now().strftime('%Y-%m-%d'),
                 'payment_amount': 0.0,
                 'vendor_name': 'BLACKSTONE CONSULTING INC'
             }
-        finally:
-            # Restore original logging level
-            extract_msg_logger.setLevel(original_level)
+
 
     def parse_kaiser_date(self, date_str: str) -> str:
         """
-        Enhanced date parsing specifically for Kaiser payment dates
-        Handles multiple formats found in Kaiser emails
+        Parse Kaiser date format (e.g., "7/3/2025 12:00:00 AM") to YYYY-MM-DD
         """
-        import pandas as pd
-        from datetime import datetime
-
-        if not date_str or pd.isna(date_str):
+        if not date_str:
             return None
         
+        from datetime import datetime
+        
+        # Clean the date string
         date_str = str(date_str).strip()
         
-        # Common Kaiser date formats
+        # Try different date formats
         date_formats = [
-            '%m/%d/%Y %I:%M:%S %p',    # 12/10/2024 12:00:00 AM
-            '%m/%d/%Y',                # 12/10/2024
-            '%Y-%m-%d',                # 2024-12-10
-            '%m-%d-%Y',                # 12-10-2024
-            '%m/%d/%y',                # 12/10/24
-            '%d/%m/%Y',                # 10/12/2024 (alternative format)
+            '%m/%d/%Y %I:%M:%S %p',    # 7/3/2025 12:00:00 AM
+            '%m/%d/%Y',                 # 7/3/2025
+            '%Y-%m-%d',                 # 2025-07-03
+            '%d/%m/%Y',                 # 03/07/2025
         ]
         
         for fmt in date_formats:
             try:
                 parsed_date = datetime.strptime(date_str, fmt)
                 return parsed_date.strftime('%Y-%m-%d')
-            except ValueError:
+            except:
                 continue
         
-        # Try using pandas date parser as fallback
-        try:
-            import pandas as pd
-            parsed_date = pd.to_datetime(date_str)
-            if not pd.isna(parsed_date):
-                return parsed_date.strftime('%Y-%m-%d')
-        except:
-            pass
-        
-        logger.warning(f"Could not parse date: '{date_str}'")
+        logger.warning(f"Could not parse date: {date_str}")
         return None
     
-    def debug_email_raw_content(self, html_content: str) -> None:
-        """
-        Simple debug - just show what's in the email tables
-        """
-        from bs4 import BeautifulSoup
-        soup = BeautifulSoup(html_content, 'html.parser')
-        
-        print("\n=== RAW EMAIL CONTENT DEBUG ===")
-        
-        # Find ALL table cells with data
-        all_cells = soup.find_all(['td', 'th'])
-        
-        print(f"\nTotal cells found: {len(all_cells)}")
-        
-        # Look for cells that might contain invoice data
-        for i, cell in enumerate(all_cells):
-            text = cell.get_text(strip=True)
-            
-            # If cell contains a date or invoice number pattern
-            if text and (
-                '/' in text and len(text) < 15 or  # Dates like 6/27/2024
-                text.isdigit() and len(text) > 5 or  # Invoice numbers
-                '$' in text or  # Dollar amounts
-                '.' in text and any(c.isdigit() for c in text)  # Decimal numbers
-            ):
-                print(f"Cell {i}: {text}")
-        
-        print("\n=== END DEBUG ===\n")
-
-    def parse_kaiser_payment_email(self, html_content: str) -> pd.DataFrame:
-        """
-        Kaiser-specific parser using direct text extraction
-        """
-        import re
-        from bs4 import BeautifulSoup
-        
-        soup = BeautifulSoup(html_content, 'html.parser')
-        
-        # Strategy 1: Find the specific pattern in table cells
-        data_rows = []
-        
-        for row in soup.find_all('tr'):
-            cells = row.find_all(['td', 'th'])
-            if len(cells) >= 5:
-                values = [cell.get_text(strip=True) for cell in cells]
-                
-                # Check if first cell is a date
-                if values[0] and re.match(r'\d{1,2}/\d{1,2}/\d{4}', values[0]):
-                    # Standardize to 6 columns
-                    while len(values) < 6:
-                        values.append('')
-                    data_rows.append(values[:6])
-        
-        if data_rows:
-            df = pd.DataFrame(data_rows, columns=[
-                'Date', 'Invoice ID', 'Gross Amount', 
-                'Discount', 'Net Amount', 'Payment Message'
-            ])
-            logger.info(f"Kaiser parser found {len(df)} payment rows")
-            return df
-        
-        raise ValueError("No payment data found")
-
-
-    def parse_payment_email_html_robust(self, html_content: str) -> pd.DataFrame:
-        """
-        Robust parser that handles column mismatches
-        """
-        from bs4 import BeautifulSoup
-        
-        soup = BeautifulSoup(html_content, 'html.parser')
-        
-        # Find header row
-        header_row = None
-        headers = None
-        
-        for row in soup.find_all('tr'):
-            text = row.get_text().lower()
-            if 'date' in text and 'invoice' in text and 'amount' in text:
-                cells = row.find_all(['td', 'th'])
-                headers = [cell.get_text(strip=True) for cell in cells]
-                header_row = row
-                break
-        
-        if not headers:
-            raise ValueError("Could not find header row")
-        
-        # Extract data rows
-        data_rows = []
-        found_header = False
-        
-        for row in soup.find_all('tr'):
-            if row == header_row:
-                found_header = True
-                continue
-            
-            if found_header:
-                cells = row.find_all(['td', 'th'])
-                if cells:
-                    values = [cell.get_text(strip=True) for cell in cells]
-                    
-                    # Ensure same number of columns
-                    while len(values) < len(headers):
-                        values.append('')
-                    values = values[:len(headers)]
-                    
-                    # Check if valid data row
-                    if values[0] and ('/' in values[0] or '-' in values[0]):
-                        data_rows.append(values)
-        
-        if data_rows:
-            return pd.DataFrame(data_rows, columns=headers)
-        
-        raise ValueError("No data rows found")
-
+    
+    
 
     def process_payment_email_html(self, html_content: str) -> tuple:
         """
-        Updated to use standardization
+        Process complete Kaiser payment email HTML
+        Returns master data and detail records properly mapped
         """
         try:
             logger.info("Processing Kaiser payment email...")
@@ -1439,51 +1362,63 @@ class EnhancedDataMapper:
             master_data = self.extract_kaiser_payment_metadata(html_content)
             
             # Standardize master data
-            master_data = self.standardize_payment_data(master_data)
+            if hasattr(self, 'standardize_payment_data'):
+                master_data = self.standardize_payment_data(master_data)
             
             # Step 2: Parse payment details table
             df = self.parse_payment_email_html(html_content)
             
-            # Step 3: Standardize columns
-            df = self.standardize_html_payment_columns(df)
-            
-            # Step 4: Clean data
-            df = self.clean_dataframe(df)
-            
-            # Step 5: Map to payment details with standardization
+            # Step 3: Map to database format
             detail_records = []
             
-            for _, row in df.iterrows():
+            for idx, row in df.iterrows():
                 try:
+                    # Extract values from the DataFrame row
+                    invoice_id = str(row.get('Invoice ID', ''))
+                    
+                    # Skip if no invoice ID
+                    if not invoice_id or invoice_id == 'None':
+                        logger.warning(f"Skipping row {idx}: No invoice ID")
+                        continue
+                    
                     record = {
                         # From master payment data
                         'payment_id': master_data['payment_id'],
                         'payment_date': master_data['payment_date'],
                         
-                        # From detail row
+                        # From detail row - map Invoice ID to invoice_no
                         'invoice_date': self.parse_date(row.get('Date', '')),
-                        'invoice_no': str(row.get('Invoice ID', '')),
-                        'gross_amount': self.parse_amount(row.get('Gross Amount', '0')),
-                        'discount': self.parse_amount(row.get('Discount', '0')),
-                        'net_amount': self.parse_amount(row.get('Net Amount', '0')),
-                        'payment_message': row.get('Payment Message', None)  # Use None instead of empty string
+                        'invoice_no': invoice_id,  # This is the key mapping!
+                        'gross_amount': self.parse_amount(row.get('Gross Amount', 0)),
+                        'discount': self.parse_amount(row.get('Discount', 0)),
+                        'net_amount': self.parse_amount(row.get('Net Amount', 0)),
+                        'payment_message': row.get('Payment Message', None)
                     }
                     
                     # Standardize the record
-                    record = self.standardize_payment_data(record)
+                    if hasattr(self, 'standardize_payment_data'):
+                        record = self.standardize_payment_data(record)
                     
-                    detail_records.append(record)
-                    
+                    # Validate required fields
+                    if record.get('invoice_no') and record.get('payment_id'):
+                        detail_records.append(record)
+                        logger.debug(f"Added detail record: Invoice={record['invoice_no']}, Net=${record['net_amount']}")
+                    else:
+                        logger.warning(f"Skipping row {idx}: Missing required fields")
+                        
                 except Exception as e:
-                    logger.warning(f"Error processing row: {e}")
+                    logger.error(f"Error processing row {idx}: {e}")
                     continue
             
-            logger.info(f"Processed {len(detail_records)} payment details")
+            logger.info(f"Processed {len(detail_records)} payment detail records")
+            
+            if not detail_records:
+                raise ValueError("No valid payment details could be extracted")
             
             return master_data, detail_records
             
         except Exception as e:
-            logger.error(f"Error processing Kaiser email: {e}")
+            logger.error(f"Error processing payment email HTML: {e}")
             raise
 
     def detect_file_type_from_filename(self, filename: str) -> str:
@@ -1616,7 +1551,98 @@ class EnhancedDataMapper:
         
         return content_detection
     
-    # Removed process_kp_payment_html to break circular import. This function should be implemented in the Streamlit app, not in the data mapper.
+    def convert_excel_date(self, date_value):
+        """
+        Convert various date formats to string format YYYY-MM-DD
+        Handles multiple input formats robustly
+        
+        Args:
+            date_value: Can be string, datetime, date, numeric Excel date, etc.
+            
+        Returns:
+            str: Date in YYYY-MM-DD format, or None if invalid
+        """
+        if pd.isna(date_value) or date_value is None or date_value == '':
+            return None
+        
+        # If already a string in the right format, return it
+        if isinstance(date_value, str):
+            date_str = date_value.strip()
+            
+            # Check if already in YYYY-MM-DD format
+            if len(date_str) == 10 and date_str.count('-') == 2:
+                try:
+                    # Validate it's a real date
+                    pd.to_datetime(date_str, format='%Y-%m-%d')
+                    return date_str
+                except:
+                    pass
+            
+            # Handle empty or 'nan' strings
+            if not date_str or date_str.lower() in ['nan', 'none', 'null']:
+                return None
+        
+        # If it's a datetime or date object, convert to string
+        if hasattr(date_value, 'strftime'):
+            return date_value.strftime('%Y-%m-%d')
+        
+        # If it's a pandas Timestamp
+        if hasattr(date_value, 'date'):
+            return date_value.date().strftime('%Y-%m-%d')
+        
+        # Handle numeric Excel dates
+        if isinstance(date_value, (int, float)):
+            try:
+                # Excel dates start from 1900-01-01
+                # Excel incorrectly treats 1900 as leap year
+                if date_value > 59:
+                    date_value -= 1
+                
+                base_date = datetime(1900, 1, 1)
+                result_date = base_date + timedelta(days=int(date_value) - 2)
+                return result_date.strftime('%Y-%m-%d')
+            except:
+                pass
+        
+        # Try parsing string dates with multiple formats
+        if isinstance(date_value, str):
+            date_str = str(date_value).strip()
+            
+            # Common date formats to try
+            date_formats = [
+                '%Y-%m-%d %H:%M:%S',      # ISO with time
+                '%Y-%m-%d',               # ISO date
+                '%m/%d/%Y %I:%M:%S %p',   # 12/10/2024 12:00:00 AM
+                '%m/%d/%Y',               # US format
+                '%m/%d/%y',               # US short year
+                '%d/%m/%Y',               # European format
+                '%m-%d-%Y',               # Hyphenated US
+                '%Y/%m/%d',               # Alternative ISO
+                '%Y%m%d',                 # Compact format
+                '%d-%b-%Y',               # 01-Jan-2024
+                '%d-%b-%y',               # 01-Jan-24
+                '%b %d, %Y',              # Jan 1, 2024
+                '%B %d, %Y',              # January 1, 2024
+            ]
+            
+            for fmt in date_formats:
+                try:
+                    parsed_date = datetime.strptime(date_str, fmt)
+                    return parsed_date.strftime('%Y-%m-%d')
+                except:
+                    continue
+        
+        # Try pandas parsing as last resort
+        try:
+            parsed = pd.to_datetime(date_value)
+            if pd.notna(parsed):
+                return parsed.strftime('%Y-%m-%d')
+        except:
+            pass
+        
+        # Log warning for unparseable dates
+        logger.warning(f"Could not parse date value: '{date_value}' (type: {type(date_value)})")
+        return None
 
     def validate_mapped_data(self, records: List[Dict]) -> Dict[str, List[str]]:
         """Validate mapped records and return any issues found"""
